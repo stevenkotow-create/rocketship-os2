@@ -101,9 +101,11 @@ export function useAppState(targetUserId?: string) {
   const [state, setState] = useState<AppState>(defaultState);
   const uidRef = useRef<string | null>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const loadedRef = useRef(false);
 
   useEffect(() => {
     let active = true;
+    loadedRef.current = false;
     (async () => {
       if (supabaseEnabled && supabase) {
         // If an admin is "acting as" another user, the no-arg hook drives that
@@ -127,11 +129,15 @@ export function useAppState(targetUserId?: string) {
             setState(seed);
             await saveRemote(uid, seed);
           }
+          loadedRef.current = true; // only now is it safe to persist edits
           return;
         }
       }
       // Local-only mode.
-      if (active) setState(loadState());
+      if (active) {
+        setState(loadState());
+        loadedRef.current = true;
+      }
     })();
     return () => {
       active = false;
@@ -143,11 +149,15 @@ export function useAppState(targetUserId?: string) {
       const next = updater(prev);
       const uid = uidRef.current;
       if (supabaseEnabled && uid) {
-        // Debounced cloud write so rapid edits don't hammer the API.
-        if (saveTimer.current) clearTimeout(saveTimer.current);
-        saveTimer.current = setTimeout(() => {
-          void saveRemote(uid, next);
-        }, 600);
+        // Never persist before the initial cloud load has completed, or the
+        // empty default state could overwrite real data (this is what wiped a
+        // board when opened in admin "act as" mode).
+        if (loadedRef.current) {
+          if (saveTimer.current) clearTimeout(saveTimer.current);
+          saveTimer.current = setTimeout(() => {
+            void saveRemote(uid, next);
+          }, 600);
+        }
       } else {
         saveState(next);
       }
