@@ -2,18 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useAppState } from "@/lib/storage";
-import type { Opportunity, CareerHypothesis, ResumeAudit } from "@/lib/types";
-
-interface OnboardResult {
-  fullName: string;
-  candidateSummary: string;
-  careerHypothesis: Omit<CareerHypothesis, "capturedAt">;
-  resumeAudit: Pick<
-    ResumeAudit,
-    "strengths" | "gaps" | "roleShapeFit" | "recommendedSeatLevels" | "overallReadiness" | "summary"
-  >;
-  targetCompanies: { company: string; position: string; location: string; note: string }[];
-}
+import type { Opportunity, ResumeAudit } from "@/lib/types";
+import { parseLinkedIn, type OnboardResult } from "@/lib/linkedin-parse";
 
 const BUILD_STEPS = [
   "Reading your profile",
@@ -94,25 +84,17 @@ export function StepImportLinkedIn({ onComplete }: { onComplete?: () => void }) 
     }, 1100);
 
     try {
-      const res = await fetch("/api/onboard", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ linkedinText: text }),
-      });
-      const data = await res.json();
+      // Runs locally (no API, no cost). Small delay so the build-out animation reads well.
+      await new Promise((r) => setTimeout(r, 2800));
+      const data = parseLinkedIn(text);
       if (timer.current) clearInterval(timer.current);
-      if (!res.ok) {
-        setError(data.message || data.error || "Something went wrong reading your profile.");
-        setPhase("error");
-        return;
-      }
-      setResult(data as OnboardResult);
-      persist(data as OnboardResult);
+      setResult(data);
+      persist(data);
       setVisible(BUILD_STEPS.length);
       setPhase("done");
     } catch (e) {
       if (timer.current) clearInterval(timer.current);
-      setError((e as Error).message || "Network error.");
+      setError((e as Error).message || "Couldn't read that. Try pasting a bit more of your profile.");
       setPhase("error");
     }
   };
