@@ -48,6 +48,7 @@ export const NAV_ITEMS: NavItem[] = [
   // DAILY · the home
   { href: "/", label: "Mission Control", section: "DAILY", icon: "Portal" },
   { href: "/probes", label: "Probes Inbox", section: "DAILY", icon: "Probe" },
+  { href: "/roles", label: "Live Roles", section: "DAILY", icon: "Antenna", badge: "NEW" },
   { href: "/outreach-funnel", label: "Outreach Funnel", section: "DAILY", icon: "Constellation", badge: "V5" },
   { href: "/interview-day", label: "Interview Day", section: "DAILY", icon: "Reticle", badge: "V3.5" },
 
