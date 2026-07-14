@@ -33,15 +33,15 @@ export const THEME_TOKENS = {
     "--c-text-dim": "64 86 122",     // #40567A mid navy · 7.2:1 on bg
     "--c-muted": "98 116 144",       // darker slate · stronger contrast on cream (AA for small text)
     // ── Brand colours ──
-    "--c-navy": "16 35 66",          // primary navy
-    "--c-accent": "229 102 42",      // #E5662A rocket orange (unchanged)
-    "--c-accent-2": "244 176 104",   // #F4B068 warm peach (retro stripe 2)
-    "--c-crimson": "184 51 58",      // #B8333A Starfield red (retro stripe 4)
-    "--c-gold": "232 158 80",        // #E89E50 Starfield orange
-    // ── Status colours ──
-    "--c-good": "60 130 60",         // #3C823C forest green
-    "--c-warn": "232 158 80",        // peach amber
-    "--c-hot": "184 51 58",          // Starfield red
+    "--c-navy": "16 35 66",          // primary navy (text · keeps AAA contrast)
+    "--c-accent": "192 98 62",       // muted terracotta · calmer than neon orange (Destiny restraint)
+    "--c-accent-2": "224 172 128",   // soft peach
+    "--c-crimson": "170 82 86",      // muted rose
+    "--c-gold": "200 152 100",       // soft amber
+    // ── Status colours · desaturated so light mode reads calm, not harsh ──
+    "--c-good": "72 130 92",         // muted sage green
+    "--c-warn": "200 152 100",       // soft amber
+    "--c-hot": "170 82 86",          // muted rose
     "--c-cool": "30 80 130",         // #1E5082 navy blue
     "--c-purple": "100 70 140",      // #644690
   },
