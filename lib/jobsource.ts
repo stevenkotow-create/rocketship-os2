@@ -25,23 +25,16 @@ export interface SourceCompany {
 // Tokens verified/pruned against live boards. Users can add any company by careers URL.
 export const JOB_SOURCES: SourceCompany[] = [
   { company: "Deel", provider: "ashby", token: "deel" },
+  { company: "Deputy", provider: "lever", token: "deputy" },
   { company: "GitLab", provider: "greenhouse", token: "gitlab" },
   { company: "Vanta", provider: "ashby", token: "vanta" },
-  { company: "Rippling", provider: "ashby", token: "rippling" },
-  { company: "Notion", provider: "greenhouse", token: "notion" },
-  { company: "Gong", provider: "greenhouse", token: "gong" },
-  { company: "Remote", provider: "greenhouse", token: "remote" },
   { company: "Datadog", provider: "greenhouse", token: "datadog" },
-  { company: "Canva", provider: "lever", token: "canva" },
-  { company: "Airwallex", provider: "lever", token: "airwallex" },
-  { company: "Deputy", provider: "lever", token: "deputy" },
-  { company: "Culture Amp", provider: "lever", token: "cultureamp" },
-  { company: "SafetyCulture", provider: "lever", token: "safetyculture" },
-  { company: "Go1", provider: "lever", token: "go1" },
-  { company: "Employment Hero", provider: "greenhouse", token: "employmenthero" },
-  { company: "Linear", provider: "ashby", token: "linear" },
+  { company: "HubSpot", provider: "greenhouse", token: "hubspot" },
+  { company: "Samsara", provider: "greenhouse", token: "samsara" },
+  { company: "Figma", provider: "greenhouse", token: "figma" },
   { company: "Ramp", provider: "ashby", token: "ramp" },
   { company: "Vercel", provider: "greenhouse", token: "vercel" },
+  { company: "Anthropic", provider: "greenhouse", token: "anthropic" },
 ];
 
 const SALES_RX =
