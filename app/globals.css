@@ -1,0 +1,414 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* V2.5 · CSS variable palette · light + dark mode driven by [data-theme] / .dark class on <html>
+   Format: RGB values space-separated (no commas, no hex) so Tailwind's rgb(var(--c) / <alpha-value>) works.
+   Light mode defaults under :root · dark mode overrides under .dark
+   Reference: DESIGN-DARK-MODE.md (Starfield Premium Edition aesthetic)
+*/
+:root {
+  /* V3.5b · LIGHT MODE · Starfield Soundtrack-inspired warm cream + deep navy */
+  --c-bg: 250 248 243;            /* #FAF8F3 warm cream */
+  --c-surface: 255 254 250;       /* #FFFEFA almost-white */
+  --c-surface-2: 245 241 233;     /* #F5F1E9 subtle warm */
+  --c-surface-3: 236 230 220;     /* #ECE6DC deeper warm */
+  --c-border: 220 212 198;        /* #DCD4C6 warm beige */
+  --c-border-strong: 180 168 152;
+  --c-text: 16 35 66;             /* #102342 deep navy · 13.5:1 on bg */
+  --c-text-dim: 64 86 122;        /* #40567A mid navy · 7.2:1 on bg */
+  --c-muted: 120 138 165;
+
+  --c-navy: 16 35 66;
+  --c-accent: 229 102 42;         /* #E5662A rocket orange */
+  --c-accent-2: 244 176 104;      /* #F4B068 warm peach */
+  --c-crimson: 184 51 58;         /* #B8333A Starfield red */
+  --c-gold: 232 158 80;           /* #E89E50 Starfield orange */
+
+  --c-good: 60 130 60;            /* forest green */
+  --c-warn: 232 158 80;
+  --c-hot: 184 51 58;
+  --c-cool: 30 80 130;            /* navy blue */
+  --c-purple: 100 70 140;
+}
+
+/* V3.1 · DARK MODE · Starfield Premium Edition palette
+   Triple-selector strategy: .dark class · [data-theme="dark"] attribute · :root with both
+   If any of these match, dark mode activates. Defends against:
+   · React hydration stripping the .dark class
+   · Next.js Fast Refresh wiping classList
+   · Third-party scripts overwriting className
+   Deep navy backgrounds + icy blue accent + soft white text + warm gold for highlights
+*/
+.dark,
+html[data-theme="dark"],
+:root.dark {
+  /* V3.5b · DARK MODE · Starfield logo-inspired midnight navy + crisp white + icy blue */
+  --c-bg: 11 24 46;               /* #0B182E midnight navy */
+  --c-surface: 18 36 62;          /* #12243E lifted surface */
+  --c-surface-2: 26 46 74;        /* #1A2E4A card */
+  --c-surface-3: 38 60 92;        /* #263C5C deeper */
+  --c-border: 38 62 96;           /* #263E60 */
+  --c-border-strong: 70 100 142;
+  --c-text: 240 245 250;          /* #F0F5FA crisp off-white · 14.8:1 on bg */
+  --c-text-dim: 184 200 220;      /* #B8C8DC · 8.5:1 on bg */
+  --c-muted: 130 150 178;
+
+  --c-navy: 140 200 230;          /* #8CC8E6 icy blue · matches Starfield */
+  --c-accent: 140 200 230;
+  --c-accent-2: 244 196 124;      /* #F4C47C warm gold accent */
+  --c-crimson: 240 140 130;       /* #F08C82 soft coral */
+  --c-gold: 244 196 124;
+
+  --c-good: 144 220 160;          /* #90DCA0 soft green */
+  --c-warn: 240 184 100;          /* amber */
+  --c-hot: 240 140 130;           /* coral */
+  --c-cool: 140 200 230;          /* icy blue */
+  --c-purple: 175 152 220;        /* #AF98DC */
+
+  /* V3.1 · scream-test for debugging
+     Sets a colour-scheme hint so browser default form controls + scrollbars also flip dark
+     This will make it impossible to miss when dark mode is genuinely active */
+  color-scheme: dark;
+}
+
+@layer base {
+  html, body {
+    @apply bg-bg text-text;
+    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+    /* V3.5b · accessibility pass · bumped base body size + relaxed line-height for screen reading */
+    font-size: 15px;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* V4 · tabular-nums GLOBAL · numbers don't shift width when they change · instrument-panel feel */
+    font-variant-numeric: tabular-nums;
+    /* smooth transition between light and dark mode */
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  /* V4 · Numerical readouts use the mono family · stats, counts, coordinates, timestamps */
+  .num, .font-mono {
+    font-family: var(--font-mono), "JetBrains Mono", "SF Mono", Monaco, monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  * { box-sizing: border-box; }
+
+  /* V3.5b · paragraph spacing for readability · prose breathes */
+  p {
+    line-height: 1.65;
+  }
+
+  h1, h2, h3, h4 {
+    @apply text-text;
+    letter-spacing: -0.022em;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+  }
+
+  /* V3.5b · standardised type scale · bumped sizes for accessibility */
+  h1 { @apply text-[32px] font-bold leading-[1.15]; }
+  h2 { @apply text-[22px] font-semibold leading-[1.25]; }
+  h3 { @apply text-[17px] font-semibold leading-[1.35]; }
+}
+
+@layer components {
+  /* ───────── PAGE STRUCTURE ───────── */
+  .page-hero {
+    @apply mb-8;
+  }
+  .page-hero h1 {
+    @apply text-[32px] font-bold tracking-tight mb-2 text-navy;
+  }
+  .page-hero p {
+    @apply text-[14px] text-text-dim leading-relaxed max-w-3xl;
+  }
+
+  .section-title {
+    @apply text-[20px] font-semibold text-navy mt-10 mb-4 tracking-tight;
+  }
+
+  .label-caps {
+    @apply text-[10px] uppercase tracking-[1.4px] text-muted font-semibold;
+  }
+
+  /* ───────── SURFACES ───────── */
+  /* V2.5 · card shadows use rgb(0 0 0 / X) so they work in both modes.
+     Dark mode shadows are amplified in the dark mode section at the end of this file. */
+  .card {
+    @apply bg-surface border border-border rounded-xl p-6 mb-4;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 1px 1px rgb(0 0 0 / 0.03);
+  }
+  .card-elevated {
+    @apply bg-surface border border-border rounded-xl p-6 mb-4;
+    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.08), 0 2px 4px -1px rgb(0 0 0 / 0.04);
+  }
+  .stat {
+    @apply bg-surface border border-border rounded-lg p-4;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+  }
+
+  /* ───────── BADGES & PILLS ───────── */
+  .badge {
+    @apply inline-flex items-center text-[10px] px-2 py-0.5 rounded-md font-semibold uppercase tracking-[1.2px] mr-1;
+  }
+  .pill {
+    @apply inline-flex items-center text-[11px] px-2.5 py-1 rounded-md font-medium;
+  }
+  .chip {
+    @apply inline-flex items-center text-[11px] px-2 py-0.5 rounded border;
+  }
+
+  /* ───────── PROGRESS ───────── */
+  .progress-track {
+    @apply h-[5px] bg-surface-3 rounded-full overflow-hidden my-1.5;
+  }
+  .progress-fill {
+    @apply h-full bg-accent rounded-full transition-[width] duration-500 ease-out;
+  }
+
+  /* ───────── BRAND MARK ───────── */
+  /* V2.5 · brand-mark uses the navy/gold/orange/crimson palette in light mode.
+     Dark mode override lives in the dark mode section at the end of this file. */
+  .brand-mark {
+    background: linear-gradient(180deg, #2C4A7C 0%, #1A2540 100%);
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+  }
+  .brand-mark::after {
+    content: "";
+    position: absolute;
+    inset: 60% 0 0 0;
+    background: linear-gradient(180deg, #D4AA42 0%, #E5662A 40%, #C41E3A 100%);
+    border-radius: 0 0 100% 100% / 0 0 40% 40%;
+  }
+
+  /* ───────── UTILITY TYPE PATTERNS ───────── */
+  .text-meta {
+    @apply text-[11px] text-text-dim leading-relaxed;
+  }
+  .text-data-xl {
+    @apply text-[28px] font-bold leading-none tracking-tight;
+  }
+  .text-data-lg {
+    @apply text-[22px] font-bold leading-none tracking-tight;
+  }
+  .text-data {
+    @apply text-[18px] font-semibold leading-tight;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES · all .dark rules live here, OUTSIDE @layer blocks
+   ═════════════════════════════════════════════════════════════════════════
+   IMPORTANT: Tailwind's PostCSS plugin tree-shakes `.dark .x` selectors
+   when they sit inside @layer base { } or @layer components { }.
+   Rules must live at root level to survive the build.
+   Discovered 2026-06-29 when compiled CSS was missing 10+ dark rules.
+*/
+
+/* Topographic contour pattern overlay on body in dark mode
+   Inlined SVG instead of theme() · theme() only works inside @layer blocks. */
+.dark body,
+html[data-theme="dark"] body {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><g fill='none' stroke='%23ffffff' stroke-width='0.5' stroke-opacity='0.05'><path d='M0,100 Q300,50 600,150 T1200,100'/><path d='M0,200 Q300,150 600,250 T1200,200'/><path d='M0,300 Q300,250 600,350 T1200,300'/><path d='M0,400 Q300,350 600,450 T1200,400'/><path d='M0,500 Q300,450 600,550 T1200,500'/><path d='M0,600 Q300,550 600,650 T1200,600'/><path d='M0,700 Q300,650 600,750 T1200,700'/><circle cx='150' cy='180' r='35'/><circle cx='420' cy='320' r='55'/><circle cx='780' cy='220' r='42'/><circle cx='1020' cy='560' r='65'/></g></svg>");
+  background-size: 1920px 1280px;
+  background-attachment: fixed;
+  background-position: center;
+  position: relative;
+}
+
+/* Scattered star dots layer · sits below content above bg-pattern */
+.dark body::before,
+html[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 12%, rgba(255,255,255,0.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 18% 75%, rgba(255,255,255,0.25) 50%, transparent 51%),
+    radial-gradient(2px 2px at 27% 30%, rgba(255,255,255,0.4) 50%, transparent 51%),
+    radial-gradient(1px 1px at 35% 88%, rgba(255,255,255,0.2) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 44% 22%, rgba(255,255,255,0.3) 50%, transparent 51%),
+    radial-gradient(1px 1px at 52% 62%, rgba(255,255,255,0.25) 50%, transparent 51%),
+    radial-gradient(2px 2px at 61% 18%, rgba(255,255,255,0.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 68% 84%, rgba(255,255,255,0.2) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 76% 40%, rgba(255,255,255,0.3) 50%, transparent 51%),
+    radial-gradient(1px 1px at 84% 72%, rgba(255,255,255,0.25) 50%, transparent 51%),
+    radial-gradient(2px 2px at 92% 28%, rgba(255,255,255,0.4) 50%, transparent 51%),
+    radial-gradient(1px 1px at 14% 50%, rgba(255,255,255,0.2) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 38% 58%, rgba(255,255,255,0.3) 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 92%, rgba(255,255,255,0.2) 50%, transparent 51%),
+    radial-gradient(2px 2px at 80% 8%, rgba(255,255,255,0.35) 50%, transparent 51%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* Ensure content sits above the star layer */
+.dark body > *,
+html[data-theme="dark"] body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Widen letter-spacing on H1 for the Starfield wordmark feel */
+.dark h1,
+html[data-theme="dark"] h1 {
+  letter-spacing: -0.01em;
+}
+
+/* Card shadow amplification · gives cards real lift against deep navy */
+.dark .card,
+html[data-theme="dark"] .card {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.4), 0 1px 2px rgb(0 0 0 / 0.3);
+}
+.dark .card-elevated,
+html[data-theme="dark"] .card-elevated {
+  box-shadow: 0 6px 20px -4px rgb(0 0 0 / 0.5), 0 4px 8px -2px rgb(0 0 0 / 0.35);
+}
+.dark .stat,
+html[data-theme="dark"] .stat {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+}
+
+/* Brand-mark · deeper space-blue base + brighter flame in dark mode */
+.dark .brand-mark,
+html[data-theme="dark"] .brand-mark {
+  background: linear-gradient(180deg, #1E3958 0%, #0A1929 100%);
+  box-shadow: 0 0 12px rgb(125 185 214 / 0.25);
+}
+.dark .brand-mark::after,
+html[data-theme="dark"] .brand-mark::after {
+  background: linear-gradient(180deg, #FFD580 0%, #FF8A4A 40%, #E07B7B 100%);
+}
+
+/* Accent button text auto-flip · white text becomes deep navy when accent flips to icy blue */
+.dark .bg-accent.text-white,
+html[data-theme="dark"] .bg-accent.text-white {
+  color: rgb(var(--c-bg));
+}
+
+/* V3.1 · Scream-test override · forces body background to deep navy in dark mode
+   This is INTENTIONALLY high-specificity + !important so we can be 100% sure dark mode is firing
+   If you see this navy background, the .dark class OR [data-theme="dark"] attribute IS on <html>
+*/
+.dark body,
+html[data-theme="dark"] body {
+  background-color: rgb(10 25 41) !important;
+  color: rgb(245 247 250) !important;
+}
+
+/* ───────── SCROLLBAR ───────── */
+/* V2.5 · scrollbar uses CSS variables so it shifts between modes automatically */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: rgb(var(--c-bg)); }
+::-webkit-scrollbar-thumb { background: rgb(var(--c-border-strong)); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--c-muted)); }
+
+/* ───────── SELECTION ───────── */
+/* V2.5 · selection uses accent variable for background + text variable for foreground */
+::selection { background: rgb(var(--c-accent) / 0.22); color: rgb(var(--c-text)); }
+
+/* ───────── FOCUS · V4 cross-hair brackets ───────── */
+/* V4 · Instrument-panel focus indicator · 4 cross-hair brackets at corners
+   instead of a flat ring. Reads as a targeting reticle aligning. */
+:focus-visible {
+  outline: none;
+  position: relative;
+}
+:focus-visible::before,
+:focus-visible::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 2px solid rgb(var(--c-accent));
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+:focus-visible::before {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+}
+:focus-visible::after {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+}
+
+/* ───────── LIVE PULSE · V4 ambient signal ───────── */
+/* Small pulsing dot for anything genuinely live · streak counter, imminent
+   countdown, pending probes. Use sparingly · 1-2 per surface max. */
+.live-pulse {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(var(--c-accent));
+  position: relative;
+  flex-shrink: 0;
+}
+.live-pulse::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: rgb(var(--c-accent) / 0.4);
+  animation: live-pulse-ring 1.8s ease-out infinite;
+}
+@keyframes live-pulse-ring {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* ───────── STARFIELD RETRO STRIPE ───────── */
+/* V3.5b · Starfield Soundtrack signature accent band · navy / orange / peach / red
+   Use as <div class="retro-band" /> as a hairline horizontal accent under page heroes
+   or as a section divider. Thin (4-6px) so it doesn't dominate. */
+.retro-band {
+  display: flex;
+  height: 5px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.retro-band::before,
+.retro-band::after,
+.retro-band > span {
+  content: "";
+  flex: 1;
+  height: 100%;
+}
+.retro-band::before {
+  background: rgb(var(--c-navy));
+}
+.retro-band > span:nth-child(1) {
+  background: rgb(var(--c-accent));
+}
+.retro-band > span:nth-child(2) {
+  background: rgb(var(--c-accent-2));
+}
+.retro-band::after {
+  background: rgb(var(--c-crimson));
+}
+
+/* Slightly thicker variant for hero use */
+.retro-band-thick {
+  height: 8px;
+}
+
+/* ───────── PROSE READABILITY ───────── */
+/* V3.5b · text-text-dim was 7.2:1 in light, 8.5:1 in dark · both AAA · safe for body */
+/* Ensure list items + table cells inherit the relaxed line-height */
+ul, ol, dl { line-height: 1.65; }
+li + li { margin-top: 0.25rem; }
+table { line-height: 1.55; }
