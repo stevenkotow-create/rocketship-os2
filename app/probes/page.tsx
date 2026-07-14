@@ -146,7 +146,18 @@ export default function ProbesInbox() {
         <span className="font-mono text-[10px] text-muted lowercase">PI.01</span>
       </div>
 
-      <div className="retro-band mb-6"><span /><span /></div>
+      <div className="retro-band mb-4"><span /><span /></div>
+
+      {/* Answer-first · lead with the read */}
+      <p className="mb-5 text-[14px] text-text-dim">
+        {counts.pending > 0 ? (
+          <>
+            <span className="font-semibold text-text">{counts.pending}</span> compan{counts.pending === 1 ? "y" : "ies"} waiting for your call.
+          </>
+        ) : (
+          <>All caught up. New companies surface at the next probe run.</>
+        )}
+      </p>
 
       {/* V3.5 · Probe learning card · pattern reveal from triage history */}
       <div>

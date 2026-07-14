@@ -139,6 +139,20 @@ export default function LiveRoles() {
         }
       />
 
+      {/* Answer-first · lead with the read */}
+      <p className="mb-4 text-[14px] text-text-dim">
+        {loading ? (
+          "Scanning company boards for live openings…"
+        ) : view.length > 0 ? (
+          <>
+            <span className="font-semibold text-text">{view.length}</span> role{view.length === 1 ? "" : "s"} you can take from{" "}
+            {region === "anz" ? "Australia or New Zealand" : region === "apac" ? "APAC" : "anywhere"} right now.
+          </>
+        ) : (
+          "No roles match right now. Widen the region or filters below."
+        )}
+      </p>
+
       {/* Animated stat header · instrument readout */}
       <div className="mb-6 grid grid-cols-3 gap-3">
         {[

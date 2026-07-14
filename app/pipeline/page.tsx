@@ -189,7 +189,25 @@ export default function Pipeline() {
         </div>
       </div>
 
-      <div className="retro-band mb-6"><span /><span /></div>
+      <div className="retro-band mb-4"><span /><span /></div>
+
+      {/* Answer-first · lead with the read, then the tools */}
+      <p className="mb-6 text-[14px] text-text-dim">
+        {groupedOpps.today.length + groupedOpps.interview.length > 0 ? (
+          <>
+            <span className="font-semibold text-text">{groupedOpps.today.length + groupedOpps.interview.length}</span> need action now
+            {groupedOpps.awaiting.length > 0 && (
+              <> · <span className="font-semibold text-text">{groupedOpps.awaiting.length}</span> waiting on a reply</>
+            )}
+            .
+          </>
+        ) : (
+          <>
+            Nothing urgent right now · <span className="font-semibold text-text">{groupedOpps.targeting.length}</span> compan
+            {groupedOpps.targeting.length === 1 ? "y" : "ies"} in your sights.
+          </>
+        )}
+      </p>
 
       {/* V4 · Stage totals · mono numbers, no emoji */}
       <div className="grid grid-cols-4 md:grid-cols-7 gap-3 mb-6">
