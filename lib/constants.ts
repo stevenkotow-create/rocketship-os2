@@ -51,14 +51,14 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/roles", label: "Live Roles", section: "THE HUNT", icon: "Antenna", badge: "NEW" },
   { href: "/probes", label: "Probes Inbox", section: "THE HUNT", icon: "Probe" },
   { href: "/pipeline", label: "Pipeline", section: "THE HUNT", icon: "Orbit" },
-  { href: "/outreach-funnel", label: "Outreach", section: "THE HUNT", icon: "Constellation" },
+  { href: "/outreach-funnel", label: "Outreach", section: "THE HUNT", icon: "Beacon" },
   { href: "/interview-day", label: "Interview Day", section: "THE HUNT", icon: "Reticle" },
 
   // PREP & REFLECT · know yourself, assess the fit, learn from each call
   { href: "/onboarding", label: "Discovery", section: "PREP & REFLECT", icon: "Sparkle" },
-  { href: "/mission-compass", label: "Mission Compass", section: "PREP & REFLECT", icon: "CompassRose" },
+  { href: "/mission-compass", label: "Mission Compass", section: "PREP & REFLECT", icon: "StarChart" },
   { href: "/threads", label: "Star Map", section: "PREP & REFLECT", icon: "Constellation" },
-  { href: "/evaluator", label: "Evaluator", section: "PREP & REFLECT", icon: "Reticle" },
+  { href: "/evaluator", label: "Evaluator", section: "PREP & REFLECT", icon: "RocketShip" },
   { href: "/decision-journal", label: "Decision Journal", section: "PREP & REFLECT", icon: "FieldJournal" },
   { href: "/constellation", label: "Constellation", section: "PREP & REFLECT", icon: "Orbit", badge: "NEW" },
 
