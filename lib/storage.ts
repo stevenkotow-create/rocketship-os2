@@ -61,6 +61,36 @@ async function saveRemote(userId: string, state: AppState) {
 }
 
 // ---------------------------------------------------------------------------
+// Admin "act as" mode. An admin opens another user's board and drives the whole
+// app against that user's cloud data. Guarded server-side by RLS (only admins
+// can read/write other users' rows), so a non-admin setting this achieves
+// nothing.
+// ---------------------------------------------------------------------------
+const ACTING_AS_KEY = "ors-acting-as";
+
+export function getActingAs(): { userId: string; email: string } | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(ACTING_AS_KEY);
+    return raw ? (JSON.parse(raw) as { userId: string; email: string }) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function setActingAs(userId: string, email: string) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(ACTING_AS_KEY, JSON.stringify({ userId, email }));
+  window.location.href = "/";
+}
+
+export function clearActingAs() {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(ACTING_AS_KEY);
+  window.location.href = "/admin";
+}
+
+// ---------------------------------------------------------------------------
 // useAppState()
 //   - No backend configured  -> localStorage (original behaviour).
 //   - Backend + logged in     -> that user's cloud row (syncs across devices).
@@ -76,7 +106,10 @@ export function useAppState(targetUserId?: string) {
     let active = true;
     (async () => {
       if (supabaseEnabled && supabase) {
-        let uid = targetUserId ?? null;
+        // If an admin is "acting as" another user, the no-arg hook drives that
+        // user's data across the whole app.
+        const acting = targetUserId ? null : getActingAs();
+        let uid = targetUserId ?? acting?.userId ?? null;
         if (!uid) {
           const { data } = await supabase.auth.getUser();
           uid = data.user?.id ?? null;
@@ -88,10 +121,9 @@ export function useAppState(targetUserId?: string) {
           if (remote) {
             setState(remote);
           } else {
-            // First load for this account. For the user's own account, migrate
-            // any existing local data up to the cloud once. For an admin target,
-            // start empty.
-            const seed = targetUserId ? defaultState : loadState();
+            // Own account first-load migrates local data up once; a target or
+            // acted-as account starts empty.
+            const seed = targetUserId || acting ? defaultState : loadState();
             setState(seed);
             await saveRemote(uid, seed);
           }

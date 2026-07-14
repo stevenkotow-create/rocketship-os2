@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { supabase, supabaseEnabled, type Profile } from "@/lib/supabase";
-import { useAppState } from "@/lib/storage";
+import { useAppState, setActingAs } from "@/lib/storage";
 import type { AppState, Opportunity, Stage } from "@/lib/types";
 
 const STAGE_LABELS: Record<Stage, string> = {
@@ -174,8 +174,18 @@ function UserBoard({ profile }: { profile: Profile }) {
   return (
     <div className="space-y-6">
       <div className="rounded-xl border border-border bg-surface p-5">
-        <div className="text-[13px] text-text-dim">Viewing</div>
-        <div className="text-[18px] font-semibold text-text">{profile.email}</div>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="text-[13px] text-text-dim">Viewing</div>
+            <div className="text-[18px] font-semibold text-text">{profile.email}</div>
+          </div>
+          <button
+            onClick={() => setActingAs(profile.id, profile.email ?? "")}
+            className="shrink-0 rounded-lg bg-accent px-4 py-2 text-[13px] font-semibold text-white hover:opacity-90"
+          >
+            Open their full board →
+          </button>
+        </div>
         <div className="mt-4 flex flex-wrap gap-2">
           <Stat label="Probes" value={opps.length} />
           {STAGES.filter((s) => byStage[s]).map((s) => (

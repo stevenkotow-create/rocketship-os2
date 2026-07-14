@@ -4,6 +4,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { WindDownLock } from "@/components/WindDownLock";
 import { WelcomeModal } from "@/components/WelcomeModal";
 import { AuthGate } from "@/components/AuthGate";
+import { AdminBanner } from "@/components/AdminBanner";
 import "./globals.css";
 
 const inter = Inter({
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-bg text-text min-h-screen overflow-hidden antialiased" suppressHydrationWarning>
         <AuthGate>
+          <AdminBanner />
           <div className="flex h-screen">
             <Sidebar />
             <main className="flex-1 overflow-y-auto bg-bg">
