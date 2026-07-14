@@ -23,12 +23,10 @@ export const PATTERN_ICONS: Record<string, string> = {
 // Cut from nav 2026-06-27 · files preserved for archive: /identity /sectors /trajectory /references /resilience /log
 // These pages still render if accessed directly · just removed from nav per V2 audit.
 export type NavSection =
-  | "DAILY"
-  | "PLAYBOOK"
-  | "BUILD"
-  | "LEARN"
-  | "REFERENCE"
-  | "RECORDS";
+  | "HOME"
+  | "THE HUNT"
+  | "PREP & REFLECT"
+  | "LIBRARY";
 
 export interface NavItem {
   href: string;
@@ -45,40 +43,36 @@ export interface NavItem {
 // Custom space-themed icons for the heroes · lucide utilities for the supporting cast
 // V9 · demoHidden flag added for items hidden in demo mode when sharing with mentors/team
 export const NAV_ITEMS: NavItem[] = [
-  // DAILY · the home
-  { href: "/director", label: "Director", section: "DAILY", icon: "CompassRose", badge: "NEW" },
-  { href: "/", label: "Mission Control", section: "DAILY", icon: "Portal" },
-  { href: "/probes", label: "Probes Inbox", section: "DAILY", icon: "Probe" },
-  { href: "/roles", label: "Live Roles", section: "DAILY", icon: "Antenna", badge: "NEW" },
-  { href: "/outreach-funnel", label: "Outreach Funnel", section: "DAILY", icon: "Constellation", badge: "V5" },
-  { href: "/interview-day", label: "Interview Day", section: "DAILY", icon: "Reticle", badge: "V3.5" },
+  // HOME · where you start
+  { href: "/director", label: "Director", section: "HOME", icon: "CompassRose", badge: "NEW" },
+  { href: "/", label: "Mission Control", section: "HOME", icon: "Portal" },
 
-  // PLAYBOOK · Discovery is the front door, then the values engine, then assessment surfaces
-  { href: "/onboarding", label: "Discovery", section: "PLAYBOOK", icon: "Sparkle", badge: "V3.5" },
-  { href: "/mission-compass", label: "Mission Compass", section: "PLAYBOOK", icon: "CompassRose", badge: "V3" },
-  { href: "/decision-journal", label: "Decision Journal", section: "PLAYBOOK", icon: "FieldJournal", badge: "V3" },
-  { href: "/evaluator", label: "Evaluator", section: "PLAYBOOK", icon: "Reticle", badge: "V2" },
-  { href: "/pipeline", label: "Pipeline", section: "PLAYBOOK", icon: "Orbit" },
-  { href: "/threads", label: "Star Map", section: "PLAYBOOK", icon: "Constellation" },
-  { href: "/constellation", label: "Constellation", section: "PLAYBOOK", icon: "Orbit", badge: "SOON" },
+  // THE HUNT · get real roles in and move them forward
+  { href: "/roles", label: "Live Roles", section: "THE HUNT", icon: "Antenna", badge: "NEW" },
+  { href: "/probes", label: "Probes Inbox", section: "THE HUNT", icon: "Probe" },
+  { href: "/pipeline", label: "Pipeline", section: "THE HUNT", icon: "Orbit" },
+  { href: "/outreach-funnel", label: "Outreach", section: "THE HUNT", icon: "Constellation" },
+  { href: "/interview-day", label: "Interview Day", section: "THE HUNT", icon: "Reticle" },
 
-  // BUILD · where outputs get made · HIDDEN in demo mode
-  { href: "/briefing", label: "Generator", section: "BUILD", icon: "Zap", demoHidden: true },
-  { href: "/outreach-bay", label: "Outreach Bay", section: "BUILD", icon: "Antenna", badge: "V5", demoHidden: true },
-  { href: "/resume-lab", label: "Resume Lab", section: "BUILD", icon: "StarChart", badge: "V4.2", demoHidden: true },
-  { href: "/brand-progress", label: "Brand Progress", section: "BUILD", icon: "Beacon", badge: "V4.2", demoHidden: true },
-  { href: "/resume", label: "Resume Hub", section: "BUILD", icon: "FileText", demoHidden: true },
-  { href: "/mentor-update", label: "Mentor Update", section: "BUILD", icon: "Beacon", badge: "V3", demoHidden: true },
+  // PREP & REFLECT · know yourself, assess the fit, learn from each call
+  { href: "/onboarding", label: "Discovery", section: "PREP & REFLECT", icon: "Sparkle" },
+  { href: "/mission-compass", label: "Mission Compass", section: "PREP & REFLECT", icon: "CompassRose" },
+  { href: "/threads", label: "Star Map", section: "PREP & REFLECT", icon: "Constellation" },
+  { href: "/evaluator", label: "Evaluator", section: "PREP & REFLECT", icon: "Reticle" },
+  { href: "/decision-journal", label: "Decision Journal", section: "PREP & REFLECT", icon: "FieldJournal" },
 
-  // LEARN · Flight Manual · HIDDEN in demo mode
-  { href: "/manual", label: "Flight Manual", section: "LEARN", icon: "StarChart", demoHidden: true },
-
-  // REFERENCE · standing rules + comp + comms patterns · HIDDEN in demo mode
-  { href: "/comms", label: "Comms Bay", section: "REFERENCE", icon: "Antenna", demoHidden: true },
-  { href: "/comp", label: "Comp Benchmarks", section: "REFERENCE", icon: "DollarSign", demoHidden: true },
-
-  // RECORDS · the case-study artefact · HIDDEN in demo mode
-  { href: "/build-log", label: "Build Log", section: "RECORDS", icon: "Wrench", demoHidden: true },
+  // LIBRARY · tools + reference, tucked away (also reachable via Cmd+K)
+  { href: "/briefing", label: "Generator", section: "LIBRARY", icon: "Zap" },
+  { href: "/outreach-bay", label: "Outreach Bay", section: "LIBRARY", icon: "Antenna" },
+  { href: "/resume", label: "Resume Hub", section: "LIBRARY", icon: "FileText" },
+  { href: "/resume-lab", label: "Resume Lab", section: "LIBRARY", icon: "StarChart" },
+  { href: "/manual", label: "Flight Manual", section: "LIBRARY", icon: "StarChart" },
+  { href: "/comms", label: "Comms Bay", section: "LIBRARY", icon: "Antenna" },
+  { href: "/comp", label: "Comp Benchmarks", section: "LIBRARY", icon: "DollarSign" },
+  { href: "/brand-progress", label: "Brand Progress", section: "LIBRARY", icon: "Beacon" },
+  { href: "/mentor-update", label: "Mentor Update", section: "LIBRARY", icon: "Beacon" },
+  { href: "/constellation", label: "Constellation", section: "LIBRARY", icon: "Orbit", badge: "SOON" },
+  { href: "/build-log", label: "Build Log", section: "LIBRARY", icon: "Wrench" },
 ];
 
 /**
@@ -110,12 +104,10 @@ export function getVisibleNavItems(demoMode: boolean): NavItem[] {
 // Previously archived (2026-06-24): /phases · /plan · /cv · /drills · /brand · /coach · /achievements
 
 export const NAV_SECTIONS: NavSection[] = [
-  "DAILY",
-  "PLAYBOOK",
-  "BUILD",
-  "LEARN",
-  "REFERENCE",
-  "RECORDS",
+  "HOME",
+  "THE HUNT",
+  "PREP & REFLECT",
+  "LIBRARY",
 ];
 
 export const FUNNEL_STAGES = [

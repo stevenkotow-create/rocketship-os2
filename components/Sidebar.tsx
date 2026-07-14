@@ -16,6 +16,7 @@ export function Sidebar() {
 
   // V9 · Demo mode detection · hydration-safe
   const [demoMode, setDemoMode] = useState(false);
+  const [libOpen, setLibOpen] = useState(false);
   useEffect(() => {
     setDemoMode(isDemoMode());
   }, [pathname]);
@@ -57,12 +58,25 @@ export function Sidebar() {
           const sectionItems = visibleNavItems.filter((item) => item.section === section);
           // V9 · If demo mode hid all items in a section, skip the section header entirely
           if (sectionItems.length === 0) return null;
+          const isLibrary = section === "LIBRARY";
+          const hasActive = sectionItems.some((i) => i.href === pathname);
+          const open = !isLibrary || libOpen || hasActive;
           return (
             <div key={section} className="mb-5">
-              <div className="px-3 pb-2 font-mono text-[9px] font-bold text-muted uppercase tracking-[2px]">
-                {section}
-              </div>
-              {sectionItems.map((item) => {
+              {isLibrary ? (
+                <button
+                  onClick={() => setLibOpen((v) => !v)}
+                  className="flex w-full items-center justify-between px-3 pb-2 font-mono text-[9px] font-bold uppercase tracking-[2px] text-muted transition-colors hover:text-text"
+                >
+                  <span>{section}</span>
+                  <span className={`transition-transform duration-200 ${open ? "rotate-90" : ""}`}>›</span>
+                </button>
+              ) : (
+                <div className="px-3 pb-2 font-mono text-[9px] font-bold text-muted uppercase tracking-[2px]">
+                  {section}
+                </div>
+              )}
+              {open && sectionItems.map((item) => {
                 const active = pathname === item.href;
                 const isProbes = item.href === "/probes";
                 const showProbeBadge = isProbes && (pendingCount > 0 || approvedCount > 0 || watchlistCount > 0);
