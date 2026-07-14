@@ -6,6 +6,7 @@ import { WelcomeModal } from "@/components/WelcomeModal";
 import { AuthGate } from "@/components/AuthGate";
 import { AdminBanner } from "@/components/AdminBanner";
 import { Starfield } from "@/components/Starfield";
+import { CommandPalette } from "@/components/CommandPalette";
 import "./globals.css";
 
 const inter = Inter({
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           <WindDownLock />
           <WelcomeModal />
+          <CommandPalette />
         </AuthGate>
       </body>
     </html>

@@ -51,6 +51,21 @@ export function inAPAC(loc: string): boolean {
   return APAC_RX.test(loc || "");
 }
 
+const ANZ_RX =
+  /\b(australia|australian|sydney|melbourne|brisbane|perth|canberra|adelaide|gold coast|hobart|darwin|new zealand|auckland|wellington|christchurch|nz|anz|australasia)\b/i;
+const GLOBAL_REMOTE_RX = /\b(anywhere|worldwide|global|globally|fully remote)\b/i;
+
+// A role an ANZ-based person could realistically take: located in ANZ, or a
+// genuinely global/anywhere remote posting (not region-locked elsewhere).
+export function inANZ(loc: string): boolean {
+  const s = loc || "";
+  if (ANZ_RX.test(s)) return true;
+  if (GLOBAL_REMOTE_RX.test(s)) return true;
+  // bare "Remote" with no country attached reads as open
+  if (/^\s*remote\s*$/i.test(s)) return true;
+  return false;
+}
+
 export async function scanCompany(c: SourceCompany): Promise<NormalizedJob[]> {
   try {
     const res = await fetch(

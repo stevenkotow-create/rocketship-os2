@@ -4,15 +4,19 @@ import { useEffect, useMemo, useState } from "react";
 import { useAppState } from "@/lib/storage";
 import { PageHero } from "@/components/PageHero";
 import { JobCardSkeleton } from "@/components/Skeleton";
+import { AnimatedNumber } from "@/components/AnimatedNumber";
 import {
   JOB_SOURCES,
   scanCompany,
   scanByUrl,
   isSalesRole,
   inAPAC,
+  inANZ,
   type NormalizedJob,
 } from "@/lib/jobsource";
 import type { Opportunity } from "@/lib/types";
+
+type Region = "anz" | "apac" | "anywhere";
 
 function timeAgo(iso?: string): string {
   if (!iso) return "";
@@ -31,7 +35,8 @@ export default function LiveRoles() {
   const [loading, setLoading] = useState(false);
   const [scanned, setScanned] = useState(false);
   const [salesOnly, setSalesOnly] = useState(true);
-  const [apacOnly, setApacOnly] = useState(true);
+  const [remoteOnly, setRemoteOnly] = useState(true);
+  const [region, setRegion] = useState<Region>("anz");
   const [kw, setKw] = useState("");
   const [urlInput, setUrlInput] = useState("");
   const [addingUrl, setAddingUrl] = useState(false);
@@ -96,16 +101,25 @@ export default function LiveRoles() {
     setAdded((a) => ({ ...a, [j.id]: true }));
   }
 
+  function regionMatch(j: NormalizedJob): boolean {
+    if (region === "anywhere") return true;
+    if (region === "anz") return inANZ(j.location);
+    return inAPAC(j.location) || j.remote; // apac
+  }
+
   const view = useMemo(() => {
     const q = kw.trim().toLowerCase();
     return jobs
       .filter((j) => !salesOnly || isSalesRole(j.title))
-      .filter((j) => !apacOnly || j.remote || inAPAC(j.location))
+      .filter((j) => !remoteOnly || j.remote)
+      .filter(regionMatch)
       .filter((j) => !q || `${j.title} ${j.company} ${j.location}`.toLowerCase().includes(q))
       .sort((a, b) => (b.postedAt || "").localeCompare(a.postedAt || ""));
-  }, [jobs, salesOnly, apacOnly, kw]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jobs, salesOnly, remoteOnly, region, kw]);
 
   const companiesLive = useMemo(() => new Set(jobs.map((j) => j.company)).size, [jobs]);
+  const remoteCount = useMemo(() => view.filter((j) => j.remote).length, [view]);
 
   return (
     <div>
@@ -113,7 +127,7 @@ export default function LiveRoles() {
         eyebrow="Daily"
         title="Live Roles"
         marker="LR.01"
-        subtitle="Real openings pulled straight from each company's own hiring system (Greenhouse, Lever, Ashby). No job board in the middle, no cost. Filtered to sales roles you can actually reach from APAC."
+        subtitle="Real openings pulled straight from each company's own hiring system (Greenhouse, Lever, Ashby). No job board in the middle, no cost. Defaulting to remote sales roles you can actually take from Australia or New Zealand."
         actions={
           <button
             onClick={scanAll}
@@ -125,14 +139,50 @@ export default function LiveRoles() {
         }
       />
 
+      {/* Animated stat header · instrument readout */}
+      <div className="mb-6 grid grid-cols-3 gap-3">
+        {[
+          { label: "Matching roles", value: view.length, tone: "text-accent" },
+          { label: "Remote", value: remoteCount, tone: "text-good" },
+          { label: "Companies live", value: companiesLive, tone: "text-text" },
+        ].map((s) => (
+          <div key={s.label} className="stat">
+            <div className="font-mono text-[9px] font-bold uppercase tracking-[1.8px] text-muted">{s.label}</div>
+            <div className={`mt-1.5 font-mono text-[30px] font-bold leading-none ${s.tone}`}>
+              {loading ? <span className="text-muted">··</span> : <AnimatedNumber value={s.value} />}
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Controls */}
       <div className="mb-6 flex flex-wrap items-center gap-2">
-        <input
-          value={kw}
-          onChange={(e) => setKw(e.target.value)}
-          placeholder="Filter by title, company, location…"
-          className="min-w-[220px] flex-1 rounded-lg border border-border bg-bg px-3 py-2 text-[13px] text-text outline-none focus:border-accent"
-        />
+        {/* region segmented control */}
+        <div className="flex gap-1 rounded-lg border border-border bg-surface-2/60 p-0.5">
+          {([
+            { id: "anz", label: "ANZ" },
+            { id: "apac", label: "APAC" },
+            { id: "anywhere", label: "Anywhere" },
+          ] as { id: Region; label: string }[]).map((r) => (
+            <button
+              key={r.id}
+              onClick={() => setRegion(r.id)}
+              className={`rounded-md px-3 py-1.5 font-mono text-[11px] uppercase tracking-[1px] transition ${
+                region === r.id ? "bg-accent text-white dark:text-bg" : "text-muted hover:text-text"
+              }`}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => setRemoteOnly((v) => !v)}
+          className={`rounded-lg border px-3 py-2 text-[12px] font-medium transition ${
+            remoteOnly ? "border-accent bg-accent/10 text-accent" : "border-border text-muted hover:text-text"
+          }`}
+        >
+          Remote only
+        </button>
         <button
           onClick={() => setSalesOnly((v) => !v)}
           className={`rounded-lg border px-3 py-2 text-[12px] font-medium transition ${
@@ -141,17 +191,12 @@ export default function LiveRoles() {
         >
           Sales roles
         </button>
-        <button
-          onClick={() => setApacOnly((v) => !v)}
-          className={`rounded-lg border px-3 py-2 text-[12px] font-medium transition ${
-            apacOnly ? "border-accent bg-accent/10 text-accent" : "border-border text-muted hover:text-text"
-          }`}
-        >
-          APAC / remote
-        </button>
-        <span className="ml-auto font-mono text-[11px] text-muted">
-          {loading ? "scanning boards…" : `${view.length} roles · ${companiesLive} companies live`}
-        </span>
+        <input
+          value={kw}
+          onChange={(e) => setKw(e.target.value)}
+          placeholder="Filter…"
+          className="min-w-[160px] flex-1 rounded-lg border border-border bg-bg px-3 py-2 text-[13px] text-text outline-none focus:border-accent"
+        />
       </div>
 
       {/* Results */}

@@ -5,15 +5,14 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV_ITEMS, NAV_SECTIONS, getVisibleNavItems, isDemoMode } from "@/lib/constants";
 import { useAppState } from "@/lib/storage";
-import { useTheme } from "@/lib/theme";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import { NavIcon } from "@/components/icons";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import type { TriageStatus } from "@/lib/types";
 
 export function Sidebar() {
   const pathname = usePathname();
   const [state] = useAppState();
-  const [theme, setTheme] = useTheme();
 
   // V9 · Demo mode detection · hydration-safe
   const [demoMode, setDemoMode] = useState(false);
@@ -37,10 +36,11 @@ export function Sidebar() {
       <div className="px-5 pb-5 border-b border-border mb-4">
         <div className="flex items-center gap-3 mb-3">
           <div className="brand-mark w-10 h-10 flex-shrink-0" />
-          <div>
+          <div className="flex-1">
             <span className="block text-[15px] font-bold leading-tight text-navy tracking-tight">RocketShip</span>
             <span className="block text-[15px] font-bold leading-tight text-accent tracking-tight">OS</span>
           </div>
+          <ThemeToggle />
         </div>
         {/* V4 · retro stripe under brand mark · signature element */}
         <div className="retro-band mb-2"><span /><span /></div>
@@ -122,24 +122,15 @@ export function Sidebar() {
           );
         })}
       </nav>
-      <div className="sticky bottom-0 mt-2 px-5 pt-4 pb-1 border-t border-border space-y-1.5 bg-surface/85 backdrop-blur-xl">
-        {/* V3.0 · Theme toggle · light ↔ dark · persists in localStorage
-            Visible state · button colour changes distinctively per theme so you can confirm the toggle actually fires
-            Pure Tailwind dark: variant on the inner pill · proves whether Tailwind dark mode is wired correctly */}
+      <div className="sticky bottom-0 mt-2 px-3 pt-3 pb-2 border-t border-border bg-surface/85 backdrop-blur-xl">
         <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className={`w-full flex items-center justify-between text-[11px] mb-2 group rounded-md px-2.5 py-2 transition-all ${
-            theme === "dark"
-              ? "bg-navy text-accent hover:bg-navy/80"
-              : "bg-surface-2 text-muted hover:bg-surface-3 hover:text-text"
-          }`}
-          title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          onClick={() => window.dispatchEvent(new Event("ors:open-command"))}
+          className="flex w-full items-center gap-2 rounded-lg border border-border bg-surface-2/60 px-3 py-2 text-[12px] text-muted transition hover:border-accent/50 hover:text-text"
+          title="Open command palette"
         >
-          <span className="flex items-center gap-2">
-            <span className="text-[13px]">{theme === "dark" ? "🌙" : "☀️"}</span>
-            <span className="font-semibold uppercase tracking-[1.2px] text-[10px]">{theme === "dark" ? "Dark mode" : "Light mode"}</span>
-          </span>
-          <span className="text-[10px] opacity-60 group-hover:opacity-100">⇄</span>
+          <span className="opacity-70">⌕</span>
+          <span className="flex-1 text-left">Search & jump</span>
+          <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
         </button>
       </div>
     </aside>
