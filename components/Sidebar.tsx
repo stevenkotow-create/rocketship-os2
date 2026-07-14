@@ -122,7 +122,7 @@ export function Sidebar() {
           );
         })}
       </nav>
-      <div className="px-5 pt-4 mt-2 border-t border-border space-y-1.5">
+      <div className="sticky bottom-0 mt-2 px-5 pt-4 pb-1 border-t border-border space-y-1.5 bg-surface/85 backdrop-blur-xl">
         {/* V3.0 · Theme toggle · light ↔ dark · persists in localStorage
             Visible state · button colour changes distinctively per theme so you can confirm the toggle actually fires
             Pure Tailwind dark: variant on the inner pill · proves whether Tailwind dark mode is wired correctly */}
