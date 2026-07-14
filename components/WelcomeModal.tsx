@@ -49,10 +49,10 @@ export function WelcomeModal() {
             <div>
               <div className="flex items-baseline gap-2 mb-1">
                 <span className="font-mono text-[10px] font-bold tracking-[1.8px] text-accent uppercase">Start here</span>
-                <span className="text-[14px] font-semibold text-text">Discovery wizard · 20 min calibration</span>
+                <span className="text-[14px] font-semibold text-text">Paste your LinkedIn · board builds itself</span>
               </div>
               <p className="text-[12px] text-text-dim leading-relaxed m-0">
-                Mission Compass · Career Hypothesis · Resume Audit · Logistics · Dealbreakers · Network Seed. Once done, every opp gets a research-informed Fit Read.
+                Paste your LinkedIn and we read it in seconds: candidate profile, resume fit, and a starting list of target companies. Then the Discovery wizard fine-tunes the rest.
               </p>
             </div>
           </div>
@@ -100,7 +100,7 @@ export function WelcomeModal() {
               onClick={dismiss}
               className="px-5 py-2 bg-accent text-white dark:text-bg rounded-lg font-bold text-[13px] hover:bg-accent/90 transition"
             >
-              Begin Discovery →
+              Paste LinkedIn → build my board
             </Link>
           </div>
         </div>

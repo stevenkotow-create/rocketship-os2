@@ -551,6 +551,7 @@ export interface DiscoveryProgress {
   stepsCompleted: string[]; // ordered list of step IDs completed
   currentStep?: string; // step ID user is currently on
   skippedSteps?: string[]; // steps user chose to skip · prompt to come back later
+  importedLinkedIn?: boolean; // completed the paste-LinkedIn quick-start
 }
 
 export interface AppState {

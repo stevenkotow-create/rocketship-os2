@@ -15,9 +15,11 @@ import { StepResumeAudit } from "@/components/onboarding/StepResumeAudit";
 import { StepLogisticsDealbreakers } from "@/components/onboarding/StepLogisticsDealbreakers";
 import { StepNetworkSeed } from "@/components/onboarding/StepNetworkSeed";
 import { StepProbeConfig } from "@/components/onboarding/StepProbeConfig";
+import { StepImportLinkedIn } from "@/components/onboarding/StepImportLinkedIn";
 import { Sparkle, RocketShip, CompassRose, Probe } from "@/components/icons";
 
 type StepId =
+  | "importLinkedIn"
   | "welcome"
   | "whyNow"
   | "missionCompass"
@@ -29,7 +31,7 @@ type StepId =
   | "complete";
 
 const STEPS: { id: StepId; label: string; icon: string; durationMin: string; required: boolean }[] = [
-  { id: "welcome", label: "Welcome", icon: "🚀", durationMin: "1 min", required: true },
+  { id: "importLinkedIn", label: "Quick start", icon: "🔗", durationMin: "1 min", required: true },
   { id: "whyNow", label: "Why now?", icon: "🎯", durationMin: "1 min", required: true },
   { id: "missionCompass", label: "Mission Compass", icon: "🧭", durationMin: "10 min", required: true },
   { id: "careerHypothesis", label: "Career Hypothesis", icon: "📈", durationMin: "3 min", required: true },
@@ -58,7 +60,7 @@ export default function OnboardingPage() {
         discoveryProgress: {
           startedAt: new Date().toISOString(),
           stepsCompleted: [],
-          currentStep: "welcome",
+          currentStep: "importLinkedIn",
         },
       }));
     }
@@ -166,6 +168,9 @@ export default function OnboardingPage() {
 
       {/* Step body */}
       <div className="card-elevated">
+        {currentStep === "importLinkedIn" && (
+          <StepImportLinkedIn onComplete={() => recordStepComplete("importLinkedIn", "whyNow")} />
+        )}
         {currentStep === "welcome" && (
           <StepWelcome onNext={() => recordStepComplete("welcome", "whyNow")} />
         )}
