@@ -60,6 +60,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/threads", label: "Star Map", section: "PREP & REFLECT", icon: "Constellation" },
   { href: "/evaluator", label: "Evaluator", section: "PREP & REFLECT", icon: "Reticle" },
   { href: "/decision-journal", label: "Decision Journal", section: "PREP & REFLECT", icon: "FieldJournal" },
+  { href: "/constellation", label: "Constellation", section: "PREP & REFLECT", icon: "Orbit", badge: "NEW" },
 
   // LIBRARY · tools + reference, tucked away (also reachable via Cmd+K)
   { href: "/briefing", label: "Generator", section: "LIBRARY", icon: "Zap" },
@@ -71,7 +72,6 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/comp", label: "Comp Benchmarks", section: "LIBRARY", icon: "DollarSign" },
   { href: "/brand-progress", label: "Brand Progress", section: "LIBRARY", icon: "Beacon" },
   { href: "/mentor-update", label: "Mentor Update", section: "LIBRARY", icon: "Beacon" },
-  { href: "/constellation", label: "Constellation", section: "LIBRARY", icon: "Orbit", badge: "SOON" },
   { href: "/build-log", label: "Build Log", section: "LIBRARY", icon: "Wrench" },
 ];
 
