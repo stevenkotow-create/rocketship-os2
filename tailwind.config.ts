@@ -36,6 +36,7 @@ const config: Config = {
         // V4 · Inter for prose, JetBrains Mono for ALL numerical readouts + coordinate markers
         sans: ["var(--font-inter)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "SF Mono", "Monaco", "monospace"],
+        serif: ["var(--font-serif)", "Georgia", "Times New Roman", "serif"],
       },
       backgroundImage: {
         "starfield-gradient": "linear-gradient(180deg, rgb(var(--c-navy)) 0%, rgb(var(--c-text)) 100%)",

@@ -11,6 +11,7 @@ import { computeStakeholderHealth, healthColour, healthLabel } from "@/lib/star-
 import type { TriageStatus, AppState } from "@/lib/types";
 import { TodayActions } from "@/components/TodayActions";
 import { MissionControlV4 } from "@/components/MissionControlV4";
+import { EmptyState } from "@/components/EmptyState";
 
 // V2.4 · Global Assets card · Loom + Gamma URLs stored once, used everywhere
 function GlobalAssetsCard({ state, update }: { state: AppState; update: (fn: (s: AppState) => AppState) => void }) {
@@ -210,12 +211,39 @@ export default function MissionControl() {
   const unthreaded = healthByOpp.filter((h) => h.health === "unthreaded").length;
   const needsAttention = single + unthreaded;
 
+  // Craft pass · first-run empty board reads as "ready", not broken.
+  if (allOpps.length === 0) {
+    return (
+      <div>
+        <div className="mb-10">
+          <h1 className="display text-[38px] leading-[1.08] text-navy mb-2">Mission Control</h1>
+          <p className="text-[14px] text-text-dim m-0">
+            RocketShip OS · the job ASSESSOR grounded in 12 peer-reviewed frameworks.
+          </p>
+        </div>
+        <EmptyState
+          title="Your board is ready for its first mission."
+          body="Paste your LinkedIn and RocketShip reads it in seconds — candidate profile, resume fit, and a starting list of target companies all land right here."
+          action={
+            <Link
+              href="/onboarding"
+              className="rounded-xl bg-accent px-5 py-3 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 dark:text-bg"
+            >
+              Paste LinkedIn → build my board →
+            </Link>
+          }
+          hint="Prefer to go manual? Add a company in Pipeline and it appears across every screen."
+        />
+      </div>
+    );
+  }
+
   return (
     <div>
       {/* V3.6 · Mission Control header · clean title + tiny demo reset link */}
       <div className="flex items-end justify-between mb-6 flex-wrap gap-3">
         <div>
-          <h1 className="text-[32px] font-bold tracking-tight text-text mb-1.5">Mission Control</h1>
+          <h1 className="display text-[34px] leading-[1.1] text-text mb-1.5">Mission Control</h1>
           <p className="text-[14px] text-text-dim m-0">
             RocketShip OS · the job ASSESSOR grounded in 12 peer-reviewed frameworks.
           </p>

@@ -31,7 +31,7 @@ export function WelcomeModal() {
       >
         <div className="flex items-center gap-3 mb-3 flex-wrap">
           <span className="text-accent"><CompassRose size={28} strokeWidth={1.5} /></span>
-          <h2 className="text-[26px] font-bold text-text leading-tight m-0">RocketShip OS</h2>
+          <h2 className="display text-[28px] text-text leading-[1.05] m-0">RocketShip OS</h2>
           <span className="font-mono text-[10px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded uppercase tracking-[1.8px]">V5</span>
         </div>
         <div className="retro-band mb-4"><span /><span /></div>

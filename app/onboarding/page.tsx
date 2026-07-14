@@ -120,7 +120,7 @@ export default function OnboardingPage() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-accent"><Sparkle size={20} strokeWidth={1.5} /></span>
-              <h1 className="text-[32px] font-bold tracking-tight text-text m-0">Discovery</h1>
+              <h1 className="display text-[34px] leading-[1.1] text-text m-0">Discovery</h1>
             </div>
             <p className="text-[13px] text-text-dim m-0">
               The front door · {requiredSteps.length} required steps · roughly 20 minutes total

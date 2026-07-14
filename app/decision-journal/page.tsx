@@ -47,7 +47,7 @@ export default function DecisionJournalPage() {
                 <path d="M16 13 L16.5 14.5 L18 15 L16.5 15.5 L16 17 L15.5 15.5 L14 15 L15.5 14.5 Z" fill="currentColor" stroke="none" />
               </svg>
             </span>
-            <h1 className="text-[32px] font-bold tracking-tight text-text m-0">Decision Journal</h1>
+            <h1 className="display text-[34px] leading-[1.1] text-text m-0">Decision Journal</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">The empirical loop · log predicted alignment, review at 30 or 90 days. Your accuracy delta is the truest signal.</p>
         </div>

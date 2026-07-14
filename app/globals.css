@@ -119,13 +119,23 @@ html[data-theme="dark"],
 @layer components {
   /* ───────── PAGE STRUCTURE ───────── */
   .page-hero {
-    @apply mb-8;
+    @apply mb-10;
   }
+  /* Craft pass · editorial serif display headline · paired with mono numerals + Inter prose */
   .page-hero h1 {
-    @apply text-[32px] font-bold tracking-tight mb-2 text-navy;
+    @apply font-serif text-[38px] font-normal mb-2.5 text-navy leading-[1.08];
+    letter-spacing: -0.015em;
+    font-feature-settings: "ss01";
   }
   .page-hero p {
-    @apply text-[14px] text-text-dim leading-relaxed max-w-3xl;
+    @apply text-[14px] text-text-dim leading-relaxed max-w-2xl;
+  }
+
+  /* Reusable editorial display headline for heros/empty states outside .page-hero */
+  .display {
+    @apply font-serif font-normal;
+    letter-spacing: -0.015em;
+    font-feature-settings: "ss01";
   }
 
   .section-title {

@@ -6,6 +6,7 @@ import { useAppState } from "@/lib/storage";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import { ProbeLearningCard } from "@/components/ProbeLearningCard";
 import { Probe } from "@/components/icons";
+import { EmptyState } from "@/components/EmptyState";
 import type { TriageStatus, AvailableRole } from "@/lib/types";
 
 type FilterMode = "all" | "pending" | "approved" | "watchlist" | "denied" | "later";
@@ -136,7 +137,7 @@ export default function ProbesInbox() {
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><Probe size={20} strokeWidth={1.5} /></span>
-            <h1 className="text-[32px] font-bold tracking-tight text-text m-0">Probes Inbox</h1>
+            <h1 className="display text-[34px] leading-[1.1] text-text m-0">Probes Inbox</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
             Companies auto-evaluated at probe time with available APAC roles surfaced. Approve to Apply (pick a role → Interview Playbook drafts) or Watch (relationship build + 30-day re-probe).
@@ -210,10 +211,28 @@ export default function ProbesInbox() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="bg-surface border border-border rounded-lg p-12 text-center">
-          <div className="inline-flex text-muted opacity-40 mb-3"><Probe size={48} strokeWidth={1.25} /></div>
-          <p className="text-[13px] text-text-dim m-0">No probes in this filter. Next morning probe runs at 7am AEST.</p>
-        </div>
+        allOpps.length === 0 ? (
+          <EmptyState
+            icon={<Probe size={44} strokeWidth={1.25} />}
+            title="No probes on the board yet."
+            body="Probes are companies RocketShip is watching for you. Paste your LinkedIn and it seeds a starting set of target companies in seconds."
+            action={
+              <Link
+                href="/onboarding"
+                className="rounded-xl bg-accent px-5 py-3 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 dark:text-bg"
+              >
+                Paste LinkedIn → build my board →
+              </Link>
+            }
+            hint="Or add a company yourself from the Pipeline."
+          />
+        ) : (
+          <EmptyState
+            icon={<Probe size={44} strokeWidth={1.25} />}
+            title="Nothing in this filter."
+            body="No probes match right now. The morning probe run surfaces new companies at 7am AEST."
+          />
+        )
       ) : (
         <div className="space-y-3">
           {filtered.map((p) => {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Fraunces } from "next/font/google";
 import { Sidebar } from "@/components/Sidebar";
 import { WindDownLock } from "@/components/WindDownLock";
 import { WelcomeModal } from "@/components/WelcomeModal";
@@ -19,6 +19,14 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-mono",
+});
+
+// Craft pass · editorial serif for display headlines (paired with mono numerals)
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-serif",
+  axes: ["opsz"],
 });
 
 export const metadata: Metadata = {
@@ -61,7 +69,7 @@ const themeBootstrapScript = `
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable}`} suppressHydrationWarning>
       <head>
         {/* V3.0 · Theme bootstrap · MUST run before React + before CSS paints
             Without this, every page load flashes light mode for 100-300ms before useTheme hydrates */}

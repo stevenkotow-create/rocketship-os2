@@ -103,7 +103,7 @@ export function StepImportLinkedIn({ onComplete }: { onComplete?: () => void }) 
   if (phase === "input" || phase === "error") {
     return (
       <div className="mx-auto max-w-[640px]">
-        <h1 className="text-[34px] font-bold leading-tight tracking-tight text-text">
+        <h1 className="display text-[38px] leading-[1.08] text-text">
           Paste your LinkedIn.<br />Watch your board build itself.
         </h1>
         <p className="mt-3 text-[15px] text-text-dim">
@@ -142,7 +142,7 @@ export function StepImportLinkedIn({ onComplete }: { onComplete?: () => void }) 
       <div className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-accent">
         {phase === "done" ? "Board ready" : "Designing your workflow"}
       </div>
-      <h1 className="text-[30px] font-bold leading-tight tracking-tight text-text">
+      <h1 className="display text-[32px] leading-[1.1] text-text">
         {phase === "done" ? "You're all set." : "Building your board…"}
       </h1>
 

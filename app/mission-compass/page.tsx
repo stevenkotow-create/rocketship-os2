@@ -87,7 +87,7 @@ export default function MissionCompassPage() {
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><CompassRose size={20} strokeWidth={1.5} /></span>
-            <h1 className="text-[32px] font-bold tracking-tight text-text m-0">Mission Compass</h1>
+            <h1 className="display text-[34px] leading-[1.1] text-text m-0">Mission Compass</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
             ORS doesn&apos;t score opportunities · it assesses them against who you actually are. 10-15 minute calibration. The platform is on your side.

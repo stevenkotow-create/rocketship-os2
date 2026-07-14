@@ -8,6 +8,7 @@ import { STAGES } from "@/lib/constants";
 import { Orbit } from "@/components/icons";
 import type { Stage, Opportunity } from "@/lib/types";
 import { computeStakeholderHealth, missingRequiredRoles } from "@/lib/star-map";
+import { EmptyState } from "@/components/EmptyState";
 
 type ViewMode = "list" | "kanban";
 
@@ -118,6 +119,38 @@ export default function Pipeline() {
     groupedOpps[groupOpp(o)].push(o);
   });
 
+  // Craft pass · first-run manifest reads as ready, not broken.
+  if (allOpps.length === 0) {
+    return (
+      <div>
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-accent"><Orbit size={20} strokeWidth={1.5} /></span>
+            <h1 className="display text-[38px] leading-[1.08] text-text m-0">Launch Manifest</h1>
+          </div>
+          <p className="text-[14px] text-text-dim m-0 max-w-2xl">
+            Every company you&apos;re pursuing, grouped by what needs doing next.
+          </p>
+        </div>
+        <div className="retro-band mb-8"><span /><span /></div>
+        <EmptyState
+          icon={<Orbit size={44} strokeWidth={1.25} />}
+          title="No missions on the manifest yet."
+          body="Add the companies you're targeting and they flow through every stage here — from first probe to offer."
+          action={
+            <Link
+              href="/onboarding"
+              className="rounded-xl bg-accent px-5 py-3 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 dark:text-bg"
+            >
+              Paste LinkedIn → build my board →
+            </Link>
+          }
+          hint="Already know your targets? Add them manually and they appear across every screen."
+        />
+      </div>
+    );
+  }
+
   return (
     <div>
       {/* V4 · Header */}
@@ -125,7 +158,7 @@ export default function Pipeline() {
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><Orbit size={20} strokeWidth={1.5} /></span>
-            <h1 className="text-[32px] font-bold tracking-tight text-text m-0">Launch Manifest</h1>
+            <h1 className="display text-[34px] leading-[1.1] text-text m-0">Launch Manifest</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
             {view === "list"

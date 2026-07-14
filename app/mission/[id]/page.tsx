@@ -304,7 +304,7 @@ Cheers,
                 {opp.priority && <span className="px-2 py-0.5 bg-white/15 rounded-md">{opp.priority}</span>}
                 {opp.pattern && <span className="px-2 py-0.5 bg-white/15 rounded-md">{PATTERN_ICONS[opp.pattern]} Pattern {opp.pattern}</span>}
               </div>
-              <h1 className="text-[36px] font-bold tracking-tight text-white leading-[1.1]">{opp.company}</h1>
+              <h1 className="display text-[38px] text-white leading-[1.08]">{opp.company}</h1>
               <p className="text-[16px] text-white/85 mt-1.5 leading-snug">{opp.position}</p>
               <p className="text-[12px] text-white/60 mt-1.5">{opp.type} · {opp.location}</p>
             </div>

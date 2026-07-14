@@ -63,7 +63,7 @@ export default function MultithreadGalaxy() {
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><ConstellationIcon size={20} strokeWidth={1.5} /></span>
-            <h1 className="text-[32px] font-bold tracking-tight text-text m-0">Star Map</h1>
+            <h1 className="display text-[34px] leading-[1.1] text-text m-0">Star Map</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
             Per-opp stakeholder threading · HM + Recruiter + Peer for every active mission. The 3-stakeholder framework live.

@@ -165,7 +165,7 @@ export default function ResumeLabPage() {
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><StarChart size={20} strokeWidth={1.5} /></span>
-            <h1 className="text-[32px] font-bold tracking-tight text-text m-0">Resume Lab</h1>
+            <h1 className="display text-[34px] leading-[1.1] text-text m-0">Resume Lab</h1>
             <span className="font-mono text-[9px] uppercase tracking-[2px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded">V4.2</span>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
