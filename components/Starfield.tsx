@@ -145,8 +145,8 @@ export function Starfield() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0"
-      style={{ mixBlendMode: "screen" }}
+      className="pointer-events-none"
+      style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, mixBlendMode: "screen" }}
     />
   );
 }
