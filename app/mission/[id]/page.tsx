@@ -264,33 +264,9 @@ Cheers,
         <span className="text-navy font-semibold">{opp.company}</span>
       </div>
 
-      {/* V3.0 · Mission Compass · the platform differentiator
-          Shows as the hero card above all other Mission Profile sections.
-          Empty state → CTA to calibrate · No assessment → CTA to run · Assessment → 5-lens read */}
-      <MissionCompassCard opp={opp} state={state} update={update} />
-
-      {/* V3.5 · Interview Prep Module · per-opp structured prep
-          5-stage tracker + Operating Principles + Sources audit + 90-sec opener + accountability lines */}
-      <InterviewPrepCard opp={opp} state={state} update={update} />
-
-      {/* V2.3 · "You're clear to ship" callout · approved + role picked + ready to go */}
-      {showLaunchPack && (
-        <div className="mb-4 bg-gradient-to-r from-good via-good to-accent text-white rounded-xl p-5 shadow-md flex items-center gap-4 flex-wrap">
-          <span className="text-3xl flex-shrink-0">🚀</span>
-          <div className="flex-1 min-w-[200px]">
-            <div className="text-[18px] font-bold leading-tight">You&apos;re clear to ship {opp.company}.</div>
-            <div className="text-[12px] text-white/85 mt-1 leading-snug">Mission context below. Launch Pack queued underneath. Apply, then run the send sequence.</div>
-          </div>
-          <a
-            href={applyUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="bg-white text-good px-4 py-2.5 rounded-lg font-bold text-[13px] hover:bg-white/90 transition whitespace-nowrap"
-          >
-            Apply →
-          </a>
-        </div>
-      )}
+      {/* ============================================================
+          GROUP (a) · COMPANY / ROLE HERO + single primary Apply
+          ============================================================ */}
 
       {/* HERO · Mission Header */}
       <div className="bg-gradient-to-br from-navy via-navy/95 to-accent/25 text-white rounded-2xl p-8 mb-6 relative overflow-hidden shadow-lg">
@@ -345,13 +321,362 @@ Cheers,
         </div>
       </div>
 
-      {/* THREADING RESEARCH BRIEF · the pre-DM intel surface */}
-      <details className="mb-6 bg-surface border border-border rounded-xl group">
+      {/* GROUP (a) continued · single primary Apply lives in the Launch Pack */}
+      {/* V2.3 · LAUNCH PACK · single primary Apply button + Loom + 3 DMs · only when role is picked */}
+      {showLaunchPack && (
+        <div className="bg-gradient-to-br from-good/15 via-good/5 to-accent/10 border-2 border-good/40 rounded-2xl p-6 mb-6 shadow-md">
+          <div className="flex items-baseline gap-2 mb-3 flex-wrap">
+            <span className="text-2xl">🚀</span>
+            <h2 className="text-[20px] font-bold text-navy">Launch Pack · ship today</h2>
+            <span className="badge bg-good/20 text-good">APPLYING</span>
+          </div>
+          <p className="text-[13px] text-text-dim mb-4">
+            Role picked. Pack drafted in your voice. Apply, then 3 DMs in send sequence below. Loom held until recruiter call books.
+          </p>
+
+          {/* BIG action buttons · Apply + Copy URL */}
+          <div className="flex gap-3 mb-5 flex-wrap">
+            <a
+              href={applyUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="flex-1 min-w-[200px] bg-good hover:bg-good/90 text-white text-center px-6 py-4 rounded-xl font-bold text-[16px] transition shadow-lg flex items-center justify-center gap-2"
+            >
+              🚀 Apply →
+            </a>
+            <button
+              onClick={() => copyText(applyUrl || "")}
+              className="px-5 py-4 bg-surface border-2 border-border hover:border-accent text-navy rounded-xl font-semibold text-[13px] transition whitespace-nowrap"
+            >
+              📋 Copy URL
+            </button>
+          </div>
+          <div className="bg-surface/50 border border-border rounded-lg px-3 py-2 mb-5 text-[11px] font-mono text-cool break-all">
+            {applyUrl}
+          </div>
+
+          {/* 3 DMs · the actual outreach payload */}
+          {dmContacts.length > 0 && (
+            <div className="space-y-3 mb-5">
+              <div className="flex items-baseline gap-2">
+                <h3 className="text-[14px] font-bold text-navy">📩 Send sequence · 2 messages per stakeholder · Day 0 connect + Day 5-7 follow-up</h3>
+              </div>
+              {dmContacts.map((d, i) => {
+                const isHM = d.contact?.role === "HM";
+                const variant = isHM ? (opp.hmTemplateVariant || "A") : "A";
+                const rawDraft = isHM && variant === "B" ? generateVariantB() : (d.contact?.dmDraft || "");
+                const displayText = substituteAssets(rawDraft);
+                const placeholders = hasUnfilledPlaceholders(rawDraft);
+                const isVerified = !!d.contact?.verified;
+                const connectNote = d.contact?.connectNote || "";
+                return (
+                  <div key={i} className={`bg-surface rounded-lg p-4 border ${isVerified ? "border-good/30" : "border-warn/40"}`}>
+                    <div className="flex items-baseline justify-between gap-2 mb-1 flex-wrap">
+                      <div>
+                        <span className="text-[12px] font-bold text-navy">{d.label}</span>
+                        {d.contact?.name && (
+                          <span className="text-[12px] text-text-dim ml-2">· {d.contact.name}</span>
+                        )}
+                        {isVerified ? (
+                          <span className="ml-2 text-[10px] text-good font-bold">✓ verified</span>
+                        ) : (
+                          <span className="ml-2 text-[10px] text-warn font-bold">⚠ unverified · check LinkedIn before send</span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-muted">follow-up: {rawDraft.length} chars{isHM ? ` · variant ${variant}` : ""}</span>
+                    </div>
+                    <p className="text-[10px] text-text-dim italic mb-2">{d.sendOrder}</p>
+
+                    {/* HM Variant toggle */}
+                    {isHM && (
+                      <div className="flex gap-1 mb-2">
+                        <button
+                          onClick={() => update((s) => ({ ...s, opps: { ...s.opps, [id]: { ...(s.opps[id] || {}), hmTemplateVariant: "A" } } }))}
+                          className={`text-[10px] px-2 py-1 rounded font-semibold transition ${variant === "A" ? "bg-accent text-white" : "bg-surface-2 text-muted hover:text-text"}`}
+                        >
+                          A · Warm (Thanks for connecting)
+                        </button>
+                        <button
+                          onClick={() => update((s) => ({ ...s, opps: { ...s.opps, [id]: { ...(s.opps[id] || {}), hmTemplateVariant: "B" } } }))}
+                          className={`text-[10px] px-2 py-1 rounded font-semibold transition ${variant === "B" ? "bg-accent text-white" : "bg-surface-2 text-muted hover:text-text"}`}
+                        >
+                          B · Direct (Applied + stats)
+                        </button>
+                      </div>
+                    )}
+
+                    {/* CONNECT NOTE (300 char Day 0) · separate from full follow-up DM */}
+                    {connectNote && (
+                      <div className="mb-3 border border-accent/30 bg-accent/5 rounded p-3">
+                        <div className="flex items-baseline justify-between gap-2 mb-1.5">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-accent">Day 0 · 300-char connect request</span>
+                          <span className="text-[10px] text-muted">{connectNote.length} / 300</span>
+                        </div>
+                        <div className="bg-bg border border-border rounded p-2.5 text-[12.5px] text-navy leading-snug whitespace-pre-wrap">
+                          {connectNote}
+                        </div>
+                        <button
+                          onClick={() => copyText(connectNote)}
+                          className="mt-2 text-[11px] px-3 py-1 bg-accent/10 hover:bg-accent/20 text-accent rounded font-semibold transition"
+                        >
+                          📋 Copy connect note
+                        </button>
+                      </div>
+                    )}
+
+                    {/* FULL FOLLOW-UP DM (Day 5-7 after acceptance) */}
+                    <div className="border border-good/30 bg-good/5 rounded p-3">
+                      <div className="flex items-baseline justify-between gap-2 mb-1.5">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-good">Day 5-7 · full follow-up message (after connect accepted)</span>
+                      </div>
+                      <div className="bg-bg border border-border rounded p-3 text-[13px] text-navy leading-snug whitespace-pre-wrap">
+                        {displayText}
+                      </div>
+                    </div>
+
+                    {(placeholders.loom || placeholders.gamma) && (
+                      <div className="mt-2 text-[11px] text-warn bg-warn/10 border border-warn/30 rounded px-2 py-1.5">
+                        ⚠ Missing global asset{placeholders.loom && placeholders.gamma ? "s" : ""}: {placeholders.loom && "Loom URL"}{placeholders.loom && placeholders.gamma && " + "}{placeholders.gamma && "Gamma URL"}. Set on Mission Control before sending.
+                      </div>
+                    )}
+
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      <button
+                        onClick={() => copyText(displayText)}
+                        className="text-[11px] px-3 py-1.5 bg-good/10 hover:bg-good/20 text-good rounded font-semibold transition"
+                      >
+                        📋 Copy follow-up DM
+                      </button>
+                      {d.contact?.linkedin && (
+                        <a
+                          href={d.contact.linkedin}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-[11px] px-3 py-1.5 bg-cool/10 hover:bg-cool/20 text-cool rounded font-semibold transition"
+                        >
+                          Open LinkedIn →
+                        </a>
+                      )}
+                      {d.contact && (
+                        <button
+                          onClick={() => toggleVerifyContact(d.contact!.name)}
+                          className={`text-[11px] px-3 py-1.5 rounded font-semibold transition ${isVerified ? "bg-good/15 text-good hover:bg-good/25" : "bg-warn/15 text-warn hover:bg-warn/25"}`}
+                        >
+                          {isVerified ? "✓ Verified" : "Mark verified"}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Generic Volume Loom script · reusable across every HM follow-up · face-to-camera, no platform demo */}
+          <details className="bg-surface border border-border rounded-lg group">
+            <summary className="px-4 py-3 cursor-pointer flex items-baseline justify-between gap-2 flex-wrap">
+              <div>
+                <span className="text-[13px] font-bold text-navy">🎥 Generic Loom script · 80 sec · personal intro for volume mode</span>
+              </div>
+              <span className="text-[10px] text-muted group-open:hidden">Click to expand</span>
+              <span className="text-[10px] text-muted hidden group-open:inline">Click to collapse</span>
+            </summary>
+            <div className="px-4 pb-4 text-[13px] text-navy leading-relaxed space-y-2">
+              <p><strong>Volume mode asset.</strong> Reusable across every HM follow-up. Record once, send everywhere. Face-to-camera, no screen share, no product demo. Swap [first name] in the opening. Fill the italic beats below with your own story.</p>
+              <p className="bg-bg border-l-4 border-accent px-3 py-2 italic">
+                Hi [first name], [your name] here. Quick 90 seconds.
+              </p>
+              <p className="bg-bg border-l-4 border-good px-3 py-2 italic">
+                [The short version of you: your most relevant roles and one or two quantified results.]
+              </p>
+              <p className="bg-bg border-l-4 border-good px-3 py-2 italic">
+                What I want to lead with isn&apos;t a track record though. It&apos;s how I work.
+              </p>
+              <p className="bg-bg border-l-4 border-good px-3 py-2 italic">
+                [How you work: the tools, habits, or approach that make you different. Land your one true differentiator here.]
+              </p>
+              <p className="bg-bg border-l-4 border-good px-3 py-2 italic">
+                That&apos;s what I&apos;d love to bring to your team. Whether it&apos;s prospecting, qualification, or learning a new vertical from scratch, the prep is faster and the thinking is sharper.
+              </p>
+              <p className="bg-bg border-l-4 border-accent px-3 py-2 italic">
+                If you&apos;ve got 15 minutes this week, I&apos;d love to walk you through how I&apos;d ramp in the role. Coffee or Zoom, your call. Thanks for the time, chat soon.
+              </p>
+              <div className="text-[11px] text-text-dim pt-2 border-t border-border mt-3">
+                <strong>Recording notes:</strong> Face-to-camera the whole way. Steady eye contact. Land your differentiator with conviction. Don&apos;t name a company in the Loom · stays generic for reuse. ~220 words at 165 wpm = 80 sec.
+              </div>
+            </div>
+          </details>
+        </div>
+      )}
+
+      {/* ============================================================
+          GROUP (b) · ASSESS · Mission Compass
+          ============================================================ */}
+      <h2 className="text-[11px] font-mono uppercase tracking-[2px] text-muted mb-3 mt-10">Assess</h2>
+      <MissionCompassCard opp={opp} state={state} update={update} />
+
+      {/* ============================================================
+          GROUP (c) · PREP · Interview Prep
+          ============================================================ */}
+      <h2 className="text-[11px] font-mono uppercase tracking-[2px] text-muted mb-3 mt-10">Prep</h2>
+      <InterviewPrepCard opp={opp} state={state} update={update} />
+
+      {/* ============================================================
+          GROUP (d) · THREADING & STAKEHOLDERS
+          Star Map + MEDDPICC (primary) · Multi-thread + Research Brief +
+          Credential Layer (collapsed, secondary) · Contact Roster + refs
+          ============================================================ */}
+      <h2 className="text-[11px] font-mono uppercase tracking-[2px] text-muted mb-3 mt-10">Threading &amp; Stakeholders</h2>
+
+      {/* OPERATOR PLAYBOOK STATUS · stakeholder health + MEDDPICC qualification depth */}
+      <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Stakeholder Health Card */}
+        <div className={`p-4 rounded-xl border ${
+          sHealth === "complete" ? "bg-good/5 border-good/30" :
+          sHealth === "partial" ? "bg-accent/5 border-accent/30" :
+          sHealth === "single-thread" ? "bg-warn/5 border-warn/30" :
+          "bg-hot/5 border-hot/30"
+        }`}>
+          <div className="flex items-baseline justify-between mb-2">
+            <div className="text-[10px] text-muted uppercase tracking-wider font-bold">
+              ⭐ Star Map · stakeholder health
+            </div>
+            <Link href="/threads" className="text-[10px] text-accent hover:underline">View →</Link>
+          </div>
+          <div className={`text-lg font-bold mb-1 ${
+            sHealth === "complete" ? "text-good" :
+            sHealth === "partial" ? "text-accent" :
+            sHealth === "single-thread" ? "text-warn" :
+            "text-hot"
+          }`}>
+            {healthLabel(sHealth)}
+          </div>
+          {sMissing.length > 0 ? (
+            <div className="text-xs text-text-dim">
+              Need: {sMissing.map((m) => m.label).join(" + ")}
+            </div>
+          ) : (
+            <div className="text-xs text-text-dim">All 3 required roles engaged</div>
+          )}
+        </div>
+
+        {/* MEDDPICC Card */}
+        <div className={`p-4 rounded-xl border ${
+          dealAtRisk ? "bg-warn/5 border-warn/30" : "bg-good/5 border-good/30"
+        }`}>
+          <div className="flex items-baseline justify-between mb-2">
+            <div className="text-[10px] text-muted uppercase tracking-wider font-bold">
+              🎯 MEDDPICC · qualification depth
+            </div>
+            <div className="text-[10px] text-muted">{meddpiccTotalPoints}/21 pts</div>
+          </div>
+          <div className={`text-lg font-bold mb-2 ${dealAtRisk ? "text-warn" : "text-good"}`}>
+            {meddpiccSolid} solid · {meddpiccMapped} mapped of 7
+            {dealAtRisk && <span className="ml-2 text-xs">· Deal at risk</span>}
+          </div>
+          <div className="flex gap-1 flex-wrap">
+            {MEDDPICC_FIELDS.map((f, i) => {
+              const r = meddpiccRatings[i];
+              return (
+                <button
+                  key={`${f.key}-${i}`}
+                  onClick={() => updateMeddpicc(f.key, r as 0 | 1 | 2 | 3)}
+                  title={`${f.label} · ${f.question} · click to toggle (1→2→3)`}
+                  className={`w-7 h-7 rounded text-[11px] font-bold flex items-center justify-center transition ${
+                    r === 3 ? "bg-good text-white" :
+                    r === 2 ? "bg-accent text-white" :
+                    r === 1 ? "bg-warn/30 text-warn border border-warn/40" :
+                    "bg-surface-2 text-muted border border-border hover:border-accent"
+                  }`}
+                >
+                  {f.letter}
+                </button>
+              );
+            })}
+          </div>
+          <div className="text-[10px] text-text-dim mt-2">Click a letter to cycle rating · 0 unmapped → 1 partial → 2 mapped → 3 solid</div>
+        </div>
+      </div>
+
+      {/* CONTACTS · Detail list with inline status update */}
+      <div className="card mb-4">
+        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
+          <span>👥</span> Contact Roster · {contacts.length} on board
+        </h2>
+        {contacts.length === 0 ? (
+          <p className="text-sm text-text-dim">No contacts mapped. Use the Briefing Lab to start researching.</p>
+        ) : (
+          <div className="space-y-2">
+            {contacts.map((c) => (
+              <div key={c.name} className="flex items-center gap-3 p-3 bg-surface-2 border border-border rounded-lg">
+                <div className={`px-2 py-1 rounded text-[10px] font-semibold ${STATUS_COLOR[c.status]}`}>
+                  {STATUS_LABEL[c.status]}
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm font-semibold">{c.name}</div>
+                  <div className="text-xs text-text-dim">{c.title || c.role.replace("_", " ")}</div>
+                  {c.notes && <div className="text-[11px] text-muted italic mt-0.5">{c.notes}</div>}
+                </div>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={c.status}
+                    onChange={(e) => updateContactStatus(c.name, e.target.value as ContactStatus)}
+                    className="text-[11px] bg-surface border border-border rounded px-2 py-1"
+                  >
+                    {(Object.keys(STATUS_LABEL) as ContactStatus[]).map((s) => (
+                      <option key={s} value={s}>{STATUS_LABEL[s]}</option>
+                    ))}
+                  </select>
+                  {c.linkedin && (
+                    <a href={c.linkedin} target="_blank" rel="noreferrer" className="text-xs text-navy hover:underline whitespace-nowrap">
+                      LinkedIn ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* MULTI-THREAD SYSTEM · Solar System · collapsed by default (secondary) */}
+      <details className="mb-4 bg-surface border border-border rounded-xl group">
+        <summary className="px-5 py-4 cursor-pointer flex items-center justify-between gap-2 flex-wrap">
+          <h2 className="text-lg font-bold flex items-center gap-2">
+            <span>🌌</span> Multi-thread System
+          </h2>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-muted">{threadPct}% reached</span>
+            <span className="text-[10px] text-muted group-open:hidden">Click to expand</span>
+            <span className="text-[10px] text-muted hidden group-open:inline">Click to collapse</span>
+          </div>
+        </summary>
+        <div className="px-5 pb-5">
+          {contacts.length === 0 ? (
+            <div className="text-center py-12 text-sm text-text-dim">
+              <div className="text-4xl mb-2 opacity-40">🪐</div>
+              No contacts mapped yet.
+              <div className="text-xs mt-1">Add APAC AE → Recruiter → Peer to populate orbits.</div>
+            </div>
+          ) : (
+            <SolarSystem company={opp.company} contacts={contacts} size="md" />
+          )}
+          <div className="flex gap-2 flex-wrap text-[10px] mt-3 justify-center pt-3 border-t border-border">
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-muted opacity-50" />Identified</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-navy" />Silent</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-accent" />DM sent</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-good" />Replied</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-hot opacity-60" />Cold</span>
+          </div>
+        </div>
+      </details>
+
+      {/* THREADING RESEARCH BRIEF · the pre-DM intel surface · collapsed by default */}
+      <details className="mb-4 bg-surface border border-border rounded-xl group">
         <summary className="px-5 py-4 cursor-pointer flex items-baseline justify-between gap-2 flex-wrap">
           <div className="flex items-baseline gap-2 flex-wrap">
             <span className="text-[15px]">🔬</span>
             <span className="text-[15px] font-bold text-navy">Threading Research Brief</span>
-            <span className="text-[10px] text-accent bg-accent/10 px-1.5 py-0.5 rounded font-bold">V2.4</span>
             {opp.research?.researchUpdatedAt && (
               <span className="text-[10px] text-good">✓ researched {new Date(opp.research.researchUpdatedAt).toLocaleDateString("en-AU", { day: "numeric", month: "short" })}</span>
             )}
@@ -450,268 +775,163 @@ Cheers,
         </div>
       </details>
 
-      {/* V2.3 · LAUNCH PACK · giant Apply button + Loom + 3 DMs · only when role is picked */}
-      {showLaunchPack && (
-        <div className="bg-gradient-to-br from-good/15 via-good/5 to-accent/10 border-2 border-good/40 rounded-2xl p-6 mb-6 shadow-md">
-          <div className="flex items-baseline gap-2 mb-3 flex-wrap">
-            <span className="text-2xl">🚀</span>
-            <h2 className="text-[20px] font-bold text-navy">Launch Pack · ship today</h2>
-            <span className="badge bg-good/20 text-good">APPLYING</span>
-          </div>
-          <p className="text-[13px] text-text-dim mb-4">
-            Role picked. Pack drafted in your voice. Apply, then 3 DMs in send sequence below. Loom held until recruiter call books.
-          </p>
+      {/* CREDENTIAL LAYER · always-on proof · collapsed by default (secondary) */}
+      <details className="mb-4 bg-gradient-to-r from-surface-2 to-surface border border-border rounded-xl group">
+        <summary className="px-4 py-3 cursor-pointer flex items-baseline justify-between gap-2 flex-wrap">
+          <span className="text-[10px] text-muted uppercase tracking-wider font-bold">Your credential layer (always-on)</span>
+          <span className="text-[10px] text-muted group-open:hidden">Click to expand</span>
+          <span className="text-[10px] text-muted hidden group-open:inline">Click to collapse</span>
+        </summary>
+        <div className="px-4 pb-4">
+          <p className="text-[11px] text-text-dim">Add your own quantified wins and marquee logos here so they stay visible during interview demos.</p>
+        </div>
+      </details>
 
-          {/* BIG action buttons · Apply + Copy URL */}
-          <div className="flex gap-3 mb-5 flex-wrap">
-            <a
-              href={applyUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="flex-1 min-w-[200px] bg-good hover:bg-good/90 text-white text-center px-6 py-4 rounded-xl font-bold text-[16px] transition shadow-lg flex items-center justify-center gap-2"
-            >
-              🚀 Apply →
-            </a>
-            <button
-              onClick={() => copyText(applyUrl || "")}
-              className="px-5 py-4 bg-surface border-2 border-border hover:border-accent text-navy rounded-xl font-semibold text-[13px] transition whitespace-nowrap"
-            >
-              📋 Copy URL
-            </button>
-          </div>
-          <div className="bg-surface/50 border border-border rounded-lg px-3 py-2 mb-5 text-[11px] font-mono text-cool break-all">
-            {applyUrl}
-          </div>
-
-          {/* 3 DMs · the actual outreach payload */}
-          {dmContacts.length > 0 && (
-            <div className="space-y-3 mb-5">
-              <div className="flex items-baseline gap-2">
-                <h3 className="text-[14px] font-bold text-navy">📩 Send sequence · 2 messages per stakeholder · Day 0 connect + Day 5-7 follow-up</h3>
+      {/* REFERENCE STATUS */}
+      {opp.reference && (
+        <div className="card mb-4">
+          <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
+            <span>📞</span> Reference Activation
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+            <div>
+              <div className="text-[10px] text-muted uppercase tracking-wider">Status</div>
+              <div className={`font-semibold ${opp.reference.briefed ? "text-good" : "text-warn"}`}>
+                {opp.reference.briefed ? "✓ Briefed" : "⚠ Not briefed"}
               </div>
-              {dmContacts.map((d, i) => {
-                const isHM = d.contact?.role === "HM";
-                const variant = isHM ? (opp.hmTemplateVariant || "A") : "A";
-                const rawDraft = isHM && variant === "B" ? generateVariantB() : (d.contact?.dmDraft || "");
-                const displayText = substituteAssets(rawDraft);
-                const placeholders = hasUnfilledPlaceholders(rawDraft);
-                const isVerified = !!d.contact?.verified;
-                const connectNote = d.contact?.connectNote || "";
-                return (
-                  <div key={i} className={`bg-surface rounded-lg p-4 border ${isVerified ? "border-good/30" : "border-warn/40"}`}>
-                    <div className="flex items-baseline justify-between gap-2 mb-1 flex-wrap">
-                      <div>
-                        <span className="text-[12px] font-bold text-navy">{d.label}</span>
-                        {d.contact?.name && (
-                          <span className="text-[12px] text-text-dim ml-2">· {d.contact.name}</span>
-                        )}
-                        {isVerified ? (
-                          <span className="ml-2 text-[10px] text-good font-bold">✓ verified</span>
-                        ) : (
-                          <span className="ml-2 text-[10px] text-warn font-bold">⚠ unverified · check LinkedIn before send</span>
-                        )}
-                      </div>
-                      <span className="text-[10px] text-muted">follow-up: {rawDraft.length} chars{isHM ? ` · variant ${variant}` : ""}</span>
-                    </div>
-                    <p className="text-[10px] text-text-dim italic mb-2">{d.sendOrder}</p>
-
-                    {/* V2.4 · HM Variant toggle */}
-                    {isHM && (
-                      <div className="flex gap-1 mb-2">
-                        <button
-                          onClick={() => update((s) => ({ ...s, opps: { ...s.opps, [id]: { ...(s.opps[id] || {}), hmTemplateVariant: "A" } } }))}
-                          className={`text-[10px] px-2 py-1 rounded font-semibold transition ${variant === "A" ? "bg-accent text-white" : "bg-surface-2 text-muted hover:text-text"}`}
-                        >
-                          A · Warm (Thanks for connecting)
-                        </button>
-                        <button
-                          onClick={() => update((s) => ({ ...s, opps: { ...s.opps, [id]: { ...(s.opps[id] || {}), hmTemplateVariant: "B" } } }))}
-                          className={`text-[10px] px-2 py-1 rounded font-semibold transition ${variant === "B" ? "bg-accent text-white" : "bg-surface-2 text-muted hover:text-text"}`}
-                        >
-                          B · Direct (Applied + stats)
-                        </button>
-                      </div>
-                    )}
-
-                    {/* V2.5 · CONNECT NOTE (300 char Day 0) · separate from full follow-up DM */}
-                    {connectNote && (
-                      <div className="mb-3 border border-accent/30 bg-accent/5 rounded p-3">
-                        <div className="flex items-baseline justify-between gap-2 mb-1.5">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-accent">Day 0 · 300-char connect request</span>
-                          <span className="text-[10px] text-muted">{connectNote.length} / 300</span>
-                        </div>
-                        <div className="bg-bg border border-border rounded p-2.5 text-[12.5px] text-navy leading-snug whitespace-pre-wrap">
-                          {connectNote}
-                        </div>
-                        <button
-                          onClick={() => copyText(connectNote)}
-                          className="mt-2 text-[11px] px-3 py-1 bg-accent/10 hover:bg-accent/20 text-accent rounded font-semibold transition"
-                        >
-                          📋 Copy connect note
-                        </button>
-                      </div>
-                    )}
-
-                    {/* V2.5 · FULL FOLLOW-UP DM (Day 5-7 after acceptance) */}
-                    <div className="border border-good/30 bg-good/5 rounded p-3">
-                      <div className="flex items-baseline justify-between gap-2 mb-1.5">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-good">Day 5-7 · full follow-up message (after connect accepted)</span>
-                      </div>
-                      <div className="bg-bg border border-border rounded p-3 text-[13px] text-navy leading-snug whitespace-pre-wrap">
-                        {displayText}
-                      </div>
-                    </div>
-
-                    {(placeholders.loom || placeholders.gamma) && (
-                      <div className="mt-2 text-[11px] text-warn bg-warn/10 border border-warn/30 rounded px-2 py-1.5">
-                        ⚠ Missing global asset{placeholders.loom && placeholders.gamma ? "s" : ""}: {placeholders.loom && "Loom URL"}{placeholders.loom && placeholders.gamma && " + "}{placeholders.gamma && "Gamma URL"}. Set on Mission Control before sending.
-                      </div>
-                    )}
-
-                    <div className="flex gap-2 mt-2 flex-wrap">
-                      <button
-                        onClick={() => copyText(displayText)}
-                        className="text-[11px] px-3 py-1.5 bg-good/10 hover:bg-good/20 text-good rounded font-semibold transition"
-                      >
-                        📋 Copy follow-up DM
-                      </button>
-                      {d.contact?.linkedin && (
-                        <a
-                          href={d.contact.linkedin}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-[11px] px-3 py-1.5 bg-cool/10 hover:bg-cool/20 text-cool rounded font-semibold transition"
-                        >
-                          Open LinkedIn →
-                        </a>
-                      )}
-                      {d.contact && (
-                        <button
-                          onClick={() => toggleVerifyContact(d.contact!.name)}
-                          className={`text-[11px] px-3 py-1.5 rounded font-semibold transition ${isVerified ? "bg-good/15 text-good hover:bg-good/25" : "bg-warn/15 text-warn hover:bg-warn/25"}`}
-                        >
-                          {isVerified ? "✓ Verified" : "Mark verified"}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+            </div>
+            {opp.reference.briefedAt && (
+              <div>
+                <div className="text-[10px] text-muted uppercase tracking-wider">Briefed</div>
+                <div>{opp.reference.briefedAt}</div>
+              </div>
+            )}
+            {opp.reference.expectedCallWindow && (
+              <div>
+                <div className="text-[10px] text-muted uppercase tracking-wider">Call window</div>
+                <div>{opp.reference.expectedCallWindow}</div>
+              </div>
+            )}
+            <div>
+              <div className="text-[10px] text-muted uppercase tracking-wider">Outcome</div>
+              <div className="capitalize">{opp.reference.outcome || "pending"}</div>
+            </div>
+          </div>
+          {opp.reference.notes && (
+            <div className="mt-3 text-[11px] text-text-dim italic bg-surface-3 p-2 rounded">
+              {opp.reference.notes}
             </div>
           )}
-
-          {/* Generic Volume Loom script · reusable across every HM follow-up · face-to-camera, no platform demo */}
-          <details className="bg-surface border border-border rounded-lg group">
-            <summary className="px-4 py-3 cursor-pointer flex items-baseline justify-between gap-2 flex-wrap">
-              <div>
-                <span className="text-[13px] font-bold text-navy">🎥 Generic Loom script · 80 sec · personal intro for volume mode</span>
-              </div>
-              <span className="text-[10px] text-muted group-open:hidden">Click to expand</span>
-              <span className="text-[10px] text-muted hidden group-open:inline">Click to collapse</span>
-            </summary>
-            <div className="px-4 pb-4 text-[13px] text-navy leading-relaxed space-y-2">
-              <p><strong>Volume mode asset.</strong> Reusable across every HM follow-up. Record once, send everywhere. Face-to-camera, no screen share, no product demo. Swap [first name] in the opening. Fill the italic beats below with your own story.</p>
-              <p className="bg-bg border-l-4 border-accent px-3 py-2 italic">
-                Hi [first name], [your name] here. Quick 90 seconds.
-              </p>
-              <p className="bg-bg border-l-4 border-good px-3 py-2 italic">
-                [The short version of you: your most relevant roles and one or two quantified results.]
-              </p>
-              <p className="bg-bg border-l-4 border-good px-3 py-2 italic">
-                What I want to lead with isn&apos;t a track record though. It&apos;s how I work.
-              </p>
-              <p className="bg-bg border-l-4 border-good px-3 py-2 italic">
-                [How you work: the tools, habits, or approach that make you different. Land your one true differentiator here.]
-              </p>
-              <p className="bg-bg border-l-4 border-good px-3 py-2 italic">
-                That&apos;s what I&apos;d love to bring to your team. Whether it&apos;s prospecting, qualification, or learning a new vertical from scratch, the prep is faster and the thinking is sharper.
-              </p>
-              <p className="bg-bg border-l-4 border-accent px-3 py-2 italic">
-                If you&apos;ve got 15 minutes this week, I&apos;d love to walk you through how I&apos;d ramp in the role. Coffee or Zoom, your call. Thanks for the time, chat soon.
-              </p>
-              <div className="text-[11px] text-text-dim pt-2 border-t border-border mt-3">
-                <strong>Recording notes:</strong> Face-to-camera the whole way. Steady eye contact. Land your differentiator with conviction. Don&apos;t name a company in the Loom · stays generic for reuse. ~220 words at 165 wpm = 80 sec.
-              </div>
-            </div>
-          </details>
         </div>
       )}
 
-      {/* V2 · OPERATOR PLAYBOOK STATUS · stakeholder health + MEDDPICC qualification depth */}
-      <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Stakeholder Health Card */}
-        <div className={`p-4 rounded-xl border ${
-          sHealth === "complete" ? "bg-good/5 border-good/30" :
-          sHealth === "partial" ? "bg-accent/5 border-accent/30" :
-          sHealth === "single-thread" ? "bg-warn/5 border-warn/30" :
-          "bg-hot/5 border-hot/30"
-        }`}>
-          <div className="flex items-baseline justify-between mb-2">
-            <div className="text-[10px] text-muted uppercase tracking-wider font-bold">
-              ⭐ Star Map · stakeholder health
-              <span className="ml-2 text-accent">V2</span>
+      {/* HM / NOTE meta */}
+      {(opp.hm || opp.note) && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+          {opp.hm && (
+            <div className="bg-surface-2 border border-border rounded-lg p-4">
+              <div className="text-[10px] text-muted uppercase tracking-wider mb-1">Hiring Manager / Primary Thread</div>
+              <div className="text-sm font-semibold">{opp.hm}</div>
             </div>
-            <Link href="/threads" className="text-[10px] text-accent hover:underline">View →</Link>
-          </div>
-          <div className={`text-lg font-bold mb-1 ${
-            sHealth === "complete" ? "text-good" :
-            sHealth === "partial" ? "text-accent" :
-            sHealth === "single-thread" ? "text-warn" :
-            "text-hot"
-          }`}>
-            {healthLabel(sHealth)}
-          </div>
-          {sMissing.length > 0 ? (
-            <div className="text-xs text-text-dim">
-              Need: {sMissing.map((m) => m.label).join(" + ")}
+          )}
+          {opp.loom !== undefined && (
+            <div className="bg-surface-2 border border-border rounded-lg p-4">
+              <div className="text-[10px] text-muted uppercase tracking-wider mb-1">Loom status</div>
+              <div className={`text-sm font-semibold ${opp.loom ? "text-good" : "text-warn"}`}>
+                {opp.loom ? "✓ Loom sent" : "○ No Loom yet"}
+              </div>
             </div>
-          ) : (
-            <div className="text-xs text-text-dim">All 3 required roles engaged</div>
           )}
         </div>
+      )}
 
-        {/* MEDDPICC Card */}
-        <div className={`p-4 rounded-xl border ${
-          dealAtRisk ? "bg-warn/5 border-warn/30" : "bg-good/5 border-good/30"
-        }`}>
-          <div className="flex items-baseline justify-between mb-2">
-            <div className="text-[10px] text-muted uppercase tracking-wider font-bold">
-              🎯 MEDDPICC · qualification depth
-              <span className="ml-2 text-accent">V2</span>
-            </div>
-            <div className="text-[10px] text-muted">{meddpiccTotalPoints}/21 pts</div>
-          </div>
-          <div className={`text-lg font-bold mb-2 ${dealAtRisk ? "text-warn" : "text-good"}`}>
-            {meddpiccSolid} solid · {meddpiccMapped} mapped of 7
-            {dealAtRisk && <span className="ml-2 text-xs">· Deal at risk</span>}
-          </div>
-          <div className="flex gap-1 flex-wrap">
-            {MEDDPICC_FIELDS.map((f, i) => {
-              const r = meddpiccRatings[i];
-              return (
-                <button
-                  key={`${f.key}-${i}`}
-                  onClick={() => updateMeddpicc(f.key, r as 0 | 1 | 2 | 3)}
-                  title={`${f.label} · ${f.question} · click to toggle (1→2→3)`}
-                  className={`w-7 h-7 rounded text-[11px] font-bold flex items-center justify-center transition ${
-                    r === 3 ? "bg-good text-white" :
-                    r === 2 ? "bg-accent text-white" :
-                    r === 1 ? "bg-warn/30 text-warn border border-warn/40" :
-                    "bg-surface-2 text-muted border border-border hover:border-accent"
-                  }`}
-                >
-                  {f.letter}
-                </button>
-              );
-            })}
-          </div>
-          <div className="text-[10px] text-text-dim mt-2">Click a letter to cycle rating · 0 unmapped → 1 partial → 2 mapped → 3 solid</div>
+      {/* ============================================================
+          GROUP (e) · MISSION CADENCE
+          ============================================================ */}
+      <h2 className="text-[11px] font-mono uppercase tracking-[2px] text-muted mb-3 mt-10">Mission Cadence</h2>
+      <div className="card mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-lg font-bold flex items-center gap-2">
+            <span>📊</span> Mission Cadence
+          </h2>
+          <div className="text-xs text-muted">{cadenceDone}/6 complete</div>
+        </div>
+        <div className="progress-track mb-4">
+          <div className="progress-fill" style={{ width: `${cadencePct}%` }} />
+        </div>
+        <div className="space-y-2">
+          {CADENCE_STEPS.map((step, i) => {
+            const doneDate = oppCadence[step.id];
+            const done = !!doneDate;
+            return (
+              <div
+                key={step.id}
+                onClick={() => toggleCadence(step.id)}
+                className={`flex items-start gap-3 p-3 border rounded-lg cursor-pointer transition ${
+                  done ? "bg-good/10 border-good/40" : "bg-surface-2 border-border hover:border-border-strong"
+                }`}
+              >
+                <div className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${
+                  done ? "bg-good text-white border-good" : "bg-surface border-border text-muted"
+                }`}>
+                  {done ? "✓" : i + 1}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <span>{step.icon}</span>
+                    <span className="text-sm font-semibold">{step.label}</span>
+                  </div>
+                  <div className="text-[11px] text-text-dim mt-0.5">{step.desc}</div>
+                  {done && <div className="text-[10px] text-good mt-1">✓ {doneDate}</div>}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
+      {/* ============================================================
+          GROUP (f) · TOOLS · compact row
+          ============================================================ */}
+      <h2 className="text-[11px] font-mono uppercase tracking-[2px] text-muted mb-3 mt-10">Tools</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+        <Link href={`/briefing?opp=${id}`} className="bg-surface-2 border border-border rounded-lg p-3 text-center hover:border-accent hover:bg-surface-3 transition">
+          <div className="text-xl mb-1">🎯</div>
+          <div className="text-xs font-semibold">Briefing Lab</div>
+          <div className="text-[10px] text-muted">DM · Loom · Cover</div>
+        </Link>
+        <Link href={`/cv?opp=${id}`} className="bg-surface-2 border border-border rounded-lg p-3 text-center hover:border-accent hover:bg-surface-3 transition">
+          <div className="text-xl mb-1">📄</div>
+          <div className="text-xs font-semibold">CV Analyser</div>
+          <div className="text-[10px] text-muted">Tailor for this JD</div>
+        </Link>
+        <Link href={`/coach?opp=${id}`} className="bg-surface-2 border border-border rounded-lg p-3 text-center hover:border-accent hover:bg-surface-3 transition">
+          <div className="text-xl mb-1">🤖</div>
+          <div className="text-xs font-semibold">Co-Pilot</div>
+          <div className="text-[10px] text-muted">Ask Claude w/ context</div>
+        </Link>
+        {opp.url ? (
+          <a href={opp.url} target="_blank" rel="noreferrer" className="bg-surface-2 border border-border rounded-lg p-3 text-center hover:border-accent hover:bg-surface-3 transition">
+            <div className="text-xl mb-1">🔗</div>
+            <div className="text-xs font-semibold">Job Posting</div>
+            <div className="text-[10px] text-muted">Open ATS</div>
+          </a>
+        ) : (
+          <div className="bg-surface border border-border rounded-lg p-3 text-center opacity-50">
+            <div className="text-xl mb-1">🔗</div>
+            <div className="text-xs font-semibold">No URL set</div>
+          </div>
+        )}
+      </div>
+
+      {/* ============================================================
+          GROUP (g) · ADMIN · Time invested · Notes · Move Stage
+          ============================================================ */}
+      <h2 className="text-[11px] font-mono uppercase tracking-[2px] text-muted mb-3 mt-10">Admin</h2>
+
       {/* TIME INVESTED · velocity discipline tracker */}
       {(opp.hoursSpent !== undefined || (opp.timestamps && opp.timestamps.length > 0)) && (
-        <div className="mb-6 p-4 bg-surface border border-border rounded-xl">
+        <div className="mb-4 p-4 bg-surface border border-border rounded-xl">
           <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
             <div>
               <div className="text-[10px] text-muted uppercase tracking-wider font-bold mb-1">⏱ Time invested</div>
@@ -758,195 +978,8 @@ Cheers,
         </div>
       )}
 
-      {/* CREDENTIAL CHIPS · your always-on proof layer · edit to your own credentials */}
-      <div className="mb-6 p-4 bg-gradient-to-r from-surface-2 to-surface border border-border rounded-xl">
-        <div className="text-[10px] text-muted uppercase tracking-wider mb-2 font-bold">Your credential layer (always-on)</div>
-        <p className="text-[11px] text-text-dim">Add your own quantified wins and marquee logos here so they stay visible during interview demos.</p>
-      </div>
-
-      {/* QUICK LAUNCHPAD */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
-        <Link href={`/briefing?opp=${id}`} className="bg-surface-2 border border-border rounded-lg p-3 text-center hover:border-accent hover:bg-surface-3 transition">
-          <div className="text-xl mb-1">🎯</div>
-          <div className="text-xs font-semibold">Briefing Lab</div>
-          <div className="text-[10px] text-muted">DM · Loom · Cover</div>
-        </Link>
-        <Link href={`/cv?opp=${id}`} className="bg-surface-2 border border-border rounded-lg p-3 text-center hover:border-accent hover:bg-surface-3 transition">
-          <div className="text-xl mb-1">📄</div>
-          <div className="text-xs font-semibold">CV Analyser</div>
-          <div className="text-[10px] text-muted">Tailor for this JD</div>
-        </Link>
-        <Link href={`/coach?opp=${id}`} className="bg-surface-2 border border-border rounded-lg p-3 text-center hover:border-accent hover:bg-surface-3 transition">
-          <div className="text-xl mb-1">🤖</div>
-          <div className="text-xs font-semibold">Co-Pilot</div>
-          <div className="text-[10px] text-muted">Ask Claude w/ context</div>
-        </Link>
-        {opp.url ? (
-          <a href={opp.url} target="_blank" rel="noreferrer" className="bg-surface-2 border border-border rounded-lg p-3 text-center hover:border-accent hover:bg-surface-3 transition">
-            <div className="text-xl mb-1">🔗</div>
-            <div className="text-xs font-semibold">Job Posting</div>
-            <div className="text-[10px] text-muted">Open ATS</div>
-          </a>
-        ) : (
-          <div className="bg-surface border border-border rounded-lg p-3 text-center opacity-50">
-            <div className="text-xl mb-1">🔗</div>
-            <div className="text-xs font-semibold">No URL set</div>
-          </div>
-        )}
-      </div>
-
-      {/* Two-column: Solar System + Cadence */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        {/* SOLAR SYSTEM · Multi-thread */}
-        <div className="card bg-gradient-to-br from-surface to-navy/5">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold flex items-center gap-2">
-              <span>🌌</span> Multi-thread System
-            </h2>
-            <div className="text-xs text-muted">{threadPct}% reached</div>
-          </div>
-          {contacts.length === 0 ? (
-            <div className="text-center py-12 text-sm text-text-dim">
-              <div className="text-4xl mb-2 opacity-40">🪐</div>
-              No contacts mapped yet.
-              <div className="text-xs mt-1">Add APAC AE → Recruiter → Peer to populate orbits.</div>
-            </div>
-          ) : (
-            <SolarSystem company={opp.company} contacts={contacts} size="md" />
-          )}
-          <div className="flex gap-2 flex-wrap text-[10px] mt-3 justify-center pt-3 border-t border-border">
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-muted opacity-50" />Identified</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-navy" />Silent</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-accent" />DM sent</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-good" />Replied</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-hot opacity-60" />Cold</span>
-          </div>
-        </div>
-
-        {/* CADENCE · 6-step Mission Cycle */}
-        <div className="card">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold flex items-center gap-2">
-              <span>📊</span> Mission Cadence
-            </h2>
-            <div className="text-xs text-muted">{cadenceDone}/6 complete</div>
-          </div>
-          <div className="progress-track mb-4">
-            <div className="progress-fill" style={{ width: `${cadencePct}%` }} />
-          </div>
-          <div className="space-y-2">
-            {CADENCE_STEPS.map((step, i) => {
-              const doneDate = oppCadence[step.id];
-              const done = !!doneDate;
-              return (
-                <div
-                  key={step.id}
-                  onClick={() => toggleCadence(step.id)}
-                  className={`flex items-start gap-3 p-3 border rounded-lg cursor-pointer transition ${
-                    done ? "bg-good/10 border-good/40" : "bg-surface-2 border-border hover:border-border-strong"
-                  }`}
-                >
-                  <div className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${
-                    done ? "bg-good text-white border-good" : "bg-surface border-border text-muted"
-                  }`}>
-                    {done ? "✓" : i + 1}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span>{step.icon}</span>
-                      <span className="text-sm font-semibold">{step.label}</span>
-                    </div>
-                    <div className="text-[11px] text-text-dim mt-0.5">{step.desc}</div>
-                    {done && <div className="text-[10px] text-good mt-1">✓ {doneDate}</div>}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* CONTACTS · Detail list with inline status update */}
-      <div className="card mb-6">
-        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
-          <span>👥</span> Contact Roster · {contacts.length} on board
-        </h2>
-        {contacts.length === 0 ? (
-          <p className="text-sm text-text-dim">No contacts mapped. Use the Briefing Lab to start researching.</p>
-        ) : (
-          <div className="space-y-2">
-            {contacts.map((c) => (
-              <div key={c.name} className="flex items-center gap-3 p-3 bg-surface-2 border border-border rounded-lg">
-                <div className={`px-2 py-1 rounded text-[10px] font-semibold ${STATUS_COLOR[c.status]}`}>
-                  {STATUS_LABEL[c.status]}
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-semibold">{c.name}</div>
-                  <div className="text-xs text-text-dim">{c.title || c.role.replace("_", " ")}</div>
-                  {c.notes && <div className="text-[11px] text-muted italic mt-0.5">{c.notes}</div>}
-                </div>
-                <div className="flex items-center gap-2">
-                  <select
-                    value={c.status}
-                    onChange={(e) => updateContactStatus(c.name, e.target.value as ContactStatus)}
-                    className="text-[11px] bg-surface border border-border rounded px-2 py-1"
-                  >
-                    {(Object.keys(STATUS_LABEL) as ContactStatus[]).map((s) => (
-                      <option key={s} value={s}>{STATUS_LABEL[s]}</option>
-                    ))}
-                  </select>
-                  {c.linkedin && (
-                    <a href={c.linkedin} target="_blank" rel="noreferrer" className="text-xs text-navy hover:underline whitespace-nowrap">
-                      LinkedIn ↗
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* REFERENCE STATUS */}
-      {opp.reference && (
-        <div className="card mb-6">
-          <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
-            <span>📞</span> Reference Activation
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-            <div>
-              <div className="text-[10px] text-muted uppercase tracking-wider">Status</div>
-              <div className={`font-semibold ${opp.reference.briefed ? "text-good" : "text-warn"}`}>
-                {opp.reference.briefed ? "✓ Briefed" : "⚠ Not briefed"}
-              </div>
-            </div>
-            {opp.reference.briefedAt && (
-              <div>
-                <div className="text-[10px] text-muted uppercase tracking-wider">Briefed</div>
-                <div>{opp.reference.briefedAt}</div>
-              </div>
-            )}
-            {opp.reference.expectedCallWindow && (
-              <div>
-                <div className="text-[10px] text-muted uppercase tracking-wider">Call window</div>
-                <div>{opp.reference.expectedCallWindow}</div>
-              </div>
-            )}
-            <div>
-              <div className="text-[10px] text-muted uppercase tracking-wider">Outcome</div>
-              <div className="capitalize">{opp.reference.outcome || "pending"}</div>
-            </div>
-          </div>
-          {opp.reference.notes && (
-            <div className="mt-3 text-[11px] text-text-dim italic bg-surface-3 p-2 rounded">
-              {opp.reference.notes}
-            </div>
-          )}
-        </div>
-      )}
-
       {/* NOTES · Editable */}
-      <div className="card mb-6">
+      <div className="card mb-4">
         <h2 className="text-lg font-bold mb-2 flex items-center gap-2">
           <span>📝</span> Mission Notes
         </h2>
@@ -993,26 +1026,6 @@ Cheers,
           ))}
         </div>
       </div>
-
-      {/* HM / NOTE meta */}
-      {(opp.hm || opp.note) && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-          {opp.hm && (
-            <div className="bg-surface-2 border border-border rounded-lg p-4">
-              <div className="text-[10px] text-muted uppercase tracking-wider mb-1">Hiring Manager / Primary Thread</div>
-              <div className="text-sm font-semibold">{opp.hm}</div>
-            </div>
-          )}
-          {opp.loom !== undefined && (
-            <div className="bg-surface-2 border border-border rounded-lg p-4">
-              <div className="text-[10px] text-muted uppercase tracking-wider mb-1">Loom status</div>
-              <div className={`text-sm font-semibold ${opp.loom ? "text-good" : "text-warn"}`}>
-                {opp.loom ? "✓ Loom sent" : "○ No Loom yet"}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }
