@@ -143,15 +143,15 @@ export function ProbeLearningCard({ state }: { state: AppState }) {
       <div className="grid grid-cols-3 gap-2 mb-4">
         <div className="bg-good/10 border border-good/30 rounded-md p-3 text-center">
           <div className="text-[20px] font-bold text-good leading-none">{stats.approved.length}</div>
-          <div className="text-[9px] uppercase tracking-[1.4px] text-good mt-1 font-bold">Approved</div>
+          <div className="text-[10px] uppercase tracking-[1.4px] text-good mt-1 font-bold">Approved</div>
         </div>
         <div className="bg-cool/10 border border-cool/30 rounded-md p-3 text-center">
           <div className="text-[20px] font-bold text-cool leading-none">{stats.watchlist.length}</div>
-          <div className="text-[9px] uppercase tracking-[1.4px] text-cool mt-1 font-bold">Watchlist</div>
+          <div className="text-[10px] uppercase tracking-[1.4px] text-cool mt-1 font-bold">Watchlist</div>
         </div>
         <div className="bg-hot/10 border border-hot/30 rounded-md p-3 text-center">
           <div className="text-[20px] font-bold text-hot leading-none">{stats.denied.length}</div>
-          <div className="text-[9px] uppercase tracking-[1.4px] text-hot mt-1 font-bold">Jettisoned</div>
+          <div className="text-[10px] uppercase tracking-[1.4px] text-hot mt-1 font-bold">Jettisoned</div>
         </div>
       </div>
 
@@ -161,7 +161,7 @@ export function ProbeLearningCard({ state }: { state: AppState }) {
           {patterns.map((p, i) => (
             <div key={i} className="flex items-start gap-3 bg-surface-2 border border-border rounded-md p-3">
               <div className="flex-shrink-0">
-                <span className={`text-[9px] uppercase tracking-[1.4px] px-2 py-1 rounded font-bold ${
+                <span className={`text-[10px] uppercase tracking-[1.4px] px-2 py-1 rounded font-bold ${
                   p.confidence === "locked"
                     ? "bg-good text-white"
                     : p.confidence === "strong"

@@ -166,7 +166,7 @@ export default function ResumeLabPage() {
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><StarChart size={20} strokeWidth={1.5} /></span>
             <h1 className="display text-glow text-[34px] leading-[1.1] text-text m-0">Resume Lab</h1>
-            <span className="font-mono text-[9px] uppercase tracking-[2px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded">V4.2</span>
+            <span className="font-mono text-[10px] uppercase tracking-[2px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded">V4.2</span>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
             Multi-pass audit · probing questions surface metrics you forgot · four lenses (readiness · rewrite · LinkedIn · outreach) from one input · version history tracks your progress over time.
@@ -200,7 +200,7 @@ export default function ResumeLabPage() {
           {/* Phase 1 · first-pass setup */}
           {phase === "first-pass" && (
             <div className="bg-surface border border-border rounded-lg p-5 relative">
-              <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">rl.02</span>
+              <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">rl.02</span>
               <div className="flex items-baseline gap-2 mb-3">
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[1.8px] bg-accent text-white px-2 py-0.5 rounded">Step 1</span>
                 <strong className="text-[14px] text-text">First-pass audit</strong>
@@ -271,7 +271,7 @@ export default function ResumeLabPage() {
           {/* Phase 2 · probing questions */}
           {phase === "probing" && audit?.probingQuestions && (
             <div className="bg-surface border border-border rounded-lg p-5 relative">
-              <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">rl.03</span>
+              <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">rl.03</span>
               <div className="flex items-baseline gap-2 mb-3 flex-wrap">
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[1.8px] bg-accent text-white px-2 py-0.5 rounded">Step 2</span>
                 <strong className="text-[14px] text-text">Probing questions · sharpen the audit</strong>
@@ -349,24 +349,24 @@ export default function ResumeLabPage() {
                 <div className="bg-surface border border-border rounded-md p-4 relative">
                   <div className="font-mono text-[10px] text-muted uppercase tracking-[1.8px] font-semibold mb-2">ATS Score</div>
                   <div className={`font-mono text-[32px] font-bold leading-none ${scoreColor(audit.atsScore)}`}>{audit.atsScore}</div>
-                  <span className="absolute top-2 right-2 font-mono text-[9px] text-muted/60">rl.04</span>
+                  <span className="absolute top-2 right-2 font-mono text-[10px] text-muted/60">rl.04</span>
                 </div>
                 <div className="bg-surface border border-border rounded-md p-4 relative">
                   <div className="font-mono text-[10px] text-muted uppercase tracking-[1.8px] font-semibold mb-2">Narrative</div>
                   <div className={`font-mono text-[32px] font-bold leading-none ${scoreColor(audit.narrativeCoherence)}`}>{audit.narrativeCoherence}</div>
-                  <span className="absolute top-2 right-2 font-mono text-[9px] text-muted/60">rl.05</span>
+                  <span className="absolute top-2 right-2 font-mono text-[10px] text-muted/60">rl.05</span>
                 </div>
                 <div className="bg-surface border border-border rounded-md p-4 relative">
                   <div className="font-mono text-[10px] text-muted uppercase tracking-[1.8px] font-semibold mb-2">Version</div>
                   <div className="font-mono text-[32px] font-bold leading-none text-text">{audit.version || 1}</div>
-                  <span className="absolute top-2 right-2 font-mono text-[9px] text-muted/60">rl.06</span>
+                  <span className="absolute top-2 right-2 font-mono text-[10px] text-muted/60">rl.06</span>
                 </div>
                 <div className="bg-surface border border-border rounded-md p-4 relative">
                   <div className="font-mono text-[10px] text-muted uppercase tracking-[1.8px] font-semibold mb-2">Readiness</div>
                   <div className={`font-mono text-[14px] uppercase font-bold tracking-[1.2px] leading-none mt-2 ${
                     audit.overallReadiness === "ship-it" ? "text-good" : audit.overallReadiness === "tighten-first" ? "text-warn" : "text-hot"
                   }`}>{audit.overallReadiness}</div>
-                  <span className="absolute top-2 right-2 font-mono text-[9px] text-muted/60">rl.07</span>
+                  <span className="absolute top-2 right-2 font-mono text-[10px] text-muted/60">rl.07</span>
                 </div>
               </div>
 
@@ -377,7 +377,7 @@ export default function ResumeLabPage() {
 
               {audit.strategicInsights && audit.strategicInsights.length > 0 && (
                 <div className="bg-purple/5 border border-purple/30 rounded-lg p-5 relative">
-                  <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">rl.08</span>
+                  <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">rl.08</span>
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-purple"><Sparkle size={18} strokeWidth={1.5} /></span>
                     <h3 className="text-[15px] font-semibold text-text m-0">Strategic insights · positioning</h3>
@@ -418,7 +418,7 @@ export default function ResumeLabPage() {
                         <span className="font-mono text-[14px] font-bold text-accent w-6 flex-shrink-0">{step.priority}</span>
                         <div className="flex-1">
                           <p className="text-[12px] text-text leading-relaxed m-0">{step.action}</p>
-                          <span className={`font-mono text-[9px] uppercase tracking-[1.5px] font-bold mt-1 inline-block ${
+                          <span className={`font-mono text-[10px] uppercase tracking-[1.5px] font-bold mt-1 inline-block ${
                             step.timeframe === "this-week" ? "text-hot" : step.timeframe === "this-month" ? "text-warn" : "text-muted"
                           }`}>· {step.timeframe.replace("-", " ")}</span>
                         </div>
@@ -463,7 +463,7 @@ export default function ResumeLabPage() {
       {/* ─────────────── RESUME REWRITE TAB ─────────────── */}
       {tab === "rewrite" && audit && (
         <div className="bg-surface border border-border rounded-lg p-5 relative">
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">rl.09</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">rl.09</span>
           <h3 className="text-[15px] font-semibold text-text mb-3">Resume rewrite suggestions</h3>
           {audit.resumeRewrites && audit.resumeRewrites.length > 0 ? (
             <div className="space-y-4">
@@ -472,12 +472,12 @@ export default function ResumeLabPage() {
                   <div className="font-mono text-[10px] uppercase tracking-[1.8px] text-accent font-bold mb-2">{r.section}</div>
                   {r.before && (
                     <div className="bg-hot/5 border border-hot/20 rounded p-3 mb-2">
-                      <div className="font-mono text-[9px] uppercase tracking-[1.5px] text-hot font-bold mb-1">Before</div>
+                      <div className="font-mono text-[10px] uppercase tracking-[1.5px] text-hot font-bold mb-1">Before</div>
                       <p className="text-[12px] text-text-dim line-through m-0">{r.before}</p>
                     </div>
                   )}
                   <div className="bg-good/5 border border-good/20 rounded p-3 mb-2">
-                    <div className="font-mono text-[9px] uppercase tracking-[1.5px] text-good font-bold mb-1">After</div>
+                    <div className="font-mono text-[10px] uppercase tracking-[1.5px] text-good font-bold mb-1">After</div>
                     <p className="text-[12px] text-text m-0">{r.after}</p>
                   </div>
                   <p className="text-[11px] text-muted italic m-0">{r.why}</p>
@@ -493,7 +493,7 @@ export default function ResumeLabPage() {
       {/* ─────────────── LINKEDIN PACK TAB ─────────────── */}
       {tab === "linkedin" && audit && (
         <div className="bg-surface border border-border rounded-lg p-5 relative">
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">rl.10</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">rl.10</span>
           <h3 className="text-[15px] font-semibold text-text mb-3">LinkedIn About · auto-derived</h3>
           {audit.linkedinAbout ? (
             <>
@@ -519,7 +519,7 @@ export default function ResumeLabPage() {
       {/* ─────────────── OUTREACH TAB ─────────────── */}
       {tab === "outreach" && audit && (
         <div className="bg-surface border border-border rounded-lg p-5 relative">
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">rl.11</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">rl.11</span>
           <h3 className="text-[15px] font-semibold text-text mb-3">Outreach DM openers · auto-derived</h3>
           {audit.outreachHooks && audit.outreachHooks.length > 0 ? (
             <div className="space-y-3">

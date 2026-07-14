@@ -152,14 +152,14 @@ export function MissionControlV4({ state }: { state: AppState; update?: (fn: (s:
           <div className="text-[11px] text-text-dim leading-tight">
             {readiness < 30 ? "build foundation" : readiness < 70 ? "filling gaps" : readiness < 100 ? "near complete" : "fully calibrated"}
           </div>
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">mc.01</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">mc.01</span>
         </Link>
 
         <Link href="/pipeline" className="bg-surface border border-border rounded-lg p-5 hover:border-accent/50 transition group relative">
           <div className="text-[10px] uppercase tracking-[2px] text-muted font-semibold mb-2">Active opps</div>
           <div className="font-mono text-[40px] font-bold leading-none text-text mb-1.5">{stats.activeCount}</div>
           <div className="text-[11px] text-text-dim leading-tight">in pipeline now</div>
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">mc.02</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">mc.02</span>
         </Link>
 
         <div className="bg-surface border border-border rounded-lg p-5 relative">
@@ -169,7 +169,7 @@ export function MissionControlV4({ state }: { state: AppState; update?: (fn: (s:
           </div>
           <div className="font-mono text-[40px] font-bold leading-none text-text mb-1.5">{stats.streak}<span className="text-[24px] text-text-dim">d</span></div>
           <div className="text-[11px] text-text-dim leading-tight">{stats.streak === 0 ? "log today to start" : "execution streak"}</div>
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">mc.03</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">mc.03</span>
         </div>
 
         <Link href="/interview-day" className="bg-surface border border-border rounded-lg p-5 hover:border-accent/50 transition group relative">
@@ -179,7 +179,7 @@ export function MissionControlV4({ state }: { state: AppState; update?: (fn: (s:
           </div>
           <div className="font-mono text-[40px] font-bold leading-none text-text mb-1.5">{imminent.length}</div>
           <div className="text-[11px] text-text-dim leading-tight">interviews next 72h</div>
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">mc.04</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">mc.04</span>
         </Link>
       </div>
 
@@ -197,7 +197,7 @@ export function MissionControlV4({ state }: { state: AppState; update?: (fn: (s:
           <WeeklyTargetTile label="Outreach" value={stats.outreach} target={WEEKLY_TARGETS.outreach} />
           <WeeklyTargetTile label="Follow-ups" value={stats.followups} target={WEEKLY_TARGETS.followups} />
         </div>
-        <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">mc.05</span>
+        <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">mc.05</span>
       </div>
 
       {/* ── FUNNEL BARS + WEEKLY PROGRESS · side-by-side ── */}
@@ -224,7 +224,7 @@ export function MissionControlV4({ state }: { state: AppState; update?: (fn: (s:
               );
             })}
           </div>
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">mc.06</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">mc.06</span>
         </div>
 
         {/* Weekly Progress mini chart */}
@@ -252,7 +252,7 @@ export function MissionControlV4({ state }: { state: AppState; update?: (fn: (s:
               );
             })}
           </div>
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">mc.07</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">mc.07</span>
         </div>
       </div>
 

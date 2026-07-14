@@ -158,8 +158,8 @@ export default function OnboardingPage() {
               >
                 <span>{s.icon}</span>
                 <span>{s.label}</span>
-                {isCompleted && <span className="text-[9px]">✓</span>}
-                {isSkipped && <span className="text-[9px]">⤴</span>}
+                {isCompleted && <span className="text-[10px]">✓</span>}
+                {isSkipped && <span className="text-[10px]">⤴</span>}
               </button>
             );
           })}

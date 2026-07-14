@@ -197,7 +197,7 @@ export default function Pipeline() {
           const count = allOpps.filter((o) => o.stage === s.id).length;
           return (
             <div key={s.id} className="bg-surface border border-border rounded-md p-3 text-center">
-              <div className="font-mono text-[9px] text-muted uppercase tracking-[1.8px] font-semibold mb-1.5">{s.label}</div>
+              <div className="font-mono text-[10px] text-muted uppercase tracking-[1.8px] font-semibold mb-1.5">{s.label}</div>
               <div className="font-mono text-[26px] font-bold leading-none text-text">{count}</div>
             </div>
           );

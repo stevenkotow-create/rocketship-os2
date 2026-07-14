@@ -147,7 +147,7 @@ export default function LiveRoles() {
           { label: "Companies live", value: companiesLive, tone: "text-text" },
         ].map((s) => (
           <div key={s.label} className="stat">
-            <div className="font-mono text-[9px] font-bold uppercase tracking-[1.8px] text-muted">{s.label}</div>
+            <div className="font-mono text-[10px] font-bold uppercase tracking-[1.8px] text-muted">{s.label}</div>
             <div className={`mt-1.5 font-mono text-[30px] font-bold leading-none ${s.tone}`}>
               {loading ? <span className="text-muted">··</span> : <AnimatedNumber value={s.value} />}
             </div>
@@ -225,7 +225,7 @@ export default function LiveRoles() {
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-[15px] font-semibold text-text">{j.title}</span>
                     {j.remote && (
-                      <span className="rounded bg-good/15 px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-good">
+                      <span className="rounded bg-good/15 px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-good">
                         Remote
                       </span>
                     )}

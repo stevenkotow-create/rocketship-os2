@@ -292,7 +292,7 @@ export default function ProbesInbox() {
                                 d.v >= 4 ? "bg-good/15 text-good" : d.v >= 3 ? "bg-warn/15 text-warn" : "bg-hot/15 text-hot"
                               }`}
                             >
-                              <div className="opacity-70 text-[9px]">{d.k}</div>
+                              <div className="opacity-70 text-[10px]">{d.k}</div>
                               <div>{d.v}/5</div>
                             </div>
                           ))}
@@ -309,7 +309,7 @@ export default function ProbesInbox() {
                             {availableRoles.slice(0, 4).map((r, i) => (
                               <div key={i} className="flex items-baseline gap-2 text-[12px]">
                                 <span
-                                  className={`badge text-[9px] ${
+                                  className={`badge text-[10px] ${
                                     r.apacFit && r.tierFit && r.freshnessOK
                                       ? "bg-good/15 text-good"
                                       : "bg-muted/15 text-muted"

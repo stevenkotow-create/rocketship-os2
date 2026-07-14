@@ -344,7 +344,7 @@ export default function MissionControl() {
         >
           <div className="label-caps flex items-center gap-2">
             <span>Star Map · stakeholder health</span>
-            <span className="text-[9px] font-bold text-accent bg-accent/10 px-1.5 py-0.5 rounded">V2</span>
+            <span className="text-[10px] font-bold text-accent bg-accent/10 px-1.5 py-0.5 rounded">V2</span>
           </div>
           <div className="text-[17px] font-bold text-navy leading-tight mt-0.5">
             {complete} of {healthByOpp.length} fully threaded
@@ -453,7 +453,7 @@ export default function MissionControl() {
                 <div className="text-[10px] text-muted">/{f.target[0]}–{f.target[1]}</div>
               </div>
               <div className="text-[11px] text-text-dim mt-1.5 leading-tight font-medium">{f.icon} {f.name.split(" · ")[1] || f.name}</div>
-              <div className={`text-[9px] uppercase tracking-wider mt-1 font-semibold ${f.health === "good" ? "text-good" : f.health === "warn" ? "text-warn" : "text-hot"}`}>
+              <div className={`text-[10px] uppercase tracking-wider mt-1 font-semibold ${f.health === "good" ? "text-good" : f.health === "warn" ? "text-warn" : "text-hot"}`}>
                 {f.health === "good" ? "On target" : f.health === "warn" ? "Heavy" : `Need ${f.target[0] - f.count}`}
               </div>
             </div>

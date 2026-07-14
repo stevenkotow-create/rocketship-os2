@@ -31,7 +31,7 @@ export const THEME_TOKENS = {
     // ── Text · deep navy primary, AAA contrast ──
     "--c-text": "16 35 66",          // #102342 deep navy · 13.5:1 on bg
     "--c-text-dim": "64 86 122",     // #40567A mid navy · 7.2:1 on bg
-    "--c-muted": "120 138 165",      // #788AA5 muted slate · still readable
+    "--c-muted": "98 116 144",       // darker slate · stronger contrast on cream (AA for small text)
     // ── Brand colours ──
     "--c-navy": "16 35 66",          // primary navy
     "--c-accent": "229 102 42",      // #E5662A rocket orange (unchanged)
@@ -56,7 +56,7 @@ export const THEME_TOKENS = {
     // ── Text · crisp off-white, AAA contrast ──
     "--c-text": "240 245 250",       // #F0F5FA off-white · 14.8:1 on bg
     "--c-text-dim": "184 200 220",   // #B8C8DC light slate · 8.5:1 on bg
-    "--c-muted": "130 150 178",      // #8296B2 muted slate · still readable
+    "--c-muted": "152 170 196",      // lighter slate · stronger contrast on navy (AA for small text)
     // ── Brand colours · icy blue leads in dark mode ──
     "--c-navy": "140 200 230",       // #8CC8E6 icy blue (was deep navy in light)
     "--c-accent": "140 200 230",     // icy blue primary accent · matches Starfield

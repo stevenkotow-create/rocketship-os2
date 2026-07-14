@@ -237,7 +237,7 @@ export default function OutreachFunnel() {
                 <div className="flex items-baseline justify-between mb-2 pb-2 border-b border-border">
                   <div>
                     <div className="flex items-baseline gap-1.5">
-                      <span className={`font-mono text-[9px] font-bold uppercase tracking-[1.4px] ${stage.textClass}`}>{stage.badge}</span>
+                      <span className={`font-mono text-[10px] font-bold uppercase tracking-[1.4px] ${stage.textClass}`}>{stage.badge}</span>
                       <span className="font-bold text-[12px] text-text">{stage.label}</span>
                     </div>
                     <div className="text-[10px] text-muted mt-0.5">{stage.description}</div>
@@ -275,7 +275,7 @@ function MetricCard({ label, value, tone, sub }: { label: string; value: number;
   const toneClass = METRIC_TONE_CLASS[tone] || "text-text";
   return (
     <div className={`bg-surface border border-border rounded-xl p-4`}>
-      <div className="font-mono text-[9px] font-bold text-muted uppercase tracking-[1.6px] mb-1">{label}</div>
+      <div className="font-mono text-[10px] font-bold text-muted uppercase tracking-[1.6px] mb-1">{label}</div>
       <div className={`text-[36px] font-bold ${toneClass} tabular-nums leading-none`}>{value}</div>
       <div className="text-[10px] text-muted mt-1.5">{sub}</div>
     </div>
@@ -292,7 +292,7 @@ function TouchRow({ contact, onLogTouch, onExpand, expanded, onAdvance }: {
           <div className="flex items-baseline gap-2 flex-wrap">
             <span className="text-[13px] font-bold text-text">{contact.name}</span>
             <span className="text-[10px] font-mono text-muted uppercase tracking-[1.2px]">{contact.role}</span>
-            {contact.verified && <span className="text-[9px] font-mono text-good">✓ verified</span>}
+            {contact.verified && <span className="text-[10px] font-mono text-good">✓ verified</span>}
           </div>
           <div className="text-[11px] text-text-dim mt-0.5">
             {contact.oppCompany} · {contact.oppPosition}
@@ -322,7 +322,7 @@ function FunnelCard({ contact, onLogTouch, onExpand, expanded, onAdvance }: {
         </div>
         <div className="text-[10px] text-text-dim leading-tight truncate">{contact.oppCompany}</div>
         <div className="flex items-baseline justify-between mt-1.5">
-          <span className="text-[9px] font-mono text-muted uppercase tracking-[1px]">{contact.role}</span>
+          <span className="text-[10px] font-mono text-muted uppercase tracking-[1px]">{contact.role}</span>
           <span className={`text-[10px] font-mono ${contact.daysUntilNextTouch < 0 ? "text-hot" : "text-muted"}`}>
             {contact.daysSinceTouch === Infinity ? "—" : `${contact.daysSinceTouch}d`}
           </span>
@@ -347,7 +347,7 @@ function ExpandedActions({ contact, onLogTouch, onAdvance }: {
         </Link>
       </div>
       <div>
-        <div className="font-mono text-[9px] font-bold text-muted uppercase tracking-[1.2px] mb-1">Advance stage</div>
+        <div className="font-mono text-[10px] font-bold text-muted uppercase tracking-[1.2px] mb-1">Advance stage</div>
         <div className="grid grid-cols-3 gap-1">
           {FUNNEL_STAGES.map((s) => (
             <button

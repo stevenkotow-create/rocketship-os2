@@ -81,7 +81,7 @@ export default function CompBenchmarks() {
                 <tr key={c.company} className={`border-b border-border last:border-0 ${isPipelineMatch ? "bg-accent/5" : i % 2 ? "bg-surface-2/40" : ""}`}>
                   <td className="py-2.5 px-3 font-semibold">
                     {c.company}
-                    {isPipelineMatch && <span className="ml-2 text-[9px] bg-accent/20 text-accent px-1.5 py-0.5 rounded uppercase tracking-wider">In pipeline</span>}
+                    {isPipelineMatch && <span className="ml-2 text-[10px] bg-accent/20 text-accent px-1.5 py-0.5 rounded uppercase tracking-wider">In pipeline</span>}
                   </td>
                   <td className="py-2.5 px-3 text-[12px] text-text-dim">{c.category}</td>
                   <td className="py-2.5 px-3 text-right font-mono">{display(c.base)}</td>

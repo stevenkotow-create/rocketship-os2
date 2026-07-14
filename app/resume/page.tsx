@@ -273,12 +273,12 @@ function VersionRow({ v, onSetMaster, onDelete }: { v: ResumeVersion; onSetMaste
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-sm font-semibold">{v.name}</span>
           {v.isMaster && (
-            <span className="text-[9px] bg-accent text-white px-1.5 py-0.5 rounded uppercase tracking-wider font-bold">
+            <span className="text-[10px] bg-accent text-white px-1.5 py-0.5 rounded uppercase tracking-wider font-bold">
               Master
             </span>
           )}
           {v.company && !v.isMaster && (
-            <span className="text-[9px] bg-cool/20 text-cool px-1.5 py-0.5 rounded uppercase tracking-wider">
+            <span className="text-[10px] bg-cool/20 text-cool px-1.5 py-0.5 rounded uppercase tracking-wider">
               {v.company}
             </span>
           )}

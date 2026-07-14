@@ -17,7 +17,7 @@
   --c-border-strong: 180 168 152;
   --c-text: 16 35 66;             /* #102342 deep navy · 13.5:1 on bg */
   --c-text-dim: 64 86 122;        /* #40567A mid navy · 7.2:1 on bg */
-  --c-muted: 120 138 165;
+  --c-muted: 98 116 144;
 
   --c-navy: 16 35 66;
   --c-accent: 229 102 42;         /* #E5662A rocket orange */
@@ -52,7 +52,7 @@ html[data-theme="dark"],
   --c-border-strong: 70 100 142;
   --c-text: 240 245 250;          /* #F0F5FA crisp off-white · 14.8:1 on bg */
   --c-text-dim: 184 200 220;      /* #B8C8DC · 8.5:1 on bg */
-  --c-muted: 130 150 178;
+  --c-muted: 152 170 196;
 
   --c-navy: 140 200 230;          /* #8CC8E6 icy blue · matches Starfield */
   --c-accent: 140 200 230;
@@ -504,6 +504,41 @@ html[data-theme="dark"] .lift:hover {
 @keyframes rs-orbit-rev { to { transform: rotate(-360deg); } }
 @keyframes rs-pulse { 0%, 100% { opacity: .5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
 
+/* ───────── ACCESSIBILITY · reduced motion ───────── */
+/* Universal reset · honours the OS setting AND an in-app force class (.rm-force on <html>).
+   Kills decorative animation (orbits, pulses, twinkle transitions) for anyone who opts out. */
 @media (prefers-reduced-motion: reduce) {
-  .animate-in, .animate-in-fade, .stagger > * { animation: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
+html.rm-force *, html.rm-force *::before, html.rm-force *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ───────── ACCESSIBILITY · larger text mode ───────── */
+/* .text-boost on <html> gently magnifies the content column (zoom reflows, unlike transform). */
+html.text-boost main { zoom: 1.14; }
+
+/* ───────── ACCESSIBILITY · skip link ───────── */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  transform: translateY(-120%);
+  transition: transform 150ms ease;
+  background: rgb(var(--c-accent));
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+.skip-link:focus { transform: translateY(0); outline: none; }

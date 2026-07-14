@@ -342,7 +342,7 @@ function LensRead({ label, framework, body }: { label: string; framework: string
     <div>
       <div className="flex items-baseline gap-2 mb-1 flex-wrap">
         <span className="text-[12px] font-bold text-navy">{label}</span>
-        <span className="text-[9px] uppercase tracking-[1.2px] text-purple-600 font-bold" style={{ color: "#6B5BD6" }}>
+        <span className="text-[10px] uppercase tracking-[1.2px] text-purple-600 font-bold" style={{ color: "#6B5BD6" }}>
           {framework}
         </span>
       </div>

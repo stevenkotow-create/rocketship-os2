@@ -112,7 +112,7 @@ export function TodayActions() {
                     <span className="text-[16px] flex-shrink-0">{categoryIcon(action.category)}</span>
                     <span className="text-[14px] font-semibold leading-tight">{action.title}</span>
                     {action.priority === 1 && (
-                      <span className="text-[9px] uppercase tracking-[1.4px] bg-accent text-white px-1.5 py-0.5 rounded font-bold">
+                      <span className="text-[10px] uppercase tracking-[1.4px] bg-accent text-white px-1.5 py-0.5 rounded font-bold">
                         Now
                       </span>
                     )}

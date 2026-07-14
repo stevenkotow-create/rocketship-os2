@@ -54,13 +54,13 @@ const themeBootstrapScript = `
     var tokens = mode === 'dark' ? {
       '--c-bg':'11 24 46','--c-surface':'18 36 62','--c-surface-2':'26 46 74','--c-surface-3':'38 60 92',
       '--c-border':'38 62 96','--c-border-strong':'70 100 142','--c-text':'240 245 250','--c-text-dim':'184 200 220',
-      '--c-muted':'130 150 178','--c-navy':'140 200 230','--c-accent':'140 200 230','--c-accent-2':'244 196 124',
+      '--c-muted':'152 170 196','--c-navy':'140 200 230','--c-accent':'140 200 230','--c-accent-2':'244 196 124',
       '--c-crimson':'240 140 130','--c-gold':'244 196 124','--c-good':'144 220 160','--c-warn':'240 184 100',
       '--c-hot':'240 140 130','--c-cool':'140 200 230','--c-purple':'175 152 220'
     } : {
       '--c-bg':'250 248 243','--c-surface':'255 254 250','--c-surface-2':'245 241 233','--c-surface-3':'236 230 220',
       '--c-border':'220 212 198','--c-border-strong':'180 168 152','--c-text':'16 35 66','--c-text-dim':'64 86 122',
-      '--c-muted':'120 138 165','--c-navy':'16 35 66','--c-accent':'229 102 42','--c-accent-2':'244 176 104',
+      '--c-muted':'98 116 144','--c-navy':'16 35 66','--c-accent':'229 102 42','--c-accent-2':'244 176 104',
       '--c-crimson':'184 51 58','--c-gold':'232 158 80','--c-good':'60 130 60','--c-warn':'232 158 80',
       '--c-hot':'184 51 58','--c-cool':'30 80 130','--c-purple':'100 70 140'
     };
@@ -80,10 +80,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-bg text-text min-h-screen overflow-hidden antialiased" suppressHydrationWarning>
         <Starfield />
         <AuthGate>
+          <a href="#main" className="skip-link">Skip to content</a>
           <AdminBanner />
           <div className="relative z-10 flex h-screen">
             <Sidebar />
-            <main className="flex-1 overflow-y-auto bg-transparent">
+            <main id="main" tabIndex={-1} aria-label="Main content" className="flex-1 overflow-y-auto bg-transparent">
               <div className="max-w-[1400px] mx-auto px-12 py-10 animate-in">{children}</div>
             </main>
           </div>

@@ -90,7 +90,7 @@ export default function BrandProgressPage() {
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><Beacon size={20} strokeWidth={1.5} /></span>
             <h1 className="display text-glow text-[34px] leading-[1.1] text-text m-0">Brand Progress</h1>
-            <span className="font-mono text-[9px] uppercase tracking-[2px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded">V4.2</span>
+            <span className="font-mono text-[10px] uppercase tracking-[2px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded">V4.2</span>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
             Track every post · log engagement · see which narrative pillars move the needle. Manual entry now · auto-pull via LinkedIn extension is the V5 unlock.
@@ -130,7 +130,7 @@ export default function BrandProgressPage() {
 
       {posts.length > 0 && (
         <div className="bg-surface border border-border rounded-lg p-5 mb-4 relative">
-          <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">bp.02</span>
+          <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">bp.02</span>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-accent"><Sparkle size={16} strokeWidth={1.5} /></span>
             <h3 className="text-[15px] font-semibold text-text m-0">Narrative pillar split</h3>
@@ -265,7 +265,7 @@ export default function BrandProgressPage() {
                   <div className="flex items-baseline gap-2 flex-wrap">
                     <strong className="text-[14px] text-text">{p.topic}</strong>
                     {pillar && (
-                      <span className="font-mono text-[9px] uppercase tracking-[1.5px] font-bold px-2 py-0.5 rounded" style={{ color: pillar.color, background: `color-mix(in srgb, ${pillar.color} 18%, transparent)` }}>
+                      <span className="font-mono text-[10px] uppercase tracking-[1.5px] font-bold px-2 py-0.5 rounded" style={{ color: pillar.color, background: `color-mix(in srgb, ${pillar.color} 18%, transparent)` }}>
                         {pillar.label}
                       </span>
                     )}

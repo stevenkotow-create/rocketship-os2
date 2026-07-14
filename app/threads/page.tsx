@@ -241,7 +241,7 @@ export default function MultithreadGalaxy() {
                   <div className="space-y-2">
                     {contacts.map((c) => (
                       <div key={c.name} className="flex items-center gap-2 p-2.5 bg-surface-2 border border-border rounded">
-                        <div className={`px-2 py-0.5 rounded text-[9px] font-semibold uppercase ${STATUS_PILL[c.status]}`}>
+                        <div className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase ${STATUS_PILL[c.status]}`}>
                           {STATUS_LABEL[c.status]}
                         </div>
                         <div className="flex-1 min-w-0">

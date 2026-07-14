@@ -86,7 +86,7 @@ export function StepWhyNow({
             >
               <div className="flex items-baseline justify-between gap-2 mb-1 flex-wrap">
                 <strong className={`text-[15px] ${isSelected ? "text-accent" : "text-navy"}`}>{r.label}</strong>
-                <span className={`text-[9px] uppercase tracking-[1.4px] font-bold px-2 py-0.5 rounded ${
+                <span className={`text-[10px] uppercase tracking-[1.4px] font-bold px-2 py-0.5 rounded ${
                   r.urgency === "high" ? "bg-hot/15 text-hot" : r.urgency === "medium" ? "bg-warn/15 text-warn" : "bg-cool/15 text-cool"
                 }`}>
                   {r.urgency} urgency

@@ -113,7 +113,7 @@ export default function ConstellationPage() {
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><ConstellationIcon size={20} strokeWidth={1.5} /></span>
             <h1 className="display text-glow text-[34px] leading-[1.1] text-text m-0">Constellation</h1>
-            <span className="font-mono text-[9px] uppercase tracking-[2px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded">Coming · V2.x</span>
+            <span className="font-mono text-[10px] uppercase tracking-[2px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded">Coming · V2.x</span>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-2xl">
             Your network as a constellation · not a LinkedIn list. Visual relationship graph spanning warm contacts, target rockets, and the stakeholders that thread you in.
@@ -127,7 +127,7 @@ export default function ConstellationPage() {
 
       {/* Hero · the constellation viz */}
       <div className="bg-surface border border-border rounded-lg p-6 mb-4 relative overflow-hidden">
-        <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">cn.02</span>
+        <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">cn.02</span>
 
         {/* Background topographic feel */}
         <svg viewBox="0 0 800 600" className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
@@ -263,7 +263,7 @@ export default function ConstellationPage() {
 
       {/* What's coming */}
       <div className="bg-purple/8 border border-purple/30 rounded-lg p-6 relative">
-        <span className="absolute top-3 right-3 font-mono text-[9px] text-muted/60 lowercase">cn.03</span>
+        <span className="absolute top-3 right-3 font-mono text-[10px] text-muted/60 lowercase">cn.03</span>
         <div className="flex items-start gap-4 flex-wrap">
           <span className="text-accent flex-shrink-0 mt-1"><Sparkle size={24} strokeWidth={1.5} /></span>
           <div className="flex-1 min-w-[260px]">

@@ -97,7 +97,7 @@ export default function Director() {
       {/* STAGE */}
       <div className="relative mx-auto h-[74vh] min-h-[560px] w-full">
         {/* Line + ring layer */}
-        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <svg aria-hidden="true" className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <g stroke="rgb(var(--c-border-strong))" fill="none" vectorEffect="non-scaling-stroke">
             {/* concentric rings */}
             <ellipse cx="50" cy="50" rx="18" ry="24" strokeOpacity="0.35" style={{ vectorEffect: "non-scaling-stroke" }} />
@@ -171,11 +171,11 @@ export default function Director() {
           );
         })}
 
-        {/* corner glyphs · faint HUD detail */}
-        <div className="pointer-events-none absolute left-0 top-0 font-mono text-[9px] tracking-[2px] text-muted/50">
+        {/* corner glyphs · faint HUD detail (decorative) */}
+        <div aria-hidden="true" className="pointer-events-none absolute left-0 top-0 font-mono text-[10px] tracking-[2px] text-muted/50">
           ◇ ◈ ◇
         </div>
-        <div className="pointer-events-none absolute bottom-0 right-0 font-mono text-[9px] tracking-[2px] text-muted/50">
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 font-mono text-[10px] tracking-[2px] text-muted/50">
           ✦
         </div>
       </div>

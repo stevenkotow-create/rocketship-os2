@@ -121,7 +121,7 @@ export default function OutreachBay() {
             {/* Live quality score */}
             <div className="flex items-baseline justify-between mt-3 pt-3 border-t border-border">
               <div className="flex items-baseline gap-2">
-                <span className="font-mono text-[9px] font-bold text-muted uppercase tracking-[1.6px]">Quality score</span>
+                <span className="font-mono text-[10px] font-bold text-muted uppercase tracking-[1.6px]">Quality score</span>
                 <span className={`text-[20px] font-bold tabular-nums ${
                   lint.score >= 80 ? "text-good" : lint.score >= 50 ? "text-warn" : "text-hot"
                 }`}>{lint.score}<span className="text-[12px] text-muted">/100</span></span>
@@ -150,7 +150,7 @@ export default function OutreachBay() {
                 {blockIssues.map((issue, i) => (
                   <div key={`b-${i}`} className="bg-hot/5 border-l-4 border-hot rounded-r-lg px-3 py-2.5">
                     <div className="flex items-baseline gap-2 mb-1 flex-wrap">
-                      <span className="font-mono text-[9px] font-bold text-hot uppercase tracking-[1.4px] bg-hot/15 px-1.5 py-0.5 rounded">BLOCK</span>
+                      <span className="font-mono text-[10px] font-bold text-hot uppercase tracking-[1.4px] bg-hot/15 px-1.5 py-0.5 rounded">BLOCK</span>
                       <span className="text-[12px] font-bold text-text">&ldquo;{issue.pattern}&rdquo;</span>
                       <span className="text-[10px] text-muted font-mono uppercase tracking-[1.2px]">{issue.category}</span>
                     </div>
@@ -161,7 +161,7 @@ export default function OutreachBay() {
                 {warnIssues.map((issue, i) => (
                   <div key={`w-${i}`} className="bg-warn/5 border-l-4 border-warn rounded-r-lg px-3 py-2.5">
                     <div className="flex items-baseline gap-2 mb-1 flex-wrap">
-                      <span className="font-mono text-[9px] font-bold text-warn uppercase tracking-[1.4px] bg-warn/15 px-1.5 py-0.5 rounded">WARN</span>
+                      <span className="font-mono text-[10px] font-bold text-warn uppercase tracking-[1.4px] bg-warn/15 px-1.5 py-0.5 rounded">WARN</span>
                       <span className="text-[12px] font-bold text-text">&ldquo;{issue.pattern}&rdquo;</span>
                       <span className="text-[10px] text-muted font-mono uppercase tracking-[1.2px]">{issue.category}</span>
                     </div>

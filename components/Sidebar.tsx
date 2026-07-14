@@ -8,6 +8,7 @@ import { useAppState } from "@/lib/storage";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import { NavIcon } from "@/components/icons";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { A11yMenu } from "@/components/A11yMenu";
 import type { TriageStatus } from "@/lib/types";
 
 export function Sidebar() {
@@ -45,15 +46,15 @@ export function Sidebar() {
         </div>
         {/* V4 · retro stripe under brand mark · signature element */}
         <div className="retro-band mb-2"><span /><span /></div>
-        <span className="block font-mono text-[9px] text-muted uppercase tracking-[1.8px] font-semibold">V5 · prep is the message</span>
+        <span className="block font-mono text-[10px] text-muted uppercase tracking-[1.8px] font-semibold">V5 · prep is the message</span>
         {/* V9 · Demo mode indicator · shows when platform is running in mentor/team demo mode */}
         {demoMode && (
-          <div className="mt-3 px-2 py-1.5 bg-accent/10 border border-accent/30 rounded font-mono text-[9px] text-accent uppercase tracking-[1.5px] font-bold text-center">
+          <div className="mt-3 px-2 py-1.5 bg-accent/10 border border-accent/30 rounded font-mono text-[10px] text-accent uppercase tracking-[1.5px] font-bold text-center">
             ▲ Demo Mode
           </div>
         )}
       </div>
-      <nav className="flex-1 px-3">
+      <nav aria-label="Primary" className="flex-1 px-3">
         {NAV_SECTIONS.map((section) => {
           const sectionItems = visibleNavItems.filter((item) => item.section === section);
           // V9 · If demo mode hid all items in a section, skip the section header entirely
@@ -66,13 +67,13 @@ export function Sidebar() {
               {isLibrary ? (
                 <button
                   onClick={() => setLibOpen((v) => !v)}
-                  className="flex w-full items-center justify-between px-3 pb-2 font-mono text-[9px] font-bold uppercase tracking-[2px] text-muted transition-colors hover:text-text"
+                  className="flex w-full items-center justify-between px-3 pb-2 font-mono text-[10px] font-bold uppercase tracking-[2px] text-muted transition-colors hover:text-text"
                 >
                   <span>{section}</span>
                   <span className={`transition-transform duration-200 ${open ? "rotate-90" : ""}`}>›</span>
                 </button>
               ) : (
-                <div className="px-3 pb-2 font-mono text-[9px] font-bold text-muted uppercase tracking-[2px]">
+                <div className="px-3 pb-2 font-mono text-[10px] font-bold text-muted uppercase tracking-[2px]">
                   {section}
                 </div>
               )}
@@ -124,7 +125,7 @@ export function Sidebar() {
                       </span>
                     ) : (
                       item.badge && (
-                        <span className="font-mono text-[9px] font-bold tracking-widest text-accent bg-accent/10 px-1.5 py-0.5 rounded uppercase">
+                        <span className="font-mono text-[10px] font-bold tracking-widest text-accent bg-accent/10 px-1.5 py-0.5 rounded uppercase">
                           {item.badge}
                         </span>
                       )
@@ -137,15 +138,18 @@ export function Sidebar() {
         })}
       </nav>
       <div className="sticky bottom-0 mt-2 px-3 pt-3 pb-2 border-t border-border bg-surface/85 backdrop-blur-xl">
-        <button
-          onClick={() => window.dispatchEvent(new Event("ors:open-command"))}
-          className="flex w-full items-center gap-2 rounded-lg border border-border bg-surface-2/60 px-3 py-2 text-[12px] text-muted transition hover:border-accent/50 hover:text-text"
-          title="Open command palette"
-        >
-          <span className="opacity-70">⌕</span>
-          <span className="flex-1 text-left">Search & jump</span>
-          <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => window.dispatchEvent(new Event("ors:open-command"))}
+            className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-surface-2/60 px-3 py-2 text-[12px] text-muted transition hover:border-accent/50 hover:text-text"
+            title="Open command palette"
+          >
+            <span className="opacity-70">⌕</span>
+            <span className="flex-1 text-left">Search &amp; jump</span>
+            <kbd className="rounded border border-border px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
+          </button>
+          <A11yMenu />
+        </div>
       </div>
     </aside>
   );

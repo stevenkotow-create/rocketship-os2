@@ -170,7 +170,7 @@ export function InterviewPrepCard({
                 }`}
               >
                 <div className="text-[16px] mb-1">{s.icon}</div>
-                <div className="text-[9px] uppercase tracking-[1px] font-semibold leading-tight">{s.label}</div>
+                <div className="text-[10px] uppercase tracking-[1px] font-semibold leading-tight">{s.label}</div>
                 {done && <div className="text-[10px] mt-1">✓</div>}
               </button>
             );
