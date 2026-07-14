@@ -216,7 +216,7 @@ export default function MissionControl() {
         <div>
           <h1 className="text-[32px] font-bold tracking-tight text-text mb-1.5">Mission Control</h1>
           <p className="text-[14px] text-text-dim m-0">
-            Operation Rocket Ship · the job ASSESSOR grounded in 12 peer-reviewed frameworks.
+            RocketShip OS · the job ASSESSOR grounded in 12 peer-reviewed frameworks.
           </p>
         </div>
         <button

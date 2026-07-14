@@ -253,7 +253,7 @@ function StepWelcome({ onNext }: { onNext: () => void }) {
   return (
     <div>
       <div className="text-accent mb-4"><RocketShip size={36} strokeWidth={1.5} /></div>
-      <h2 className="text-[24px] font-bold text-text mb-3 tracking-tight">Welcome to Operation Rocket Ship</h2>
+      <h2 className="text-[24px] font-bold text-text mb-3 tracking-tight">Welcome to RocketShip OS</h2>
       <p className="text-[14px] text-text-dim leading-relaxed mb-4 max-w-2xl">
         Most job platforms match you against listings using keywords. We do the opposite.
       </p>

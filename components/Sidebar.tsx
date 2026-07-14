@@ -38,8 +38,8 @@ export function Sidebar() {
         <div className="flex items-center gap-3 mb-3">
           <div className="brand-mark w-10 h-10 flex-shrink-0" />
           <div>
-            <span className="block text-[15px] font-bold leading-tight text-navy tracking-tight">Operation</span>
-            <span className="block text-[15px] font-bold leading-tight text-accent tracking-tight">Rocket Ship</span>
+            <span className="block text-[15px] font-bold leading-tight text-navy tracking-tight">RocketShip</span>
+            <span className="block text-[15px] font-bold leading-tight text-accent tracking-tight">OS</span>
           </div>
         </div>
         {/* V4 · retro stripe under brand mark · signature element */}

@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import { Sidebar } from "@/components/Sidebar";
 import { WindDownLock } from "@/components/WindDownLock";
 import { WelcomeModal } from "@/components/WelcomeModal";
+import { AuthGate } from "@/components/AuthGate";
 import "./globals.css";
 
 const inter = Inter({
@@ -20,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Operation Rocket Ship · AI-Native Job Search OS",
+  title: "RocketShip OS · AI-Native Job Search",
   description: "Run your job search like a mission. Pipeline, frameworks, mission drills.",
 };
 
@@ -66,14 +67,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
       </head>
       <body className="bg-bg text-text min-h-screen overflow-hidden antialiased" suppressHydrationWarning>
-        <div className="flex h-screen">
-          <Sidebar />
-          <main className="flex-1 overflow-y-auto bg-bg">
-            <div className="max-w-[1400px] mx-auto px-12 py-10">{children}</div>
-          </main>
-        </div>
-        <WindDownLock />
-        <WelcomeModal />
+        <AuthGate>
+          <div className="flex h-screen">
+            <Sidebar />
+            <main className="flex-1 overflow-y-auto bg-bg">
+              <div className="max-w-[1400px] mx-auto px-12 py-10">{children}</div>
+            </main>
+          </div>
+          <WindDownLock />
+          <WelcomeModal />
+        </AuthGate>
       </body>
     </html>
   );
