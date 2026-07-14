@@ -46,6 +46,7 @@ export interface NavItem {
 // V9 · demoHidden flag added for items hidden in demo mode when sharing with mentors/team
 export const NAV_ITEMS: NavItem[] = [
   // DAILY · the home
+  { href: "/director", label: "Director", section: "DAILY", icon: "CompassRose", badge: "NEW" },
   { href: "/", label: "Mission Control", section: "DAILY", icon: "Portal" },
   { href: "/probes", label: "Probes Inbox", section: "DAILY", icon: "Probe" },
   { href: "/roles", label: "Live Roles", section: "DAILY", icon: "Antenna", badge: "NEW" },
