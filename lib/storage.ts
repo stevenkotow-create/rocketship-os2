@@ -42,15 +42,22 @@ export function saveState(state: AppState) {
 // ---------------------------------------------------------------------------
 // Remote (Supabase) persistence. One row per user in `user_state`.
 // ---------------------------------------------------------------------------
-async function loadRemote(userId: string): Promise<AppState | null> {
-  if (!supabase) return null;
+// Discriminated result so a failed READ is never mistaken for "new empty user"
+// (that mistake could seed + save an empty state over real data).
+type LoadResult =
+  | { ok: true; state: AppState }
+  | { ok: false; empty: boolean };
+
+async function loadRemote(userId: string): Promise<LoadResult> {
+  if (!supabase) return { ok: false, empty: true };
   const { data, error } = await supabase
     .from("user_state")
     .select("state")
     .eq("user_id", userId)
     .maybeSingle();
-  if (error || !data) return null;
-  return { ...defaultState, ...(data.state as Partial<AppState>) };
+  if (error) return { ok: false, empty: false }; // read failed — do NOT treat as empty
+  if (!data) return { ok: false, empty: true }; // genuinely no row yet
+  return { ok: true, state: { ...defaultState, ...(data.state as Partial<AppState>) } };
 }
 
 async function saveRemote(userId: string, state: AppState) {
@@ -118,18 +125,23 @@ export function useAppState(targetUserId?: string) {
         }
         uidRef.current = uid;
         if (uid) {
-          const remote = await loadRemote(uid);
+          const res = await loadRemote(uid);
           if (!active) return;
-          if (remote) {
-            setState(remote);
-          } else {
-            // Own account first-load migrates local data up once; a target or
-            // acted-as account starts empty.
+          if (res.ok) {
+            setState(res.state);
+            loadedRef.current = true; // safe to persist edits
+          } else if (res.empty) {
+            // Genuinely no row yet -> seed once. Own account migrates local data
+            // up; a target / acted-as account starts empty.
             const seed = targetUserId || acting ? defaultState : loadState();
             setState(seed);
             await saveRemote(uid, seed);
+            loadedRef.current = true;
+          } else {
+            // Read FAILED (network/transient). Show defaults in memory but keep
+            // loadedRef false so no edit can save an empty state over real data.
+            setState(defaultState);
           }
-          loadedRef.current = true; // only now is it safe to persist edits
           return;
         }
       }
