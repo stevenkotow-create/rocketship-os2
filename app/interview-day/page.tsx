@@ -46,12 +46,13 @@ function relativeTime(date: Date): string {
 
 export default function InterviewDayPage() {
   const [state, update] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const [postCallLogs, setPostCallLogs] = useState<Record<string, { impressions: string; nextSteps: string }>>({});
 
   // Merge seed opps with state overrides
   const allOpps: Opportunity[] = useMemo(
-    () => OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }) as Opportunity),
-    [state.opps],
+    () => ALL_OPPS.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }) as Opportunity),
+    [state.opps, state.customOpps],
   );
 
   // Find all interviews with meetingBookedFor in the next 72 hours

@@ -14,13 +14,14 @@ import type { Opportunity } from "@/lib/types";
 
 export default function MentorUpdatePage() {
   const [state] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const [copied, setCopied] = useState(false);
   const [customNote, setCustomNote] = useState("");
 
   // Merge seed opps with stateful overrides
   const allOpps: Opportunity[] = useMemo(
-    () => OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }) as Opportunity),
-    [state.opps],
+    () => ALL_OPPS.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }) as Opportunity),
+    [state.opps, state.customOpps],
   );
 
   // Compute this week's activity (last 7 days)

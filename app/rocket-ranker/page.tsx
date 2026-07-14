@@ -7,6 +7,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
+import { useAppState } from "@/lib/storage";
 import { rankAll, TIER_STYLE, type RocketTier } from "@/lib/rocket-ranker";
 
 type TierFilter = RocketTier | "ALL";
@@ -20,10 +21,12 @@ const FILTER_LABEL: Record<TierFilter, string> = {
 };
 
 export default function RocketRankerPage() {
+  const [state] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const [filter, setFilter] = useState<TierFilter>("ALL");
   const [showDetail, setShowDetail] = useState<string | null>(null);
 
-  const ranked = useMemo(() => rankAll(OPPORTUNITIES), []);
+  const ranked = useMemo(() => rankAll(ALL_OPPS), [ALL_OPPS]);
 
   const filtered = useMemo(() => {
     if (filter === "ALL") return ranked;

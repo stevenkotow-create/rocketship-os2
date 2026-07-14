@@ -21,31 +21,32 @@ const SOURCE_LABEL: Record<string, string> = {
 // or Apply (pick a live role · triggers Interview Playbook draft pipeline)
 export default function ProbesInbox() {
   const [state, update] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const [filter, setFilter] = useState<FilterMode>("pending");
   const [rolePickerFor, setRolePickerFor] = useState<string | null>(null);
 
-  const allOpps = OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
+  const allOpps = ALL_OPPS.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
 
   function getTriageStatus(oppId: string): TriageStatus | undefined {
     const stateTriage = state.opps[oppId]?.triage;
-    const seedTriage = OPPORTUNITIES.find((o) => o.id === oppId)?.triage;
+    const seedTriage = ALL_OPPS.find((o) => o.id === oppId)?.triage;
     return (stateTriage || seedTriage)?.status;
   }
 
   function getAvailableRoles(oppId: string): AvailableRole[] {
     const stateTriage = state.opps[oppId]?.triage;
-    const seedTriage = OPPORTUNITIES.find((o) => o.id === oppId)?.triage;
+    const seedTriage = ALL_OPPS.find((o) => o.id === oppId)?.triage;
     return (stateTriage?.availableRoles || seedTriage?.availableRoles || []);
   }
 
   function getCompanyEvaluation(oppId: string) {
     const stateTriage = state.opps[oppId]?.triage;
-    const seedTriage = OPPORTUNITIES.find((o) => o.id === oppId)?.triage;
+    const seedTriage = ALL_OPPS.find((o) => o.id === oppId)?.triage;
     return stateTriage?.companyEvaluation || seedTriage?.companyEvaluation;
   }
 
   const triagedOpps = allOpps.filter((o) => {
-    const seedTriage = OPPORTUNITIES.find((x) => x.id === o.id)?.triage;
+    const seedTriage = ALL_OPPS.find((x) => x.id === o.id)?.triage;
     return !!seedTriage;
   });
 
@@ -60,7 +61,7 @@ export default function ProbesInbox() {
     status: TriageStatus,
     extras?: { denialReason?: string; appliedToRoleUrl?: string }
   ) {
-    const seedOpp = OPPORTUNITIES.find((o) => o.id === id);
+    const seedOpp = ALL_OPPS.find((o) => o.id === id);
     const seedTriage = seedOpp?.triage;
     if (!seedTriage) return;
     update((s) => {
@@ -217,7 +218,7 @@ export default function ProbesInbox() {
         <div className="space-y-3">
           {filtered.map((p) => {
             const status = getTriageStatus(p.id);
-            const seedTriage = OPPORTUNITIES.find((x) => x.id === p.id)?.triage;
+            const seedTriage = ALL_OPPS.find((x) => x.id === p.id)?.triage;
             const stateTriage = state.opps[p.id]?.triage;
             const triage = { ...seedTriage, ...stateTriage };
             const sourceLabel = SOURCE_LABEL[triage.surfacedBy || ""] || triage.surfacedBy;

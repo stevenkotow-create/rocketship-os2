@@ -6,7 +6,8 @@ import { FUNNEL_STAGES } from "@/lib/constants";
 
 export default function TrajectoryDensity() {
   const [state] = useAppState();
-  const allOpps = OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
+  const allOpps = ALL_OPPS.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
 
   const funnel = FUNNEL_STAGES.map((s) => {
     const count = allOpps.filter((o) => (s.stages as readonly string[]).includes(o.stage)).length;

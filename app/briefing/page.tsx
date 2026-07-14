@@ -120,7 +120,8 @@ const MUST_HAVES_CHECKLIST = [
 
 export default function BriefingLab() {
   const [state] = useAppState();
-  const allOpps: Opportunity[] = OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) } as Opportunity));
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
+  const allOpps: Opportunity[] = ALL_OPPS.map((o) => ({ ...o, ...(state.opps[o.id] || {}) } as Opportunity));
   const activeOpps = allOpps.filter((o) => !["closed", "accepted"].includes(o.stage));
 
   const [selectedOppId, setSelectedOppId] = useState("");

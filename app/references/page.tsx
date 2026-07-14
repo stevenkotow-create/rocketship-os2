@@ -7,7 +7,8 @@ import type { Opportunity, ReferenceStatus } from "@/lib/types";
 
 export default function References() {
   const [state, update] = useAppState();
-  const allOpps: Opportunity[] = OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) } as Opportunity));
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
+  const allOpps: Opportunity[] = ALL_OPPS.map((o) => ({ ...o, ...(state.opps[o.id] || {}) } as Opportunity));
 
   // Only show active opps where reference is relevant (applied → late interview)
   const referenceRelevant = allOpps.filter((o) => ["contacted", "applied", "early", "late", "offer"].includes(o.stage));

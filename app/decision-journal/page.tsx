@@ -14,6 +14,7 @@ import type { MissionCompassDecisionEntry } from "@/lib/types";
 
 export default function DecisionJournalPage() {
   const [state, update] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const entries = state.decisionJournal || [];
   const [showNew, setShowNew] = useState(false);
 
@@ -168,6 +169,8 @@ function NewDecisionForm({
   onCancel: () => void;
   onSave: (entry: MissionCompassDecisionEntry) => void;
 }) {
+  const [state] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const [question, setQuestion] = useState("");
   const [chosen, setChosen] = useState("");
   const [predictedAlignment, setPredictedAlignment] = useState(70);
@@ -260,7 +263,7 @@ function NewDecisionForm({
             className="w-full text-[13px] p-2 border border-border rounded bg-surface"
           >
             <option value="">— No specific opp —</option>
-            {OPPORTUNITIES.map((o) => (
+            {ALL_OPPS.map((o) => (
               <option key={o.id} value={o.id}>
                 {o.company} · {o.position}
               </option>

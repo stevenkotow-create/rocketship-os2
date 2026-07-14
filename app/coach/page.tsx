@@ -15,7 +15,7 @@ const STARTER_PROMPTS = [
 ];
 
 function buildContextSnapshot(state: ReturnType<typeof useAppState>[0]): string {
-  const allOpps = OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
+  const allOpps = [...OPPORTUNITIES, ...(state.customOpps || [])].map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
   const live = allOpps.filter((o) => o.live || o.stage === "early" || o.stage === "late");
   const targeting = allOpps.filter((o) => o.stage === "targeting").length;
   const contacted = allOpps.filter((o) => o.stage === "contacted").length;

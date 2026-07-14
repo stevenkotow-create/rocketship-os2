@@ -103,6 +103,7 @@ function GlobalAssetsCard({ state, update }: { state: AppState; update: (fn: (s:
 
 export default function MissionControl() {
   const [state, update] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const xp = calculateXP(state);
   const { currentRank, nextRank, progressPct } = getRank(xp);
   const achievements = getEarnedAchievements(state);
@@ -110,7 +111,7 @@ export default function MissionControl() {
   const quote = getTodaysQuote();
 
   // Live opps (live: true OR stages early/late)
-  const allOpps = OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
+  const allOpps = ALL_OPPS.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
   const liveOpps = allOpps.filter((o) => o.live || o.stage === "early" || o.stage === "late");
 
   // Weekly cadence
@@ -146,7 +147,7 @@ export default function MissionControl() {
   // Daily cap of 5 pending visible to prevent decision fatigue
   function getTriageStatus(oppId: string): TriageStatus | undefined {
     const stateTriage = state.opps[oppId]?.triage;
-    const seedTriage = OPPORTUNITIES.find((o) => o.id === oppId)?.triage;
+    const seedTriage = ALL_OPPS.find((o) => o.id === oppId)?.triage;
     return (stateTriage || seedTriage)?.status;
   }
   const pendingProbes = allOpps
@@ -157,7 +158,7 @@ export default function MissionControl() {
 
   function triageProbe(id: string, status: TriageStatus, denialReason?: string) {
     // Find seed triage (surfacedAt / surfacedBy) from OPPORTUNITIES so we preserve required fields
-    const seedOpp = OPPORTUNITIES.find((o) => o.id === id);
+    const seedOpp = ALL_OPPS.find((o) => o.id === id);
     const seedTriage = seedOpp?.triage;
     if (!seedTriage) return;
     update((s) => {

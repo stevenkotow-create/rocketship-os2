@@ -83,11 +83,12 @@ function computeNextAction(status: ContactStatus): string {
 
 export default function OutreachFunnel() {
   const [state, update] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   // Merge seed + state contacts
   const tracked: TrackedContact[] = useMemo(() => {
-    const allOpps: Opportunity[] = OPPORTUNITIES.map((o) => {
+    const allOpps: Opportunity[] = ALL_OPPS.map((o) => {
       const override = state.opps[o.id] as Partial<Opportunity> | undefined;
       return { ...o, ...override, contacts: override?.contacts ?? o.contacts };
     });
@@ -153,7 +154,7 @@ export default function OutreachFunnel() {
   function logTouch(oppId: string, contactName: string) {
     update((s: AppState) => {
       const overrideOpp = s.opps[oppId] || {};
-      const seedOpp = OPPORTUNITIES.find((o) => o.id === oppId);
+      const seedOpp = ALL_OPPS.find((o) => o.id === oppId);
       const baseContacts = (overrideOpp.contacts || seedOpp?.contacts || []) as Contact[];
       const updated = baseContacts.map((c) =>
         c.name === contactName ? { ...c, lastTouchAt: new Date().toISOString() } : c
@@ -166,7 +167,7 @@ export default function OutreachFunnel() {
   function advanceStage(oppId: string, contactName: string, newStatus: ContactStatus) {
     update((s: AppState) => {
       const overrideOpp = s.opps[oppId] || {};
-      const seedOpp = OPPORTUNITIES.find((o) => o.id === oppId);
+      const seedOpp = ALL_OPPS.find((o) => o.id === oppId);
       const baseContacts = (overrideOpp.contacts || seedOpp?.contacts || []) as Contact[];
       const updated = baseContacts.map((c) =>
         c.name === contactName

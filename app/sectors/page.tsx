@@ -7,7 +7,8 @@ import { STAGES } from "@/lib/constants";
 
 export default function TargetSectors() {
   const [state] = useAppState();
-  const allOpps = OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
+  const allOpps = ALL_OPPS.map((o) => ({ ...o, ...(state.opps[o.id] || {}) }));
 
   return (
     <div>

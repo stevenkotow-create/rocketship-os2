@@ -46,9 +46,10 @@ type ViewMode = "galaxy" | "deep";
 
 export default function MultithreadGalaxy() {
   const [state] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const [view, setView] = useState<ViewMode>("galaxy");
 
-  const allOpps: Opportunity[] = OPPORTUNITIES.map((o) => ({ ...o, ...(state.opps[o.id] || {}) } as Opportunity));
+  const allOpps: Opportunity[] = ALL_OPPS.map((o) => ({ ...o, ...(state.opps[o.id] || {}) } as Opportunity));
   const active = allOpps.filter((o) => o.contacts && o.contacts.length && !["closed", "accepted"].includes(o.stage));
 
   // Galaxy stats

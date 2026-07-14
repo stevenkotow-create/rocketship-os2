@@ -22,6 +22,7 @@ const TYPE_COLOR = {
 
 export default function ResumeHub() {
   const [state, update] = useAppState();
+  const ALL_OPPS = [...OPPORTUNITIES, ...(state.customOpps || [])];
   const versions = state.resumes && state.resumes.length > 0 ? state.resumes : SEED_VERSIONS;
   const [showAdd, setShowAdd] = useState(false);
   const [draft, setDraft] = useState<Partial<ResumeVersion>>({
@@ -169,7 +170,7 @@ export default function ResumeHub() {
                 className="w-full bg-surface-2 border border-border rounded p-2 text-sm"
               >
                 <option value="">Link to a Mission (optional)</option>
-                {OPPORTUNITIES.map((o) => (
+                {ALL_OPPS.map((o) => (
                   <option key={o.id} value={o.id}>
                     {o.company} · {o.position}
                   </option>
