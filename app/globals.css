@@ -504,6 +504,20 @@ html[data-theme="dark"] .lift:hover {
 @keyframes rs-orbit-rev { to { transform: rotate(-360deg); } }
 @keyframes rs-pulse { 0%, 100% { opacity: .5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
 
+/* Starfield-style cinematic hero · slow camera drift + sun cresting the limb */
+@keyframes rs-planet-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-1.6%, -1.2%) scale(1.03); }
+}
+@keyframes rs-sunrise {
+  0%, 100% { opacity: .45; transform: translate(4%, 5%) scale(0.96); }
+  50% { opacity: 1; transform: translate(0, 0) scale(1.08); }
+}
+@keyframes rs-flare {
+  0%, 100% { opacity: .25; }
+  50% { opacity: .6; }
+}
+
 /* ───────── ACCESSIBILITY · reduced motion ───────── */
 /* Universal reset · honours the OS setting AND an in-app force class (.rm-force on <html>).
    Kills decorative animation (orbits, pulses, twinkle transitions) for anyone who opts out. */

@@ -11,7 +11,7 @@ import { computeStakeholderHealth, healthColour, healthLabel } from "@/lib/star-
 import type { TriageStatus, AppState } from "@/lib/types";
 import { TodayActions } from "@/components/TodayActions";
 import { MissionControlV4 } from "@/components/MissionControlV4";
-import { OrbitalHero } from "@/components/OrbitalHero";
+import { MissionHero } from "@/components/MissionHero";
 
 // V2.4 · Global Assets card · Loom + Gamma URLs stored once, used everywhere
 function GlobalAssetsCard({ state, update }: { state: AppState; update: (fn: (s: AppState) => AppState) => void }) {
@@ -215,35 +215,27 @@ export default function MissionControl() {
   if (allOpps.length === 0) {
     return (
       <div>
-        <OrbitalHero
-          eyebrow="Mission Control"
-          title="Your board is ready for its first mission."
-          subtitle="Paste your LinkedIn and RocketShip reads it in seconds — candidate profile, resume fit, and a starting list of target companies all orbit into view right here."
-        >
+        <MissionHero subtitle="Your board is ready for its first mission." />
+        <div className="-mt-4 flex flex-col items-center gap-3">
           <Link
             href="/onboarding"
             className="glow-accent rounded-xl bg-accent px-5 py-3 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 dark:text-bg"
           >
             Paste LinkedIn → build my board →
           </Link>
-        </OrbitalHero>
-        <p className="mt-5 text-center text-[12px] text-muted">
-          Prefer to go manual? Add a company in Pipeline and it appears across every screen.
-        </p>
+          <p className="text-center text-[12px] text-muted">
+            Prefer to go manual? Add a company in Pipeline and it appears across every screen.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
     <div>
-      {/* V3.6 · Mission Control header · clean title + tiny demo reset link */}
-      <div className="flex items-end justify-between mb-6 flex-wrap gap-3">
-        <div>
-          <h1 className="display text-glow text-[34px] leading-[1.1] text-text mb-1.5">Mission Control</h1>
-          <p className="text-[14px] text-text-dim m-0">
-            RocketShip OS · the job ASSESSOR grounded in 12 peer-reviewed frameworks.
-          </p>
-        </div>
+      {/* Starfield-style cinematic hero */}
+      <MissionHero subtitle="The job ASSESSOR grounded in 12 peer-reviewed frameworks." />
+      <div className="-mt-5 mb-6 text-right">
         <button
           onClick={() => {
             if (window.confirm("Reset to the demo pipeline? This wipes your local browser state and reloads.")) {
