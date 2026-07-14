@@ -33,7 +33,7 @@ export function Sidebar() {
   const watchlistCount = OPPORTUNITIES.filter((o) => o.triage && getTriageStatus(o.id) === "watchlist").length;
 
   return (
-    <aside className="w-[244px] flex-shrink-0 bg-surface border-r border-border flex flex-col py-6 overflow-y-auto h-screen sticky top-0">
+    <aside className="w-[244px] flex-shrink-0 bg-surface/80 backdrop-blur-xl border-r border-border/60 flex flex-col py-6 overflow-y-auto h-screen sticky top-0">
       <div className="px-5 pb-5 border-b border-border mb-4">
         <div className="flex items-center gap-3 mb-3">
           <div className="brand-mark w-10 h-10 flex-shrink-0" />
@@ -71,12 +71,15 @@ export function Sidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-2.5 w-full text-left px-3 py-2 rounded-md text-[13px] mb-0.5 transition-colors duration-150 relative ${
+                    className={`flex items-center gap-2.5 w-full text-left px-3 py-2 rounded-md text-[13px] mb-0.5 transition-all duration-150 relative ${
                       active
-                        ? "bg-accent/10 text-accent font-semibold"
+                        ? "bg-accent/12 text-accent font-semibold shadow-[inset_0_0_0_1px_rgb(var(--c-accent)/0.22)]"
                         : "text-text-dim hover:bg-surface-2 hover:text-navy"
                     }`}
                   >
+                    {active && (
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-accent shadow-[0_0_10px_rgb(var(--c-accent)/0.7)]" />
+                    )}
                     {item.icon && (
                       <span className="flex-shrink-0 relative inline-flex items-center justify-center w-4 h-4 opacity-80">
                         <NavIcon name={item.icon} size={15} strokeWidth={1.75} />

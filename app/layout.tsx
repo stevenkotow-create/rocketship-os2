@@ -5,6 +5,7 @@ import { WindDownLock } from "@/components/WindDownLock";
 import { WelcomeModal } from "@/components/WelcomeModal";
 import { AuthGate } from "@/components/AuthGate";
 import { AdminBanner } from "@/components/AdminBanner";
+import { Starfield } from "@/components/Starfield";
 import "./globals.css";
 
 const inter = Inter({
@@ -76,12 +77,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
       </head>
       <body className="bg-bg text-text min-h-screen overflow-hidden antialiased" suppressHydrationWarning>
+        <Starfield />
         <AuthGate>
           <AdminBanner />
-          <div className="flex h-screen">
+          <div className="relative z-10 flex h-screen">
             <Sidebar />
-            <main className="flex-1 overflow-y-auto bg-bg">
-              <div className="max-w-[1400px] mx-auto px-12 py-10">{children}</div>
+            <main className="flex-1 overflow-y-auto bg-transparent">
+              <div className="max-w-[1400px] mx-auto px-12 py-10 animate-in">{children}</div>
             </main>
           </div>
           <WindDownLock />

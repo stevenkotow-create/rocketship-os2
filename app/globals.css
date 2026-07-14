@@ -311,8 +311,15 @@ html[data-theme="dark"] .bg-accent.text-white {
 */
 .dark body,
 html[data-theme="dark"] body {
-  background-color: rgb(10 25 41) !important;
+  background-color: rgb(8 17 34) !important;
   color: rgb(245 247 250) !important;
+  /* Full-fat refresh · deep-space nebula · icy-blue glow top-right, warm gold bottom-left */
+  background-image:
+    radial-gradient(1150px 720px at 80% -10%, rgba(140, 200, 230, 0.13), transparent 62%),
+    radial-gradient(950px 620px at 6% 112%, rgba(244, 196, 124, 0.07), transparent 58%),
+    radial-gradient(1500px 950px at 50% 44%, rgba(22, 44, 80, 0.55), transparent 72%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 /* ───────── SCROLLBAR ───────── */
@@ -422,3 +429,71 @@ html[data-theme="dark"] body {
 ul, ol, dl { line-height: 1.65; }
 li + li { margin-top: 0.25rem; }
 table { line-height: 1.55; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   FULL-FAT REFRESH · glass depth · glow · motion · orbital hero
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Glass surfaces in dark mode · translucent so the starfield breathes through */
+.dark .card,
+html[data-theme="dark"] .card,
+.dark .card-elevated,
+html[data-theme="dark"] .card-elevated,
+.dark .stat,
+html[data-theme="dark"] .stat {
+  background: linear-gradient(180deg, rgb(var(--c-surface) / 0.74), rgb(var(--c-surface) / 0.58));
+  backdrop-filter: blur(12px) saturate(1.12);
+  -webkit-backdrop-filter: blur(12px) saturate(1.12);
+  border-color: rgb(var(--c-border-strong) / 0.45);
+}
+.dark .card,
+html[data-theme="dark"] .card,
+.dark .stat,
+html[data-theme="dark"] .stat {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 10px 28px -14px rgb(0 0 0 / 0.65);
+}
+.dark .card-elevated,
+html[data-theme="dark"] .card-elevated {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.07), 0 18px 44px -18px rgb(0 0 0 / 0.72);
+}
+
+/* Interactive lift · add .lift to any clickable card/tile */
+.lift {
+  transition: transform 220ms cubic-bezier(.2, .7, .3, 1), box-shadow 220ms ease, border-color 220ms ease;
+}
+.lift:hover { transform: translateY(-2px); }
+.dark .lift:hover,
+html[data-theme="dark"] .lift:hover {
+  box-shadow: 0 22px 46px -18px rgb(0 0 0 / 0.78);
+  border-color: rgb(var(--c-accent) / 0.45);
+}
+
+/* Glow helpers */
+.glow-accent { box-shadow: 0 0 0 1px rgb(var(--c-accent) / 0.22), 0 0 34px -6px rgb(var(--c-accent) / 0.32); }
+.text-glow { text-shadow: 0 0 26px rgb(var(--c-accent) / 0.35); }
+
+/* ───────── ENTRANCE MOTION ───────── */
+@keyframes rs-fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes rs-fade { from { opacity: 0; } to { opacity: 1; } }
+.animate-in { animation: rs-fade-up 520ms cubic-bezier(.2, .7, .3, 1) both; }
+.animate-in-fade { animation: rs-fade 640ms ease both; }
+
+/* Stagger children (grids, lists) */
+.stagger > * { animation: rs-fade-up 480ms cubic-bezier(.2, .7, .3, 1) both; }
+.stagger > *:nth-child(1) { animation-delay: .03s; }
+.stagger > *:nth-child(2) { animation-delay: .07s; }
+.stagger > *:nth-child(3) { animation-delay: .11s; }
+.stagger > *:nth-child(4) { animation-delay: .15s; }
+.stagger > *:nth-child(5) { animation-delay: .19s; }
+.stagger > *:nth-child(6) { animation-delay: .23s; }
+.stagger > *:nth-child(7) { animation-delay: .27s; }
+.stagger > *:nth-child(8) { animation-delay: .31s; }
+
+/* ───────── ORBITAL HERO ───────── */
+@keyframes rs-orbit { to { transform: rotate(360deg); } }
+@keyframes rs-orbit-rev { to { transform: rotate(-360deg); } }
+@keyframes rs-pulse { 0%, 100% { opacity: .5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-in, .animate-in-fade, .stagger > * { animation: none !important; }
+}

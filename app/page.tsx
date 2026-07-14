@@ -11,7 +11,7 @@ import { computeStakeholderHealth, healthColour, healthLabel } from "@/lib/star-
 import type { TriageStatus, AppState } from "@/lib/types";
 import { TodayActions } from "@/components/TodayActions";
 import { MissionControlV4 } from "@/components/MissionControlV4";
-import { EmptyState } from "@/components/EmptyState";
+import { OrbitalHero } from "@/components/OrbitalHero";
 
 // V2.4 · Global Assets card · Loom + Gamma URLs stored once, used everywhere
 function GlobalAssetsCard({ state, update }: { state: AppState; update: (fn: (s: AppState) => AppState) => void }) {
@@ -211,29 +211,25 @@ export default function MissionControl() {
   const unthreaded = healthByOpp.filter((h) => h.health === "unthreaded").length;
   const needsAttention = single + unthreaded;
 
-  // Craft pass · first-run empty board reads as "ready", not broken.
+  // Full-fat refresh · first-run board is the signature orbital hero moment.
   if (allOpps.length === 0) {
     return (
       <div>
-        <div className="mb-10">
-          <h1 className="display text-[38px] leading-[1.08] text-navy mb-2">Mission Control</h1>
-          <p className="text-[14px] text-text-dim m-0">
-            RocketShip OS · the job ASSESSOR grounded in 12 peer-reviewed frameworks.
-          </p>
-        </div>
-        <EmptyState
+        <OrbitalHero
+          eyebrow="Mission Control"
           title="Your board is ready for its first mission."
-          body="Paste your LinkedIn and RocketShip reads it in seconds — candidate profile, resume fit, and a starting list of target companies all land right here."
-          action={
-            <Link
-              href="/onboarding"
-              className="rounded-xl bg-accent px-5 py-3 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 dark:text-bg"
-            >
-              Paste LinkedIn → build my board →
-            </Link>
-          }
-          hint="Prefer to go manual? Add a company in Pipeline and it appears across every screen."
-        />
+          subtitle="Paste your LinkedIn and RocketShip reads it in seconds — candidate profile, resume fit, and a starting list of target companies all orbit into view right here."
+        >
+          <Link
+            href="/onboarding"
+            className="glow-accent rounded-xl bg-accent px-5 py-3 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 dark:text-bg"
+          >
+            Paste LinkedIn → build my board →
+          </Link>
+        </OrbitalHero>
+        <p className="mt-5 text-center text-[12px] text-muted">
+          Prefer to go manual? Add a company in Pipeline and it appears across every screen.
+        </p>
       </div>
     );
   }
