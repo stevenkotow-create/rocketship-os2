@@ -137,7 +137,7 @@ export default function ProbesInbox() {
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><Probe size={20} strokeWidth={1.5} /></span>
-            <h1 className="display text-[34px] leading-[1.1] text-text m-0">Probes Inbox</h1>
+            <h1 className="display text-glow text-[34px] leading-[1.1] text-text m-0">Probes Inbox</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
             Companies auto-evaluated at probe time with available APAC roles surfaced. Approve to Apply (pick a role → Interview Playbook drafts) or Watch (relationship build + 30-day re-probe).

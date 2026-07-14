@@ -7,6 +7,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useAppState } from "@/lib/storage";
+import { PageHero } from "@/components/PageHero";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import type { Opportunity, Contact } from "@/lib/types";
 
@@ -110,12 +111,7 @@ export default function InterviewDayPage() {
 
   return (
     <div>
-      <div className="page-hero">
-        <h1>Interview Day <span className="text-accent">🎯</span></h1>
-        <p>
-          All interviews scheduled in the next 72 hours, grouped by day. Open this the morning of an interview day and work it top to bottom · pre-call checklist, in-call cheat sheet, post-call log.
-        </p>
-      </div>
+      <PageHero eyebrow="Command Center" title="Interview Day" subtitle="All interviews scheduled in the next 72 hours, grouped by day. Open this the morning of an interview day and work it top to bottom · pre-call checklist, in-call cheat sheet, post-call log." marker="ID.01" />
 
       {upcomingInterviews.length === 0 && (
         <div className="card-elevated text-center py-12">

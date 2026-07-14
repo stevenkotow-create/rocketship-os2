@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { PageHero } from "@/components/PageHero";
 import { useAppState } from "@/lib/storage";
 import {
   EVALUATION_DIMENSIONS,
@@ -171,17 +172,13 @@ export default function EvaluatorPage() {
 
   return (
     <div>
-      <header className="mb-8">
-        <div className="flex items-center justify-between mb-4 text-xs text-muted">
-          <Link href="/" className="hover:text-text">← Mission Control</Link>
-          <span className="tracking-widest">SIX-DIMENSION COMPANY EVALUATOR · V2</span>
-        </div>
-        <h1 className="text-3xl font-bold mb-2">Company Evaluator</h1>
-        <p className="text-muted text-sm max-w-3xl">
-          Drop a company URL. The platform fetches the page, scores against 6 dimensions, and returns a verdict.
-          Rocket goes to Pipeline. Watchlist goes to scrape registry. Jettison gets logged with rationale.
-        </p>
-      </header>
+      <PageHero
+        eyebrow="Evaluator"
+        title="Company Evaluator"
+        marker="CE.01"
+        actions={<Link href="/" className="hover:text-text text-xs text-muted">← Mission Control</Link>}
+        subtitle="Drop a company URL. The platform fetches the page, scores against 6 dimensions, and returns a verdict. Rocket goes to Pipeline. Watchlist goes to scrape registry. Jettison gets logged with rationale."
+      />
 
       {/* PRIMARY · Paste evaluation JSON from Claude chat (no API needed) */}
       <div className="bg-card border border-border rounded-xl p-5 mb-4 shadow-sm">

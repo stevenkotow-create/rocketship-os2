@@ -12,7 +12,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useAppState, today } from "@/lib/storage";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
-import { NavIcon } from "@/components/icons";
+import { PageHero } from "@/components/PageHero";
 import type { AppState, Opportunity, Contact, ContactStatus } from "@/lib/types";
 
 // ── Funnel stage configuration ──
@@ -183,17 +183,17 @@ export default function OutreachFunnel() {
   return (
     <div className="max-w-[1280px] mx-auto px-6 py-8">
       {/* ── HEADER ── */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-accent"><NavIcon name="Constellation" size={28} strokeWidth={1.5} /></span>
-          <h1 className="text-[28px] font-bold text-text leading-tight m-0">Outreach Funnel</h1>
-          <span className="font-mono text-[10px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded uppercase tracking-[1.8px]">V5 · NEW</span>
-        </div>
-        <div className="retro-band mb-3"><span /><span /></div>
-        <p className="text-[13px] text-text-dim leading-relaxed max-w-[760px]">
-          Every contact across every active opp · grouped by funnel stage · with next-touch cadence computed automatically. The marketing-funnel view of your job search · who needs attention today, who&apos;s gone cold, who&apos;s in active conversation. <strong className="text-text">Sequencing discipline is what separates multithreading from carpet-bombing.</strong>
-        </p>
-      </div>
+      <PageHero
+        eyebrow="Outreach"
+        title="Outreach Funnel"
+        marker="OF.01"
+        actions={<span className="font-mono text-[10px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded uppercase tracking-[1.8px]">V5 · NEW</span>}
+        subtitle={
+          <>
+            Every contact across every active opp · grouped by funnel stage · with next-touch cadence computed automatically. The marketing-funnel view of your job search · who needs attention today, who&apos;s gone cold, who&apos;s in active conversation. <strong className="text-text">Sequencing discipline is what separates multithreading from carpet-bombing.</strong>
+          </>
+        }
+      />
 
       {/* ── HERO METRICS ── */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">

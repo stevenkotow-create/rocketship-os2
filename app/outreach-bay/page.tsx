@@ -10,7 +10,7 @@
 
 import { useMemo, useState } from "react";
 import { lintOutreach, PRE_SEND_CHECKLIST } from "@/lib/outreach-lint";
-import { NavIcon } from "@/components/icons";
+import { PageHero } from "@/components/PageHero";
 
 const MESSAGE_TYPES = [
   { id: "connection", label: "Connection Note", limit: 300, desc: "LinkedIn connection request · 300 char hard cap" },
@@ -57,17 +57,13 @@ export default function OutreachBay() {
   return (
     <div className="max-w-[1100px] mx-auto px-6 py-8">
       {/* ── HEADER ── */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-accent"><NavIcon name="Antenna" size={28} strokeWidth={1.5} /></span>
-          <h1 className="text-[28px] font-bold text-text leading-tight m-0">Outreach Bay</h1>
-          <span className="font-mono text-[10px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded uppercase tracking-[1.8px]">V5 · NEW</span>
-        </div>
-        <div className="retro-band mb-3"><span /><span /></div>
-        <p className="text-[13px] text-text-dim leading-relaxed max-w-[700px]">
-          <strong className="text-text">The preparation is the message, before the message is even sent.</strong> Draft outreach · the platform lints for the &quot;never ask for the job&quot; rule, counts characters, and gates send behind the 10-item pre-send checklist. The Core Rule: <em>you express conviction · they offer the seat.</em>
-        </p>
-      </div>
+      <PageHero
+        eyebrow="Outreach"
+        title="Outreach Bay"
+        marker="OB.01"
+        actions={<span className="font-mono text-[10px] font-bold text-purple bg-purple/15 px-2 py-0.5 rounded uppercase tracking-[1.8px]">V5 · NEW</span>}
+        subtitle={<><strong className="text-text">The preparation is the message, before the message is even sent.</strong> Draft outreach · the platform lints for the &quot;never ask for the job&quot; rule, counts characters, and gates send behind the 10-item pre-send checklist. The Core Rule: <em>you express conviction · they offer the seat.</em></>}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6">
         {/* ── LEFT COLUMN · DRAFTER ── */}

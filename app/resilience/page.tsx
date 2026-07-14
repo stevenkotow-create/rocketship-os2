@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PageHero } from "@/components/PageHero";
 import { useAppState } from "@/lib/storage";
 import { DAILY_MANTRAS, REFRAMES, WIND_DOWN_CHECKLIST, RECOVERY_PROTOCOLS, CRISIS_PROTOCOL } from "@/lib/data/resilience";
 
@@ -41,10 +42,12 @@ export default function Resilience() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Resilience Hub 💚</h1>
-      <p className="text-muted text-sm mb-6">
-        The emotional layer. Daily mantras, the Wins Reservoir, reframes for the hard moments, wind-down protocols, and a crisis mode for the heavy days.
-      </p>
+      <PageHero
+        eyebrow="Wellbeing"
+        title="Resilience Hub"
+        subtitle="The emotional layer. Daily mantras, the Wins Reservoir, reframes for the hard moments, wind-down protocols, and a crisis mode for the heavy days."
+        marker="RH.01"
+      />
 
       {/* Tab nav */}
       <div className="flex gap-2 mb-5 border-b border-border overflow-x-auto">

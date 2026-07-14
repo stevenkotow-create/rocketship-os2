@@ -1,3 +1,5 @@
+import { PageHero } from "@/components/PageHero";
+
 type LogEntry = {
   day: string;
   date: string;
@@ -12,10 +14,7 @@ const LOG_ENTRIES: LogEntry[] = [];
 export default function BuildLog() {
   return (
     <div>
-      <div className="page-hero">
-        <h1>Build Log</h1>
-        <p>The story of how your mission came together. Day-by-day.</p>
-      </div>
+      <PageHero eyebrow="Journal" title="Build Log" subtitle="The story of how your mission came together. Day-by-day." marker="BL.01" />
 
       {LOG_ENTRIES.length === 0 ? (
         <div className="card text-center py-12">

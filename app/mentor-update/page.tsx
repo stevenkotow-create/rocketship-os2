@@ -8,6 +8,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { PageHero } from "@/components/PageHero";
 import { useAppState } from "@/lib/storage";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import type { Opportunity } from "@/lib/types";
@@ -125,12 +126,12 @@ export default function MentorUpdatePage() {
 
   return (
     <div>
-      <div className="page-hero">
-        <h1>Mentor Update <span className="text-accent">📡</span></h1>
-        <p>
-          Auto-generated weekly progress post for your mentors or accountability group. Pulls from this week&apos;s pipeline activity · applications shipped, interviews booked, Mission Compass usage. Copy to clipboard, paste into your community, hit post.
-        </p>
-      </div>
+      <PageHero
+        eyebrow="Accountability"
+        title="Mentor Update"
+        subtitle="Auto-generated weekly progress post for your mentors or accountability group. Pulls from this week's pipeline activity · applications shipped, interviews booked, Mission Compass usage. Copy to clipboard, paste into your community, hit post."
+        marker="MU.01"
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
         <div className="stat">

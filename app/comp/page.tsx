@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SENIOR_AE_COMP_JUNE_2026, PIPELINE_MATCHES, AI_NATIVE_EXTRAPOLATED } from "@/lib/data/comp";
+import { PageHero } from "@/components/PageHero";
 
 export default function CompBenchmarks() {
   const [aud, setAud] = useState(false); // toggle USD → AUD rough conversion
@@ -20,10 +21,7 @@ export default function CompBenchmarks() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Comp Benchmarks 💰</h1>
-      <p className="text-muted text-sm mb-6">
-        Senior Tech AE comp packages · June 2026 · 17 major US tech companies. Use as anchor in every recruiter/HM comp conversation.
-      </p>
+      <PageHero eyebrow="Reference" title="Comp Benchmarks" subtitle="Senior Tech AE comp packages · June 2026 · 17 major US tech companies. Use as anchor in every recruiter/HM comp conversation." marker="CMP.01" />
 
       {/* Toggle */}
       <div className="flex items-center gap-2 mb-4">

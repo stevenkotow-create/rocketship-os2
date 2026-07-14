@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PageHero } from "@/components/PageHero";
 import { FRAMEWORKS } from "@/lib/data/frameworks";
 
 export default function FlightManual() {
@@ -8,10 +9,12 @@ export default function FlightManual() {
 
   return (
     <div>
-      <div className="page-hero">
-        <h1>Flight Manual</h1>
-        <p>Strategic depth layer. The frameworks you reference in the moment. <strong className="text-accent">{FRAMEWORKS.length} frameworks indexed</strong> · click any to expand.</p>
-      </div>
+      <PageHero
+        eyebrow="Reference"
+        title="Flight Manual"
+        subtitle={<>Strategic depth layer. The frameworks you reference in the moment. <strong className="text-accent">{FRAMEWORKS.length} frameworks indexed</strong> · click any to expand.</>}
+        marker="FM.01"
+      />
 
       <div className="space-y-2">
         {FRAMEWORKS.map((f) => (

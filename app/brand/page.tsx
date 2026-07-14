@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PageHero } from "@/components/PageHero";
 
 type TabId = "strategy" | "posts" | "vault" | "calendar" | "analytics";
 
@@ -58,8 +59,7 @@ export default function PersonalBrand() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Personal Brand · LinkedIn Growth</h1>
-      <p className="text-muted text-sm mb-6">Build the AI-native operator brand in public while job-searching. Inbound DMs &gt; outbound spray.</p>
+      <PageHero eyebrow="Playbook" title="Personal Brand · LinkedIn Growth" subtitle="Build the AI-native operator brand in public while job-searching. Inbound DMs > outbound spray." marker="PB.01" />
 
       {/* Tab nav */}
       <div className="flex gap-2 mb-5 border-b border-border">

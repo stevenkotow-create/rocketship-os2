@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAppState } from "@/lib/storage";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import { AI_COACH_BRIEF } from "@/lib/data/frameworks";
+import { PageHero } from "@/components/PageHero";
 
 const STARTER_PROMPTS = [
   "What's my single highest-leverage action this morning?",
@@ -104,14 +105,7 @@ export default function CoPilotConsole() {
 
   return (
     <div>
-      <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
-        <div>
-          <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Co-Pilot Briefing</h1>
-          <p className="text-muted text-sm">
-            Smart prompt builder. Bundles your AI Coach Brief + live platform state + your question into a single prompt → opens Claude.ai → you paste → get Co-Pilot answer with full context.
-          </p>
-        </div>
-      </div>
+      <PageHero eyebrow="Coach" title="Co-Pilot Briefing" subtitle="Smart prompt builder. Bundles your AI Coach Brief + live platform state + your question into a single prompt → opens Claude.ai → you paste → get Co-Pilot answer with full context." marker="CP.01" />
 
       <div className="card !border-accent">
         <h3 className="text-base font-semibold text-accent mt-0 mb-2">How this works · $0 cost</h3>

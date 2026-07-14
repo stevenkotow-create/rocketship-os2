@@ -3,6 +3,7 @@
 import { useAppState } from "@/lib/storage";
 import { calculateXP, getRank, getEarnedAchievements, buildAchievementSnapshot } from "@/lib/xp";
 import { RANKS } from "@/lib/constants";
+import { PageHero } from "@/components/PageHero";
 
 export default function Achievements() {
   const [state] = useAppState();
@@ -16,8 +17,7 @@ export default function Achievements() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Mission Ranks 🏆</h1>
-      <p className="text-muted text-sm mb-6">Your operator progression. Every drill, every move, every win compounds into XP and rank.</p>
+      <PageHero eyebrow="Progression" title="Mission Ranks" subtitle="Your operator progression. Every drill, every move, every win compounds into XP and rank." marker="MR.01" />
 
       {/* Current Rank Hero */}
       <div className="card !border-accent bg-gradient-to-br from-surface to-surface-2 mb-5">

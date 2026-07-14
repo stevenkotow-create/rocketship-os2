@@ -239,7 +239,7 @@ export default function MissionControl() {
       {/* V3.6 · Mission Control header · clean title + tiny demo reset link */}
       <div className="flex items-end justify-between mb-6 flex-wrap gap-3">
         <div>
-          <h1 className="display text-[34px] leading-[1.1] text-text mb-1.5">Mission Control</h1>
+          <h1 className="display text-glow text-[34px] leading-[1.1] text-text mb-1.5">Mission Control</h1>
           <p className="text-[14px] text-text-dim m-0">
             RocketShip OS · the job ASSESSOR grounded in 12 peer-reviewed frameworks.
           </p>

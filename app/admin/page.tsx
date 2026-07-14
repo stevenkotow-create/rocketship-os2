@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { supabase, supabaseEnabled, type Profile } from "@/lib/supabase";
 import { useAppState, setActingAs } from "@/lib/storage";
 import type { AppState, Opportunity, Stage } from "@/lib/types";
+import { PageHero } from "@/components/PageHero";
 
 const STAGE_LABELS: Record<Stage, string> = {
   targeting: "Scouting",
@@ -75,10 +76,7 @@ export default function AdminPage() {
 
   return (
     <Wrap>
-      <h1 className="text-[28px] font-bold tracking-tight text-text">Admin · Team boards</h1>
-      <p className="mt-1 text-[14px] text-text-dim">
-        Watch each person&apos;s progress and seed their initial probes.
-      </p>
+      <PageHero eyebrow="Admin" title="Admin · Team boards" subtitle="Watch each person's progress and seed their initial probes." marker="AT.01" />
 
       <div className="mt-6 grid grid-cols-[240px_1fr] gap-6">
         <div className="space-y-1">

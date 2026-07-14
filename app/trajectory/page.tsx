@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppState, weekStart } from "@/lib/storage";
+import { PageHero } from "@/components/PageHero";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import { FUNNEL_STAGES } from "@/lib/constants";
 
@@ -44,8 +45,12 @@ export default function TrajectoryDensity() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Trajectory Density</h1>
-      <p className="text-muted text-sm mb-6">Marketing funnel applied to job hunt. Density targets per stage + Mon-Sun trend bars showing whether pipeline is growing or shrinking.</p>
+      <PageHero
+        eyebrow="Analytics"
+        title="Trajectory Density"
+        subtitle="Marketing funnel applied to job hunt. Density targets per stage + Mon-Sun trend bars showing whether pipeline is growing or shrinking."
+        marker="TD.01"
+      />
 
       {/* Funnel density */}
       <h2 className="text-xl font-semibold mb-4">Funnel density · right now</h2>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppState, today } from "@/lib/storage";
+import { PageHero } from "@/components/PageHero";
 import type { DailyEntry } from "@/lib/types";
 
 export default function MissionLog() {
@@ -27,8 +28,7 @@ export default function MissionLog() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Mission Log</h1>
-      <p className="text-muted text-sm mb-6">Daily entry. Three small fields plus POD. Compounds week-over-week into a portfolio asset.</p>
+      <PageHero eyebrow="Journal" title="Mission Log" subtitle="Daily entry. Three small fields plus POD. Compounds week-over-week into a portfolio asset." marker="ML.01" />
 
       <h2 className="text-xl font-semibold mb-4">
         Today · {new Date().toLocaleDateString("en-AU", { weekday: "long", month: "long", day: "numeric" })}

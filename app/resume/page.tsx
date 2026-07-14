@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAppState } from "@/lib/storage";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import type { ResumeVersion } from "@/lib/types";
+import { PageHero } from "@/components/PageHero";
 
 // Add your CV versions, cover letters, and supporting assets here (or via the "Add a version" button).
 const SEED_VERSIONS: ResumeVersion[] = [];
@@ -82,10 +83,7 @@ export default function ResumeHub() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Resume Hub 📄</h1>
-      <p className="text-muted text-sm mb-6">
-        Every CV version + company-tailored cover letter + supporting asset in one place. Track which artifact ships with which Mission.
-      </p>
+      <PageHero eyebrow="Playbook" title="Resume Hub" subtitle="Every CV version + company-tailored cover letter + supporting asset in one place. Track which artifact ships with which Mission." marker="RH.01" />
 
       {versions.length === 0 && (
         <div className="card text-center py-10 mb-6">

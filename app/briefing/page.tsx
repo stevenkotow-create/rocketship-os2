@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PageHero } from "@/components/PageHero";
 import { useAppState } from "@/lib/storage";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import { PATTERNS } from "@/lib/data/patterns";
@@ -177,10 +178,12 @@ export default function BriefingLab() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Mission Briefing Lab 🎯</h1>
-      <p className="text-muted text-sm mb-6">
-        Generate tailored Loom + DM + Cover Letter prompts. Same pattern as Co-Pilot: build the perfect prompt → copy → paste into Claude.ai → get AI-quality output at $0.
-      </p>
+      <PageHero
+        eyebrow="Playbook"
+        title="Mission Briefing Lab"
+        subtitle="Generate tailored Loom + DM + Cover Letter prompts. Same pattern as Co-Pilot: build the perfect prompt → copy → paste into Claude.ai → get AI-quality output at $0."
+        marker="MBL.01"
+      />
 
       <div className="card">
         <h3 className="text-base font-semibold mt-0 mb-3">1. Pick an opp (or enter manually)</h3>

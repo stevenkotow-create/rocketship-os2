@@ -1,8 +1,9 @@
+import { PageHero } from "@/components/PageHero";
+
 export default function FlightPlan() {
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Flight Plan</h1>
-      <p className="text-muted text-sm mb-6">Prepared 14 May 2026 · ~75-day mission · AE target.</p>
+      <PageHero eyebrow="Mission" title="Flight Plan" subtitle="Prepared 14 May 2026 · ~75-day mission · AE target." marker="FP.01" />
 
       <h2 className="text-xl font-semibold mb-4">Your Profile</h2>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">

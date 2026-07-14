@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useAppState } from "@/lib/storage";
+import { PageHero } from "@/components/PageHero";
 import { PHASE_TASKS } from "@/lib/data/phases";
 
 export default function MissionPhases() {
@@ -29,8 +30,7 @@ export default function MissionPhases() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Mission Phases</h1>
-      <p className="text-muted text-sm mb-6">32 mission objectives across 4 launch phases.</p>
+      <PageHero eyebrow="Roadmap" title="Mission Phases" subtitle="32 mission objectives across 4 launch phases." marker="MP.01" />
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-4">
         {[1, 2, 3, 4].map((p) => {

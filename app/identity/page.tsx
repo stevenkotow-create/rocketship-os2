@@ -1,8 +1,9 @@
+import { PageHero } from "@/components/PageHero";
+
 export default function MissionIdentity() {
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Mission Identity</h1>
-      <p className="text-muted text-sm mb-6">Who you ARE before any tactical work. The foundational layer everything else compounds from. Fill each section in with your own story.</p>
+      <PageHero eyebrow="Foundation" title="Mission Identity" subtitle="Who you ARE before any tactical work. The foundational layer everything else compounds from. Fill each section in with your own story." marker="MI.01" />
 
       <h2 className="text-xl font-semibold mb-4">Your Pillars</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">

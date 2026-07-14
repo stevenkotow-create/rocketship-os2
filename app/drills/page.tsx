@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppState, today, weekStart } from "@/lib/storage";
+import { PageHero } from "@/components/PageHero";
 
 export default function MissionDrills() {
   const [state, update] = useAppState();
@@ -43,8 +44,7 @@ export default function MissionDrills() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Mission Drills</h1>
-      <p className="text-muted text-sm mb-6">Mentor-prescribed daily cadence + energy check-in.</p>
+      <PageHero eyebrow="Cadence" title="Mission Drills" subtitle="Mentor-prescribed daily cadence + energy check-in." marker="MD.01" />
 
       <h2 className="text-xl font-semibold mb-4">Today · {new Date().toLocaleDateString("en-AU", { weekday: "long", month: "long", day: "numeric" })}</h2>
       {items.map((it) => {

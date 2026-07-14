@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { PATTERNS } from "@/lib/data/patterns";
 import { STANDING_RULES, RULE_CATEGORIES, type RuleCategory } from "@/lib/data/rules";
+import { PageHero } from "@/components/PageHero";
 
 export default function CommsBay() {
   const [openPattern, setOpenPattern] = useState<string | null>(null);
@@ -29,10 +30,7 @@ export default function CommsBay() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Comms Bay</h1>
-      <p className="text-muted text-sm mb-6">
-        Standing rules library + cover letter pattern + Loom template + outreach sequence. The operator brain.
-      </p>
+      <PageHero eyebrow="Playbook" title="Comms Bay" subtitle="Standing rules library + cover letter pattern + Loom template + outreach sequence. The operator brain." marker="CB.01" />
 
       {/* STANDING RULES LIBRARY · the new headline */}
       <div className="mb-7">

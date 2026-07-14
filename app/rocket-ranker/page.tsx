@@ -6,6 +6,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { PageHero } from "@/components/PageHero";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import { useAppState } from "@/lib/storage";
 import { rankAll, TIER_STYLE, type RocketTier } from "@/lib/rocket-ranker";
@@ -46,16 +47,13 @@ export default function RocketRankerPage() {
 
   return (
     <div style={styles.page}>
-      <header style={styles.header}>
-        <div>
-          <div style={styles.eyebrow}>ROCKET RANKER · v1</div>
-          <h1 style={styles.h1}>Cross-company leaderboard</h1>
-          <p style={styles.sub}>
-            Six-Dimension Evaluator × Role-Shape Fit · APAC gate applied · sorted by tier + composite index
-          </p>
-        </div>
-        <Link href="/" style={styles.back}>← Home</Link>
-      </header>
+      <PageHero
+        eyebrow="Rocket Ranker · v1"
+        title="Cross-company leaderboard"
+        subtitle="Six-Dimension Evaluator × Role-Shape Fit · APAC gate applied · sorted by tier + composite index"
+        marker="RR.01"
+        actions={<Link href="/" style={styles.back}>← Home</Link>}
+      />
 
       {/* Tier summary strip */}
       <div style={styles.strip}>

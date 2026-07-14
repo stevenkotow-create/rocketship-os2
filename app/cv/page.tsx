@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PageHero } from "@/components/PageHero";
 
 const CV_DIMENSIONS = [
   {
@@ -124,10 +125,7 @@ Output: specific, actionable, tied to the JD. No generic advice.`;
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">CV Analyser</h1>
-      <p className="text-muted text-sm mb-6">
-        5-dimension CV self-audit + Claude prompt builder. Tick what your CV does well, paste the JD, get a tailored rewrite plan for free via Claude.ai.
-      </p>
+      <PageHero eyebrow="Playbook" title="CV Analyser" subtitle="5-dimension CV self-audit + Claude prompt builder. Tick what your CV does well, paste the JD, get a tailored rewrite plan for free via Claude.ai." marker="CV.01" />
 
       {/* Score panel */}
       <div className="card !border-accent bg-gradient-to-br from-surface to-surface-2 mb-5">

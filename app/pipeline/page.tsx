@@ -126,7 +126,7 @@ export default function Pipeline() {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><Orbit size={20} strokeWidth={1.5} /></span>
-            <h1 className="display text-[38px] leading-[1.08] text-text m-0">Launch Manifest</h1>
+            <h1 className="display text-glow text-[38px] leading-[1.08] text-text m-0">Launch Manifest</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-2xl">
             Every company you&apos;re pursuing, grouped by what needs doing next.
@@ -158,7 +158,7 @@ export default function Pipeline() {
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><Orbit size={20} strokeWidth={1.5} /></span>
-            <h1 className="display text-[34px] leading-[1.1] text-text m-0">Launch Manifest</h1>
+            <h1 className="display text-glow text-[34px] leading-[1.1] text-text m-0">Launch Manifest</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
             {view === "list"

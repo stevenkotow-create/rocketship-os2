@@ -4,6 +4,7 @@ import { useAppState } from "@/lib/storage";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import { SECTORS } from "@/lib/data/sectors";
 import { STAGES } from "@/lib/constants";
+import { PageHero } from "@/components/PageHero";
 
 export default function TargetSectors() {
   const [state] = useAppState();
@@ -12,8 +13,12 @@ export default function TargetSectors() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Target Sectors</h1>
-      <p className="text-muted text-sm mb-6">Six thesis verticals. Each with rationale, named targets, pattern fit, and current pipeline count.</p>
+      <PageHero
+        eyebrow="Playbook"
+        title="Target Sectors"
+        subtitle="Six thesis verticals. Each with rationale, named targets, pattern fit, and current pipeline count."
+        marker="TS.01"
+      />
 
       {SECTORS.map((s) => {
         const active = s.pipelineIds.map((id) => allOpps.find((o) => o.id === id)).filter((o) => o && !["closed", "accepted"].includes(o.stage));

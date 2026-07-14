@@ -4,6 +4,7 @@ import { useAppState } from "@/lib/storage";
 import { OPPORTUNITIES } from "@/lib/data/opportunities";
 import { STAGES } from "@/lib/constants";
 import type { Opportunity, ReferenceStatus } from "@/lib/types";
+import { PageHero } from "@/components/PageHero";
 
 export default function References() {
   const [state, update] = useAppState();
@@ -32,8 +33,7 @@ export default function References() {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold tracking-tight mb-1.5">Reference Activation Tracker</h1>
-      <p className="text-muted text-sm mb-6">Per-opp reference brief status. Reference calls usually land 1-2 weeks into active interview cycles. Brief your referee BEFORE the company asks.</p>
+      <PageHero eyebrow="References" title="Reference Activation Tracker" subtitle="Per-opp reference brief status. Reference calls usually land 1-2 weeks into active interview cycles. Brief your referee BEFORE the company asks." marker="RA.01" />
 
       {needsBriefing.length > 0 && (
         <div className="card !border-hot bg-hot/5 mb-4">
