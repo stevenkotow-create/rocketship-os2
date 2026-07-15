@@ -9,6 +9,7 @@ import { STAGES, PATTERN_ICONS } from "@/lib/constants";
 import { SolarSystem } from "@/components/SolarSystem";
 import { MissionCompassCard } from "@/components/MissionCompassCard";
 import { InterviewPrepCard } from "@/components/InterviewPrepCard";
+import { StarMapBuilder } from "@/components/StarMapBuilder";
 import type { Stage, Opportunity, Contact, ContactStatus, MEDDPICC } from "@/lib/types";
 import { computeStakeholderHealth, missingRequiredRoles, healthLabel } from "@/lib/star-map";
 
@@ -596,6 +597,17 @@ Cheers,
           </div>
           <div className="text-[10px] text-text-dim mt-2">Click a letter to cycle rating · 0 unmapped → 1 partial → 2 mapped → 3 solid</div>
         </div>
+      </div>
+
+      {/* Auto star map · role-mapped stakeholder scaffold (deterministic) */}
+      <div className="mb-4">
+        <StarMapBuilder
+          id={id}
+          company={opp.company}
+          roleType={opp.triage?.availableRoles?.[0]?.type || opp.position || ""}
+          contacts={contacts}
+          update={update}
+        />
       </div>
 
       {/* CONTACTS · Detail list with inline status update */}

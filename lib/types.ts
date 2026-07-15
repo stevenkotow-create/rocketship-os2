@@ -51,6 +51,9 @@ export interface Contact {
   verifiedAt?: string; // ISO
   // V2.4 · Threading research · per-stakeholder personalisation feed
   personalHook?: string; // candidate-input fact / recent post / mutual connection · feeds DM personalisation line
+  // Auto-scaffold · role-mapped slot metadata (deterministic, no AI)
+  tier?: "core" | "backup" | "round2"; // core = first-touch three, backup = fallback, round2 = activate at interview stage
+  searchRecipe?: string; // LinkedIn search string to find the real person for this slot
 }
 
 // Star Map V2 · auto-computed stakeholder health per opp
