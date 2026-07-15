@@ -65,6 +65,7 @@ export const NAV_ITEMS: NavItem[] = [
   // LIBRARY · tools + reference, tucked away (also reachable via Cmd+K)
   { href: "/briefing", label: "Generator", section: "LIBRARY", icon: "Zap" },
   { href: "/outreach-bay", label: "Outreach Bay", section: "LIBRARY", icon: "Antenna" },
+  { href: "/snippets", label: "Snippet Library", section: "LIBRARY", icon: "FileText", badge: "NEW" },
   { href: "/resume", label: "Resume Hub", section: "LIBRARY", icon: "FileText" },
   { href: "/resume-lab", label: "Resume Lab", section: "LIBRARY", icon: "StarChart" },
   { href: "/manual", label: "Flight Manual", section: "LIBRARY", icon: "StarChart" },

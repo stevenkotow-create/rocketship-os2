@@ -560,6 +560,16 @@ export interface DiscoveryProgress {
   importedLinkedIn?: boolean; // completed the paste-LinkedIn quick-start
 }
 
+// Snippet Library · reusable, voice-consistent outreach building blocks
+export type SnippetCategory = "connect" | "dm" | "email" | "loom" | "cta";
+export interface Snippet {
+  id: string;
+  category: SnippetCategory;
+  label: string;
+  body: string;
+  custom?: boolean; // user-added (vs seeded template)
+}
+
 export interface AppState {
   opps: Record<string, Partial<Opportunity>>;
   tasks: Record<string, boolean>;
@@ -590,4 +600,6 @@ export interface AppState {
   resumeAuditHistory?: ResumeAudit[]; // chronological audits, latest first
   brandPosts?: BrandPostEntry[];
   brandSnapshots?: BrandSnapshot[];
+  // Snippet Library · user-added reusable outreach blocks (seed templates live in data)
+  snippets?: Snippet[];
 }
