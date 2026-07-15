@@ -102,6 +102,13 @@ export function searchRecipe(keyword: string, company: string, region = "APAC"):
   return `site:linkedin.com/in/ "${company}" "${keyword}" ${region}`;
 }
 
+// A real one-click LinkedIn people-search deep link. Works for any logged-in
+// LinkedIn account (no Sales Nav required) — opens the right search for the slot.
+export function linkedInPeopleSearch(keyword: string, company: string, region = "APAC"): string {
+  const q = [company, keyword, region].filter(Boolean).join(" ");
+  return `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(q)}`;
+}
+
 // Build empty, role-mapped Contact slots ready for the user to fill + verify.
 export function scaffoldContacts(company: string, roleType: string, region = "APAC"): Contact[] {
   return stakeholderSlots(roleType, region).map((s) => ({
@@ -114,7 +121,36 @@ export function scaffoldContacts(company: string, roleType: string, region = "AP
     personalHook: s.why,
     tier: s.tier,
     searchRecipe: searchRecipe(s.keyword, company, region),
+    searchKeyword: s.keyword,
   }));
+}
+
+// The "Claude angle" · turn a raw LinkedIn profile into ready-to-send, personalised
+// outreach. One keyless prompt: paste the profile, get hooks + connect note + DM in
+// Steven's voice. This is the LinkedIn Bridge that closes the enrichment gap without
+// any paid API or ToS-risky scraping.
+export function buildEnrichPrompt(company: string, roleType: string, contact: Contact): string {
+  const label = ROLE_LABEL[contact.role] || contact.role;
+  const who = contact.name && contact.name.trim() ? contact.name : `the ${label}`;
+  const titleBit = contact.title ? ` (${contact.title})` : "";
+  return `I'm targeting a ${roleType || "sales"} role at ${company} and reaching out to ${who}${titleBit}. Below I'll paste their LinkedIn profile — About, experience, recent posts, interests.
+
+Match my voice: punchy, present-tense, confident and human, Australian English, NO em dashes, executive presence, and NEVER ask for the job — I show conviction and let them offer the seat.
+
+From the profile, give me:
+
+1) WHAT THEY CARE ABOUT — 3-4 tight bullets: their priorities, the themes in their posts, what they signal they value.
+
+2) TWO PERSONAL HOOKS — specific, honest observations relevant to ${company} and this role. No flattery, no generic praise. Only things actually in the profile.
+
+3) A 300-CHARACTER LINKEDIN CONNECT NOTE — count the characters and stay under 300. Lead with a hook, not a pitch. Do not ask for the job.
+
+4) A POST-ACCEPT DM — short, my voice, one clear reason I'm worth a reply, a soft open (not a hard ask).
+
+Only use what's actually in the profile. If a detail isn't there, say so rather than inventing it.
+
+LinkedIn profile:
+[PASTE THE PROFILE HERE]`;
 }
 
 const ROLE_LABEL: Record<string, string> = {
