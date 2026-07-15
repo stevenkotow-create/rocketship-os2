@@ -606,6 +606,7 @@ Cheers,
           company={opp.company}
           roleType={opp.triage?.availableRoles?.[0]?.type || opp.position || ""}
           contacts={contacts}
+          researchPack={opp.researchPack}
           update={update}
         />
       </div>

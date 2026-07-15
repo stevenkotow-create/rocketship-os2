@@ -117,6 +117,59 @@ export function scaffoldContacts(company: string, roleType: string, region = "AP
   }));
 }
 
+const ROLE_LABEL: Record<string, string> = {
+  HM: "Hiring Manager",
+  PEER: "Peer in seat",
+  GTM_RECRUITER: "Recruiter / Talent Partner",
+  APAC_AE: "Account Executive",
+  FOUNDER: "Founder",
+  OTHER: "Contact",
+};
+
+// One comprehensive Claude.ai prompt that produces the whole research pack:
+// 4-dimension company intel + a 5-field deep brief per stakeholder + a per-node
+// message stack (distinct angle per role) + a sequencing note. Keyless — the user
+// pastes this into Claude.ai and pastes the result back.
+export function buildStarMapResearchPrompt(
+  company: string,
+  roleType: string,
+  region: string,
+  contacts: Contact[]
+): string {
+  const slots = contacts.filter((c) => c.tier);
+  const lines =
+    slots
+      .map((c) => {
+        const label = ROLE_LABEL[c.role] || c.role;
+        const who = c.name && c.name.trim() ? `${c.name} — ${c.title}` : `${c.title} (name TBD — I will confirm)`;
+        return `- ${label}: ${who}`;
+      })
+      .join("\n") || "- Hiring Manager, Peer in seat, and Recruiter (names TBD)";
+
+  return `You are helping me prepare a multi-thread outreach and interview pack for a ${roleType || "sales"} role at ${company} (${region}). Match this voice: punchy, present-tense, confident and human, Australian English, NO em dashes, executive presence, and NEVER ask for the job in outreach — I express conviction and let them offer the seat.
+
+Produce four things:
+
+1) COMPANY INTEL — four dimensions, tight bullets each:
+   - Commercial: funding, stage, ARR / traction signals, notable investors.
+   - Market: ICP, main competitors, where they win.
+   - Language: 3-4 phrases their leaders actually use, so I can mirror them.
+   - Context: what has changed in the last 6 months (launches, senior hires, funding, press).
+
+2) STAKEHOLDER DEEP BRIEFS — for EACH person below, five fields: Background · Public signals (recent posts / activity) · What they hire for · Interview-use angle (how I use this in the room) · Outreach angle (the hook for my message). Where a name is TBD, give me the exact LinkedIn search to run and what a strong person for that slot looks like.
+${lines}
+
+3) PER-STAKEHOLDER MESSAGE STACK — in my voice, with a DISTINCT angle per role (Hiring Manager = credentials plus a sharp observation; Peer = a genuine peer question, not a recruiter pitch; Recruiter = a short, direct logistics flag). For each person give:
+   - a 300-character LinkedIn connect note (count the characters and stay under 300),
+   - a post-accept DM,
+   - a short email version,
+   - an 80-second Loom script outline.
+
+4) SEQUENCING NOTE — how to run these across 14 days: silent connect on day 0, 3-5 days of pre-touch (like / thoughtful comment) on the Hiring Manager and Peer, DM on day 5-7 once the connect is accepted, one nudge on day 10, graceful close on day 14. The recruiter can go direct.
+
+Before you write, here are my proof points to weave in: [PASTE YOUR CV / TOP 3-4 QUANTIFIED WINS HERE]. Keep everything honest, specific, and ready to send.`;
+}
+
 // The proven 14-day sequence · shown as guidance per node.
 export const SEQUENCE: { day: string; step: string }[] = [
   { day: "Day 0", step: "Silent connect (no note), or a 300-char note for the HM" },
