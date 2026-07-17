@@ -198,6 +198,12 @@ export default function MissionProfile() {
   const nextStage = STAGES.findIndex((s) => s.id === opp.stage);
   const nextStageDef = nextStage >= 0 && nextStage < STAGES.length - 2 ? STAGES[nextStage + 1] : null;
 
+  // Editable job details · for manually-added jobs and fields that didn't auto-fill.
+  // Writes to the per-user override so it works for both seeded and custom opps.
+  function setOppField(field: keyof Opportunity, value: string) {
+    update((s) => ({ ...s, opps: { ...s.opps, [id]: { ...(s.opps[id] || {}), [field]: value } } }));
+  }
+
   // V2.3 · Launch Pack visible when the probe was Apply-approved with a role picked
   const applyUrl = opp.triage?.appliedToRoleUrl || opp.url;
   // Launch Pack renders when opp has applyUrl AND (triage-approved OR has verified contacts with DMs OR is in active applied/early/late stage)
@@ -264,6 +270,46 @@ Cheers,
         <span>›</span>
         <span className="text-navy font-semibold">{opp.company}</span>
       </div>
+
+      {/* Edit job details · fill in what didn't auto-pull-through on a manually-added job */}
+      <details className="mb-4 rounded-xl border border-border bg-surface">
+        <summary className="cursor-pointer select-none px-4 py-3 text-[13px] font-semibold text-text">
+          ✎ Edit job details
+        </summary>
+        <div className="grid grid-cols-1 gap-3 px-4 pb-4 sm:grid-cols-2">
+          <label className="text-[11px] font-medium uppercase tracking-wide text-muted">
+            Company
+            <input value={opp.company || ""} onChange={(e) => setOppField("company", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
+          </label>
+          <label className="text-[11px] font-medium uppercase tracking-wide text-muted">
+            Role / position
+            <input value={opp.position || ""} onChange={(e) => setOppField("position", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
+          </label>
+          <label className="text-[11px] font-medium uppercase tracking-wide text-muted">
+            Type (e.g. SDR / AE / AM)
+            <input value={opp.type || ""} onChange={(e) => setOppField("type", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
+          </label>
+          <label className="text-[11px] font-medium uppercase tracking-wide text-muted">
+            Location
+            <input value={opp.location || ""} onChange={(e) => setOppField("location", e.target.value)}
+              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
+          </label>
+          <label className="text-[11px] font-medium uppercase tracking-wide text-muted sm:col-span-2">
+            Job URL
+            <input value={opp.url || ""} onChange={(e) => setOppField("url", e.target.value)} placeholder="https://…"
+              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
+          </label>
+          <label className="text-[11px] font-medium uppercase tracking-wide text-muted sm:col-span-2">
+            Note
+            <textarea value={opp.note || ""} onChange={(e) => setOppField("note", e.target.value)} rows={2}
+              className="mt-1 w-full resize-y rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
+          </label>
+        </div>
+        <p className="px-4 pb-3 text-[11px] text-muted">Saved automatically as you type.</p>
+      </details>
 
       {/* ============================================================
           GROUP (a) · COMPANY / ROLE HERO + single primary Apply

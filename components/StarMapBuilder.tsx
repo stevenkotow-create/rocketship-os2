@@ -244,64 +244,60 @@ function SlotCard({
         )}
       </div>
       {c.personalHook && <p className="mt-1 text-[11px] leading-snug text-muted">{c.personalHook}</p>}
-      {!filled ? (
-        <div className="mt-2.5 space-y-2">
-          {c.searchRecipe && (
-            <div className="flex items-center gap-2">
-              <a
-                href={searchUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glow-accent shrink-0 rounded-lg bg-accent px-2.5 py-1 text-[11px] font-semibold text-white transition hover:opacity-90 dark:text-bg"
-              >
-                Open LinkedIn search →
-              </a>
-              <button
-                onClick={onCopy}
-                className="shrink-0 rounded border border-border px-2 py-1 text-[11px] text-text-dim transition hover:border-accent hover:text-text"
-                title={c.searchRecipe}
-              >
-                {copied ? "Copied dork" : "Copy Google dork"}
-              </button>
-            </div>
-          )}
-          <div className="flex flex-wrap gap-2">
-            <input
-              value={c.name || ""}
-              onChange={(e) => onChange({ name: e.target.value })}
-              placeholder="Name, once you find them"
-              className="min-w-[140px] flex-1 rounded border border-border bg-bg px-2 py-1 text-[12px] text-text outline-none focus:border-accent"
-            />
-            <input
-              value={c.linkedin || ""}
-              onChange={(e) => onChange({ linkedin: e.target.value })}
-              placeholder="LinkedIn URL"
-              className="min-w-[140px] flex-1 rounded border border-border bg-bg px-2 py-1 text-[12px] text-text outline-none focus:border-accent"
-            />
+      <div className="mt-2.5 space-y-2">
+        {/* Find helpers · only while there's no name yet */}
+        {!filled && c.searchRecipe && (
+          <div className="flex items-center gap-2">
+            <a
+              href={searchUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glow-accent shrink-0 rounded-lg bg-accent px-2.5 py-1 text-[11px] font-semibold text-white transition hover:opacity-90 dark:text-bg"
+            >
+              Open LinkedIn search →
+            </a>
+            <button
+              onClick={onCopy}
+              className="shrink-0 rounded border border-border px-2 py-1 text-[11px] text-text-dim transition hover:border-accent hover:text-text"
+              title={c.searchRecipe}
+            >
+              {copied ? "Copied dork" : "Copy Google dork"}
+            </button>
           </div>
+        )}
+        {/* Name + LinkedIn · always editable, so you can fix or update them any time */}
+        <div className="flex flex-wrap gap-2">
+          <input
+            value={c.name || ""}
+            onChange={(e) => onChange({ name: e.target.value })}
+            placeholder="Name"
+            className="min-w-[140px] flex-1 rounded border border-border bg-bg px-2 py-1 text-[12px] text-text outline-none focus:border-accent"
+          />
+          <input
+            value={c.linkedin || ""}
+            onChange={(e) => onChange({ linkedin: e.target.value })}
+            placeholder="LinkedIn URL"
+            className="min-w-[140px] flex-1 rounded border border-border bg-bg px-2 py-1 text-[12px] text-text outline-none focus:border-accent"
+          />
         </div>
-      ) : (
-        <div className="mt-2 flex flex-wrap items-center gap-2 text-[12px]">
-          <span className="font-semibold text-text">{c.name}</span>
-          {c.linkedin ? (
-            <a href={c.linkedin} target="_blank" rel="noopener noreferrer" className="text-accent underline">
-              LinkedIn
-            </a>
-          ) : (
-            <a href={searchUrl} target="_blank" rel="noopener noreferrer" className="text-accent underline">
-              Find on LinkedIn
-            </a>
-          )}
-          <button
-            onClick={() => onChange({ verified: !c.verified, verifiedAt: new Date().toISOString() })}
-            className={`rounded px-2 py-0.5 text-[10px] font-semibold ${
-              c.verified ? "bg-good/15 text-good" : "border border-border text-muted hover:text-text"
-            }`}
-          >
-            {c.verified ? "✓ Verified" : "Mark verified"}
-          </button>
-        </div>
-      )}
+        {filled && (
+          <div className="flex flex-wrap items-center gap-2 text-[12px]">
+            {c.linkedin && (
+              <a href={c.linkedin} target="_blank" rel="noopener noreferrer" className="text-accent underline">
+                Open LinkedIn
+              </a>
+            )}
+            <button
+              onClick={() => onChange({ verified: !c.verified, verifiedAt: new Date().toISOString() })}
+              className={`rounded px-2 py-0.5 text-[10px] font-semibold ${
+                c.verified ? "bg-good/15 text-good" : "border border-border text-muted hover:text-text"
+              }`}
+            >
+              {c.verified ? "✓ Verified" : "Mark verified"}
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* LinkedIn Bridge · turn a raw profile into ready-to-send outreach (keyless) */}
       <details className="mt-2.5" open={!!c.enrichment}>
