@@ -60,6 +60,7 @@ export default function MissionProfile() {
   const [savedNote, setSavedNote] = useState<boolean>(false);
 
   // Find opp from seed data OR custom opps
+  const [editing, setEditing] = useState(false);
   const seedOpp = OPPORTUNITIES.find((o) => o.id === id);
   const customOpp = state.customOpps.find((o) => o.id === id);
   const baseOpp = seedOpp || customOpp;
@@ -271,46 +272,6 @@ Cheers,
         <span className="text-navy font-semibold">{opp.company}</span>
       </div>
 
-      {/* Edit job details · fill in what didn't auto-pull-through on a manually-added job */}
-      <details className="mb-4 rounded-xl border border-border bg-surface">
-        <summary className="cursor-pointer select-none px-4 py-3 text-[13px] font-semibold text-text">
-          ✎ Edit job details
-        </summary>
-        <div className="grid grid-cols-1 gap-3 px-4 pb-4 sm:grid-cols-2">
-          <label className="text-[11px] font-medium uppercase tracking-wide text-muted">
-            Company
-            <input value={opp.company || ""} onChange={(e) => setOppField("company", e.target.value)}
-              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
-          </label>
-          <label className="text-[11px] font-medium uppercase tracking-wide text-muted">
-            Role / position
-            <input value={opp.position || ""} onChange={(e) => setOppField("position", e.target.value)}
-              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
-          </label>
-          <label className="text-[11px] font-medium uppercase tracking-wide text-muted">
-            Type (e.g. SDR / AE / AM)
-            <input value={opp.type || ""} onChange={(e) => setOppField("type", e.target.value)}
-              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
-          </label>
-          <label className="text-[11px] font-medium uppercase tracking-wide text-muted">
-            Location
-            <input value={opp.location || ""} onChange={(e) => setOppField("location", e.target.value)}
-              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
-          </label>
-          <label className="text-[11px] font-medium uppercase tracking-wide text-muted sm:col-span-2">
-            Job URL
-            <input value={opp.url || ""} onChange={(e) => setOppField("url", e.target.value)} placeholder="https://…"
-              className="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
-          </label>
-          <label className="text-[11px] font-medium uppercase tracking-wide text-muted sm:col-span-2">
-            Note
-            <textarea value={opp.note || ""} onChange={(e) => setOppField("note", e.target.value)} rows={2}
-              className="mt-1 w-full resize-y rounded-lg border border-border bg-bg px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-text outline-none focus:border-accent" />
-          </label>
-        </div>
-        <p className="px-4 pb-3 text-[11px] text-muted">Saved automatically as you type.</p>
-      </details>
-
       {/* ============================================================
           GROUP (a) · COMPANY / ROLE HERO + single primary Apply
           ============================================================ */}
@@ -330,6 +291,12 @@ Cheers,
               <h1 className="display text-glow text-[38px] text-white leading-[1.08]">{opp.company}</h1>
               <p className="text-[16px] text-white/85 mt-1.5 leading-snug">{opp.position}</p>
               <p className="text-[12px] text-white/60 mt-1.5">{opp.type} · {opp.location}</p>
+              <button
+                onClick={() => setEditing((v) => !v)}
+                className="mt-2.5 inline-flex items-center gap-1.5 rounded-md border border-white/25 bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/80 transition hover:bg-white/20 hover:text-white"
+              >
+                {editing ? "Done editing" : "✎ Edit details"}
+              </button>
             </div>
             {scoreTotal !== null && opp.score && (
               <div className="text-right bg-white/10 border border-white/20 rounded-xl p-4 min-w-[140px] backdrop-blur-sm">
@@ -358,6 +325,42 @@ Cheers,
               <div className="text-[22px] font-bold mt-1 leading-none">{cadenceDone}<span className="text-[12px] text-white/60 font-normal">/6 ({cadencePct}%)</span></div>
             </div>
           </div>
+
+          {editing && (
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+              <label className="text-[10px] font-semibold uppercase tracking-[1.5px] text-white/60">
+                Company
+                <input value={opp.company || ""} onChange={(e) => setOppField("company", e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-white/25 bg-white/10 px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-white placeholder-white/40 outline-none focus:border-white/60" />
+              </label>
+              <label className="text-[10px] font-semibold uppercase tracking-[1.5px] text-white/60">
+                Role / position
+                <input value={opp.position || ""} onChange={(e) => setOppField("position", e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-white/25 bg-white/10 px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-white placeholder-white/40 outline-none focus:border-white/60" />
+              </label>
+              <label className="text-[10px] font-semibold uppercase tracking-[1.5px] text-white/60">
+                Type (e.g. SDR / AE / AM)
+                <input value={opp.type || ""} onChange={(e) => setOppField("type", e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-white/25 bg-white/10 px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-white placeholder-white/40 outline-none focus:border-white/60" />
+              </label>
+              <label className="text-[10px] font-semibold uppercase tracking-[1.5px] text-white/60">
+                Location
+                <input value={opp.location || ""} onChange={(e) => setOppField("location", e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-white/25 bg-white/10 px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-white placeholder-white/40 outline-none focus:border-white/60" />
+              </label>
+              <label className="text-[10px] font-semibold uppercase tracking-[1.5px] text-white/60 sm:col-span-2">
+                Job URL
+                <input value={opp.url || ""} onChange={(e) => setOppField("url", e.target.value)} placeholder="https://…"
+                  className="mt-1 w-full rounded-lg border border-white/25 bg-white/10 px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-white placeholder-white/40 outline-none focus:border-white/60" />
+              </label>
+              <label className="text-[10px] font-semibold uppercase tracking-[1.5px] text-white/60 sm:col-span-2">
+                Note
+                <textarea value={opp.note || ""} onChange={(e) => setOppField("note", e.target.value)} rows={2}
+                  className="mt-1 w-full resize-y rounded-lg border border-white/25 bg-white/10 px-3 py-2 text-[13px] font-normal normal-case tracking-normal text-white placeholder-white/40 outline-none focus:border-white/60" />
+              </label>
+              <p className="sm:col-span-2 text-[10px] text-white/50">Saved automatically as you type.</p>
+            </div>
+          )}
 
           {opp.action && (
             <div className="mt-5 bg-accent/35 border border-accent/50 rounded-lg px-4 py-3 backdrop-blur-sm">
