@@ -171,6 +171,7 @@ export interface Opportunity {
   triage?: Triage; // V2.1 · Probes Inbox triage state
   research?: ThreadingResearch; // V2.4 · per-opp research that feeds DM hooks + cover letter
   researchPack?: string; // full star-map research pack pasted back from Claude.ai
+  coverLetter?: string; // tailored cover letter pasted back from Claude.ai (Mission Cadence hub)
   hmTemplateVariant?: "A" | "B"; // V2.4 · HM DM template selector · A = warm (Thanks for connecting) · B = direct (I've applied for...)
   // V3.5 · Interview Prep Module · per-opp structured prep
   interviewPrep?: InterviewPrep;

@@ -10,6 +10,9 @@ import { SolarSystem } from "@/components/SolarSystem";
 import { MissionCompassCard } from "@/components/MissionCompassCard";
 import { InterviewPrepCard } from "@/components/InterviewPrepCard";
 import { StarMapBuilder } from "@/components/StarMapBuilder";
+import { GeneratorCard } from "@/components/GeneratorCard";
+import { buildStarMapResearchPrompt } from "@/lib/starmap-scaffold";
+import { buildCoverLetterPrompt } from "@/lib/coverletter";
 import type { Stage, Opportunity, Contact, ContactStatus, MEDDPICC } from "@/lib/types";
 import { computeStakeholderHealth, missingRequiredRoles, healthLabel } from "@/lib/star-map";
 
@@ -199,6 +202,7 @@ export default function MissionProfile() {
   const showInterviewPrep =
     STAGES.findIndex((s) => s.id === opp.stage) >= STAGES.findIndex((s) => s.id === "applied") &&
     opp.stage !== "closed";
+  const roleTypeForGen = opp.triage?.availableRoles?.[0]?.type || opp.position || "";
 
   // Editable job details · for manually-added jobs and fields that didn't auto-fill.
   // Writes to the per-user override so it works for both seeded and custom opps.
@@ -669,7 +673,6 @@ Cheers,
           company={opp.company}
           roleType={opp.triage?.availableRoles?.[0]?.type || opp.position || ""}
           contacts={contacts}
-          researchPack={opp.researchPack}
           update={update}
         />
       </div>
@@ -925,6 +928,30 @@ Cheers,
           GROUP (e) · MISSION CADENCE
           ============================================================ */}
       <h2 className="text-[11px] font-mono uppercase tracking-[2px] text-muted mb-3 mt-10">Mission Cadence</h2>
+      <p className="text-[13px] text-text-dim mb-3 -mt-1">
+        Drop your details in and generate the two things you actually send: your outreach research pack and your cover
+        letter. Both keyless, both in your voice.
+      </p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-4">
+        <GeneratorCard
+          title="Research pack"
+          description="One prompt, the whole outreach pack: company intel, a deep brief per stakeholder, and per-node messages, each in your voice."
+          buttonLabel="✦ Generate research pack →"
+          buildPrompt={() => buildStarMapResearchPrompt(opp.company, roleTypeForGen, "APAC", contacts)}
+          value={opp.researchPack}
+          onSave={(v) => setOppField("researchPack", v)}
+          placeholder="Paste the finished research pack here to save it on this mission…"
+        />
+        <GeneratorCard
+          title="Cover letter"
+          description="A tailored cover letter for this role in your voice, no generic openers and no em dashes. Drop your CV / top wins where prompted."
+          buttonLabel="✦ Generate cover letter →"
+          buildPrompt={() => buildCoverLetterPrompt(opp, contacts)}
+          value={opp.coverLetter}
+          onSave={(v) => setOppField("coverLetter", v)}
+          placeholder="Paste the finished cover letter here to save it on this mission…"
+        />
+      </div>
       <div className="card mb-4">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-bold flex items-center gap-2">

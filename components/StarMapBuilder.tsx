@@ -5,7 +5,6 @@ import type { AppState, Contact, ContactStatus } from "@/lib/types";
 import {
   scaffoldContacts,
   SEQUENCE,
-  buildStarMapResearchPrompt,
   linkedInPeopleSearch,
   buildEnrichPrompt,
 } from "@/lib/starmap-scaffold";
@@ -25,33 +24,18 @@ export function StarMapBuilder({
   company,
   roleType,
   contacts,
-  researchPack,
   update,
 }: {
   id: string;
   company: string;
   roleType: string;
   contacts: Contact[];
-  researchPack?: string;
   update: (fn: (s: AppState) => AppState) => void;
 }) {
   const [copied, setCopied] = useState<number | null>(null);
-  const [genCopied, setGenCopied] = useState(false);
-  const [packDraft, setPackDraft] = useState(researchPack || "");
-  const [packSaved, setPackSaved] = useState(false);
 
   function writeContacts(next: Contact[]) {
     update((s) => ({ ...s, opps: { ...s.opps, [id]: { ...(s.opps[id] || {}), contacts: next } } }));
-  }
-  function writeOpp(patch: Record<string, unknown>) {
-    update((s) => ({ ...s, opps: { ...s.opps, [id]: { ...(s.opps[id] || {}), ...patch } } }));
-  }
-  function generatePack() {
-    const prompt = buildStarMapResearchPrompt(company, roleType, "APAC", contacts);
-    navigator.clipboard?.writeText(prompt);
-    setGenCopied(true);
-    setTimeout(() => setGenCopied(false), 2000);
-    window.open("https://claude.ai/new", "_blank", "noopener,noreferrer");
   }
   function scaffold() {
     writeContacts([...contacts, ...scaffoldContacts(company, roleType)]);
@@ -95,50 +79,6 @@ export function StarMapBuilder({
 
   return (
     <div className="space-y-4">
-      {/* Research pack generator · one keyless Claude prompt */}
-      <div className="card">
-        <div className="label-caps mb-1">Research pack</div>
-        <p className="mb-3 text-[13px] leading-relaxed text-text-dim">
-          One prompt, the whole pack: four-dimension company intel, a five-field deep brief per stakeholder, and a
-          per-node message stack with a distinct angle each, in your voice. Runs free in Claude.ai.
-        </p>
-        <button
-          onClick={generatePack}
-          className="glow-accent rounded-lg bg-accent px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90 dark:text-bg"
-        >
-          {genCopied ? "Copied → opening Claude.ai…" : "✦ Generate research pack →"}
-        </button>
-        <p className="mt-2 text-[11px] text-muted">
-          Copies the prompt and opens Claude.ai. Drop your CV / top wins where prompted, then paste the finished pack
-          back below.
-        </p>
-        <details className="mt-3" open={!!researchPack}>
-          <summary className="label-caps cursor-pointer select-none">
-            {researchPack ? "Saved research pack ✓ · edit" : "Paste the finished pack back"}
-          </summary>
-          <div className="mt-2">
-            <textarea
-              value={packDraft}
-              onChange={(e) => {
-                setPackDraft(e.target.value);
-                setPackSaved(false);
-              }}
-              placeholder="Paste Claude's research pack here to save it on this mission…"
-              className="h-40 w-full resize-y rounded-lg border border-border bg-bg p-3 text-[12px] text-text outline-none focus:border-accent"
-            />
-            <button
-              onClick={() => {
-                writeOpp({ researchPack: packDraft });
-                setPackSaved(true);
-              }}
-              disabled={!packDraft.trim()}
-              className="mt-2 rounded-lg border border-accent bg-accent/10 px-3 py-1.5 text-[12px] font-semibold text-accent transition hover:bg-accent/20 disabled:opacity-50"
-            >
-              {packSaved ? "Saved ✓" : "Save pack to mission"}
-            </button>
-          </div>
-        </details>
-      </div>
       {groups.map((g) => {
         const items = contacts.map((c, i) => ({ c, i })).filter((x) => x.c.tier === g.tier);
         if (!items.length) return null;
