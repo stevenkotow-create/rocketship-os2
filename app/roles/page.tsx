@@ -35,7 +35,9 @@ export default function LiveRoles() {
   const [loading, setLoading] = useState(false);
   const [scanned, setScanned] = useState(false);
   const [salesOnly, setSalesOnly] = useState(true);
-  const [remoteOnly, setRemoteOnly] = useState(true);
+  // Off by default: the region filter already scopes to takeable roles, and forcing
+  // remote-only was hiding genuine ANZ-based (office) roles. Users can still opt in.
+  const [remoteOnly, setRemoteOnly] = useState(false);
   const [region, setRegion] = useState<Region>("anz");
   const [kw, setKw] = useState("");
   const [urlInput, setUrlInput] = useState("");
@@ -127,7 +129,7 @@ export default function LiveRoles() {
         eyebrow="Daily"
         title="Live Roles"
         marker="LR.01"
-        subtitle="Real openings pulled straight from each company's own hiring system (Greenhouse, Lever, Ashby). No job board in the middle, no cost. Defaulting to remote sales roles you can actually take from Australia or New Zealand."
+        subtitle="Real openings pulled straight from each company's own hiring system (Greenhouse, Lever, Ashby). No job board in the middle, no cost. Sales roles you can actually take from Australia or New Zealand, whether they're remote or based here. Flip on Remote only to narrow further."
         actions={
           <button
             onClick={scanAll}

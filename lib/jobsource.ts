@@ -24,12 +24,11 @@ export interface SourceCompany {
 // Curated seed of remote-friendly tech-sales rockets on public ATS boards.
 // Tokens verified/pruned against live boards. Users can add any company by careers URL.
 export const JOB_SOURCES: SourceCompany[] = [
-  { company: "Deel", provider: "ashby", token: "deel" },
   { company: "Deputy", provider: "lever", token: "deputy" },
   { company: "GitLab", provider: "greenhouse", token: "gitlab" },
   { company: "Vanta", provider: "ashby", token: "vanta" },
   { company: "Datadog", provider: "greenhouse", token: "datadog" },
-  { company: "HubSpot", provider: "greenhouse", token: "hubspot" },
+  { company: "HubSpot", provider: "greenhouse", token: "hubspotjobs" },
   { company: "Samsara", provider: "greenhouse", token: "samsara" },
   { company: "Figma", provider: "greenhouse", token: "figma" },
   { company: "Ramp", provider: "ashby", token: "ramp" },
@@ -55,14 +54,15 @@ const ANZ_RX =
   /\b(australia|australian|sydney|melbourne|brisbane|perth|canberra|adelaide|gold coast|hobart|darwin|new zealand|auckland|wellington|christchurch|nz|anz|australasia)\b/i;
 const GLOBAL_REMOTE_RX = /\b(anywhere|worldwide|global|globally|fully remote)\b/i;
 
-// A role an ANZ-based person could realistically take: located in ANZ, or a
-// genuinely global/anywhere remote posting (not region-locked elsewhere).
+// A role an ANZ-based person could realistically take: located in ANZ (office or
+// remote), or a genuinely global/anywhere remote posting. A bare "Remote" with no
+// country is deliberately NOT treated as ANZ — on US company boards it almost always
+// means US-remote (work authorisation there), which was leaking US roles into the
+// ANZ view (e.g. a "Washington DC" role tagged only "Remote").
 export function inANZ(loc: string): boolean {
   const s = loc || "";
   if (ANZ_RX.test(s)) return true;
   if (GLOBAL_REMOTE_RX.test(s)) return true;
-  // bare "Remote" with no country attached reads as open
-  if (/^\s*remote\s*$/i.test(s)) return true;
   return false;
 }
 
