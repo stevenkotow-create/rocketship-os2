@@ -79,7 +79,6 @@ export default function MissionProfile() {
 
   const opp: Opportunity = { ...baseOpp, ...(state.opps[id] || {}) } as Opportunity;
   const contacts: Contact[] = opp.contacts || [];
-  const stageDef = STAGES.find((s) => s.id === opp.stage);
   const oppCadence = state.cadence[id] || {};
 
   // Cadence completion
@@ -196,8 +195,10 @@ export default function MissionProfile() {
     });
   }
 
-  const nextStage = STAGES.findIndex((s) => s.id === opp.stage);
-  const nextStageDef = nextStage >= 0 && nextStage < STAGES.length - 2 ? STAGES[nextStage + 1] : null;
+  // Interview Prep only becomes relevant once you've actually applied.
+  const showInterviewPrep =
+    STAGES.findIndex((s) => s.id === opp.stage) >= STAGES.findIndex((s) => s.id === "applied") &&
+    opp.stage !== "closed";
 
   // Editable job details · for manually-added jobs and fields that didn't auto-fill.
   // Writes to the per-user override so it works for both seeded and custom opps.
@@ -284,7 +285,16 @@ Cheers,
           <div className="flex items-start justify-between gap-6 mb-4">
             <div className="flex-1">
               <div className="flex items-center gap-2 flex-wrap text-[10px] uppercase tracking-[1.5px] text-white/70 mb-3 font-semibold">
-                <span className="inline-flex items-center gap-1.5">{stageDef?.icon} {stageDef?.label}</span>
+                <select
+                  value={opp.stage}
+                  onChange={(e) => moveStage(e.target.value as Stage)}
+                  aria-label="Job status"
+                  className="rounded-md border border-white/25 bg-white/15 px-2 py-1 text-[10px] font-semibold uppercase tracking-[1.5px] text-white outline-none focus:border-white/60 [&>option]:text-black"
+                >
+                  {STAGES.map((s) => (
+                    <option key={s.id} value={s.id}>{s.icon} {s.label}</option>
+                  ))}
+                </select>
                 {opp.priority && <span className="px-2 py-0.5 bg-white/15 rounded-md">{opp.priority}</span>}
                 {opp.pattern && <span className="px-2 py-0.5 bg-white/15 rounded-md">{PATTERN_ICONS[opp.pattern]} Pattern {opp.pattern}</span>}
               </div>
@@ -568,8 +578,12 @@ Cheers,
       {/* ============================================================
           GROUP (c) · PREP · Interview Prep
           ============================================================ */}
-      <h2 className="text-[11px] font-mono uppercase tracking-[2px] text-muted mb-3 mt-10">Prep</h2>
-      <InterviewPrepCard opp={opp} state={state} update={update} />
+      {showInterviewPrep && (
+        <>
+          <h2 className="text-[11px] font-mono uppercase tracking-[2px] text-muted mb-3 mt-10">Prep</h2>
+          <InterviewPrepCard opp={opp} state={state} update={update} />
+        </>
+      )}
 
       {/* ============================================================
           GROUP (d) · THREADING & STAKEHOLDERS
@@ -1062,32 +1076,6 @@ Cheers,
         </div>
       </div>
 
-      {/* STAGE CONTROLS */}
-      <div className="card mb-6">
-        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
-          <span>🚀</span> Move Mission Stage
-        </h2>
-        <div className="text-xs text-muted mb-3">
-          Currently: <strong className="text-navy">{stageDef?.icon} {stageDef?.label}</strong>
-          {nextStageDef && <> · Next: <strong className="text-accent">{nextStageDef.icon} {nextStageDef.label}</strong></>}
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          {STAGES.map((s) => (
-            <button
-              key={s.id}
-              onClick={() => moveStage(s.id as Stage)}
-              disabled={s.id === opp.stage}
-              className={`text-xs px-3 py-2 rounded border ${
-                s.id === opp.stage
-                  ? "bg-accent text-white border-accent cursor-default"
-                  : "bg-surface-2 border-border hover:border-accent hover:bg-surface-3"
-              }`}
-            >
-              {s.icon} {s.label}
-            </button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
