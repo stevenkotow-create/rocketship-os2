@@ -43,6 +43,7 @@ export default function LiveRoles() {
   const [urlInput, setUrlInput] = useState("");
   const [addingUrl, setAddingUrl] = useState(false);
   const [added, setAdded] = useState<Record<string, boolean>>({});
+  const [toast, setToast] = useState<string | null>(null);
 
   const onBoard = useMemo(() => {
     const s = new Set<string>();
@@ -72,16 +73,63 @@ export default function LiveRoles() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function showToast(msg: string) {
+    setToast(msg);
+    setTimeout(() => setToast(null), 2600);
+  }
+
   async function addCompanyByUrl() {
-    if (!urlInput.trim()) return;
+    const url = urlInput.trim();
+    if (!url) return;
     setAddingUrl(true);
-    const { jobs: newJobs } = await scanByUrl(urlInput.trim());
+    const { jobs: newJobs } = await scanByUrl(url);
+    const fresh = newJobs.filter((j) => j.id);
     setJobs((prev) => {
       const seen = new Set(prev.map((j) => j.id));
-      return [...prev, ...newJobs.filter((j) => j.id && !seen.has(j.id))];
+      return [...prev, ...fresh.filter((j) => !seen.has(j.id))];
     });
-    setUrlInput("");
     setAddingUrl(false);
+    if (fresh.length > 0) {
+      setUrlInput("");
+      showToast(`✓ Pulled ${fresh.length} role${fresh.length === 1 ? "" : "s"} in`);
+    } else {
+      showToast("No live board there — use “Add as a single job”");
+    }
+  }
+
+  // Add ANY job by its link (LinkedIn, ServiceNow, Workday, anywhere) — parses the
+  // company + title from the URL, adds it straight to the board. You refine the
+  // details on the mission page.
+  function addManualByUrl() {
+    const raw = urlInput.trim();
+    if (!raw) return;
+    let company = "New company";
+    let title = "Role";
+    try {
+      const u = new URL(raw.startsWith("http") ? raw : `https://${raw}`);
+      const host = u.hostname.replace(/^www\./, "").replace(/^careers\./, "").replace(/^jobs\./, "");
+      company = host.split(".")[0].replace(/\b\w/g, (c) => c.toUpperCase());
+      const segs = u.pathname.split("/").filter(Boolean).filter((s) => !/^\d+$/.test(s) && s.length > 2);
+      const slug = segs[segs.length - 1];
+      if (slug) title = decodeURIComponent(slug).replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    } catch {
+      /* leave defaults */
+    }
+    const id = `manual-${Date.now()}`;
+    const opp: Opportunity = {
+      id,
+      company,
+      position: title,
+      type: "role",
+      location: "",
+      stage: "targeting",
+      url: raw,
+      note: "Added manually by link. Edit the details on the mission page.",
+    };
+    update((s) => ({ ...s, customOpps: [...(s.customOpps || []), opp] }));
+    setAdded((a) => ({ ...a, [id]: true }));
+    setUrlInput("");
+    showToast(`✓ Added ${title} at ${company}`);
   }
 
   function addToBoard(j: NormalizedJob) {
@@ -101,6 +149,7 @@ export default function LiveRoles() {
       return { ...s, customOpps: [...(s.customOpps || []), opp] };
     });
     setAdded((a) => ({ ...a, [j.id]: true }));
+    showToast(`✓ Added ${j.title} to your board`);
   }
 
   function regionMatch(j: NormalizedJob): boolean {
@@ -169,6 +218,38 @@ export default function LiveRoles() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Add a job · top of page · pull a board OR add any single job by link */}
+      <div className="mb-6 rounded-xl border border-border bg-surface/50 p-4">
+        <div className="mb-1 font-mono text-[10px] font-bold uppercase tracking-[1.8px] text-muted">Add a job</div>
+        <p className="mb-3 text-[12px] text-text-dim">
+          Paste a Greenhouse / Lever / Ashby careers URL to pull a company&apos;s whole live board, or paste any single
+          job link (LinkedIn, ServiceNow, Workday, anywhere) and add it straight to your board.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <input
+            value={urlInput}
+            onChange={(e) => setUrlInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && addCompanyByUrl()}
+            placeholder="https://… a careers board, or a single job link"
+            className="min-w-[240px] flex-1 rounded-lg border border-border bg-bg px-3 py-2 text-[13px] text-text outline-none focus:border-accent"
+          />
+          <button
+            onClick={addCompanyByUrl}
+            disabled={addingUrl || !urlInput.trim()}
+            className="rounded-lg border border-accent bg-accent/10 px-4 py-2 text-[13px] font-semibold text-accent transition hover:bg-accent/20 disabled:opacity-50"
+          >
+            {addingUrl ? "Pulling…" : "Pull roles"}
+          </button>
+          <button
+            onClick={addManualByUrl}
+            disabled={!urlInput.trim()}
+            className="rounded-lg bg-accent px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90 disabled:opacity-50 dark:text-bg"
+          >
+            Add as a single job
+          </button>
+        </div>
       </div>
 
       {/* Controls */}
@@ -280,32 +361,11 @@ export default function LiveRoles() {
         </div>
       )}
 
-      {/* Add by URL */}
-      <div className="mt-8 rounded-xl border border-border bg-surface/40 p-4">
-        <div className="mb-1 font-mono text-[10px] font-bold uppercase tracking-[1.8px] text-muted">
-          Add any company
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full border border-border bg-surface px-4 py-2 text-[13px] font-semibold text-text shadow-lg">
+          {toast}
         </div>
-        <p className="mb-3 text-[12px] text-text-dim">
-          Paste a Greenhouse, Lever or Ashby careers URL (e.g. jobs.ashbyhq.com/company or jobs.lever.co/company)
-          and pull their live board in.
-        </p>
-        <div className="flex flex-wrap gap-2">
-          <input
-            value={urlInput}
-            onChange={(e) => setUrlInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addCompanyByUrl()}
-            placeholder="https://jobs.ashbyhq.com/company"
-            className="min-w-[240px] flex-1 rounded-lg border border-border bg-bg px-3 py-2 text-[13px] text-text outline-none focus:border-accent"
-          />
-          <button
-            onClick={addCompanyByUrl}
-            disabled={addingUrl || !urlInput.trim()}
-            className="rounded-lg border border-accent bg-accent/10 px-4 py-2 text-[13px] font-semibold text-accent transition hover:bg-accent/20 disabled:opacity-50"
-          >
-            {addingUrl ? "Pulling…" : "Pull roles"}
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
