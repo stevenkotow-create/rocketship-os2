@@ -71,7 +71,7 @@ export default function MissionProfile() {
         <div className="card">
           <h1 className="text-2xl font-bold mb-2">Mission not found</h1>
           <p className="text-sm text-text-dim mb-4">No opportunity with ID <code className="bg-surface-3 px-2 py-0.5 rounded">{id}</code> in scouting or custom missions.</p>
-          <Link href="/pipeline" className="text-accent hover:underline">← Back to Launch Manifest</Link>
+          <Link href="/pipeline" className="text-accent hover:underline">← Back to Missions</Link>
         </div>
       </div>
     );
@@ -267,7 +267,7 @@ Cheers,
     <div>
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs text-muted mb-4">
-        <Link href="/pipeline" className="hover:text-accent">Launch Manifest</Link>
+        <Link href="/pipeline" className="hover:text-accent">Missions</Link>
         <span>›</span>
         <span className="text-navy font-semibold">{opp.company}</span>
       </div>

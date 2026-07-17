@@ -1,12 +1,12 @@
 export type Stage =
-  | "targeting" // Scouting
-  | "contacted" // Comms Open
-  | "applied"   // Payload Sent
-  | "early"     // Ignition
-  | "late"      // Ascent
-  | "offer"     // Orbit
-  | "accepted"  // Docked
-  | "closed";   // Recovered
+  | "targeting" // Saved
+  | "contacted" // Contacted
+  | "applied"   // Applied
+  | "early"     // Interviewing
+  | "late"      // Final rounds
+  | "offer"     // Offer
+  | "accepted"  // Accepted
+  | "closed";   // Closed
 
 export type Pattern = "A" | "B" | "C" | "D" | "E";
 export type Priority = "P1" | "P2" | "P3" | "Watch";

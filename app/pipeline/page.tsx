@@ -55,7 +55,7 @@ const GROUPS: GroupDef[] = [
   {
     id: "targeting",
     label: "🔭 Targeting",
-    description: "Scouting · pre-application research and threading",
+    description: "Saved · researching before you apply",
     accentClass: "text-muted border-border",
   },
   {
@@ -126,7 +126,7 @@ export default function Pipeline() {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><Orbit size={20} strokeWidth={1.5} /></span>
-            <h1 className="display text-glow text-[38px] leading-[1.08] text-text m-0">Launch Manifest</h1>
+            <h1 className="display text-glow text-[38px] leading-[1.08] text-text m-0">Missions</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-2xl">
             Every company you&apos;re pursuing, grouped by what needs doing next.
@@ -135,8 +135,8 @@ export default function Pipeline() {
         <div className="retro-band mb-8"><span /><span /></div>
         <EmptyState
           icon={<Orbit size={44} strokeWidth={1.25} />}
-          title="No missions on the manifest yet."
-          body="Add the companies you're targeting and they flow through every stage here — from first probe to offer."
+          title="No jobs saved yet."
+          body="Add the roles you're chasing and they move through each stage here, from saved to offer."
           action={
             <Link
               href="/onboarding"
@@ -158,7 +158,7 @@ export default function Pipeline() {
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <span className="text-accent"><Orbit size={20} strokeWidth={1.5} /></span>
-            <h1 className="display text-glow text-[34px] leading-[1.1] text-text m-0">Launch Manifest</h1>
+            <h1 className="display text-glow text-[34px] leading-[1.1] text-text m-0">Missions</h1>
           </div>
           <p className="text-[14px] text-text-dim m-0 max-w-3xl">
             {view === "list"

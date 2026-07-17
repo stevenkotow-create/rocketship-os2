@@ -7,14 +7,14 @@ import type { AppState, Opportunity, Stage } from "@/lib/types";
 import { PageHero } from "@/components/PageHero";
 
 const STAGE_LABELS: Record<Stage, string> = {
-  targeting: "Scouting",
-  contacted: "Comms Open",
-  applied: "Payload Sent",
-  early: "Ignition",
-  late: "Ascent",
-  offer: "Orbit",
-  accepted: "Docked",
-  closed: "Recovered",
+  targeting: "Saved",
+  contacted: "Contacted",
+  applied: "Applied",
+  early: "Interviewing",
+  late: "Final rounds",
+  offer: "Offer",
+  accepted: "Accepted",
+  closed: "Closed",
 };
 
 const STAGES = Object.keys(STAGE_LABELS) as Stage[];

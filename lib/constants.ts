@@ -1,12 +1,12 @@
 export const STAGES = [
-  { id: "targeting", label: "Scouting", icon: "🔭", color: "muted" },
-  { id: "contacted", label: "Comms Open", icon: "📡", color: "cool" },
-  { id: "applied", label: "Payload Sent", icon: "🚀", color: "accent" },
-  { id: "early", label: "Ignition", icon: "🔥", color: "warn" },
-  { id: "late", label: "Ascent", icon: "📈", color: "accent-2" },
-  { id: "offer", label: "Orbit", icon: "🛰", color: "good" },
-  { id: "accepted", label: "Docked", icon: "🎉", color: "good" },
-  { id: "closed", label: "Recovered", icon: "📕", color: "muted" },
+  { id: "targeting", label: "Saved", icon: "🔭", color: "muted" },
+  { id: "contacted", label: "Contacted", icon: "📡", color: "cool" },
+  { id: "applied", label: "Applied", icon: "🚀", color: "accent" },
+  { id: "early", label: "Interviewing", icon: "🔥", color: "warn" },
+  { id: "late", label: "Final rounds", icon: "📈", color: "accent-2" },
+  { id: "offer", label: "Offer", icon: "🛰", color: "good" },
+  { id: "accepted", label: "Accepted", icon: "🎉", color: "good" },
+  { id: "closed", label: "Closed", icon: "📕", color: "muted" },
 ] as const;
 
 export const PATTERN_ICONS: Record<string, string> = {
@@ -50,7 +50,7 @@ export const NAV_ITEMS: NavItem[] = [
   // THE HUNT · get real roles in and move them forward
   { href: "/roles", label: "Live Roles", section: "THE HUNT", icon: "Antenna", badge: "NEW" },
   { href: "/probes", label: "Probes Inbox", section: "THE HUNT", icon: "Probe" },
-  { href: "/pipeline", label: "Pipeline", section: "THE HUNT", icon: "Orbit" },
+  { href: "/pipeline", label: "Missions", section: "THE HUNT", icon: "Orbit" },
   { href: "/outreach-funnel", label: "Outreach", section: "THE HUNT", icon: "Beacon" },
   { href: "/interview-day", label: "Interview Day", section: "THE HUNT", icon: "Reticle" },
 
