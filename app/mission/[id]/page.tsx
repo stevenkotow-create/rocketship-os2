@@ -210,6 +210,42 @@ export default function MissionProfile() {
     update((s) => ({ ...s, opps: { ...s.opps, [id]: { ...(s.opps[id] || {}), [field]: value } } }));
   }
 
+  // Ready to launch · once the first-touch trio is verified, surface a launch bar
+  // that fires the outreach (→ Contacted) and applies (→ Applied) in one move each.
+  const coreSlots = contacts.filter((c) => c.tier === "core");
+  const readyToLaunch = coreSlots.length >= 3 && coreSlots.every((c) => !!(c.verified && c.name && c.name.trim()));
+
+  function launchOutreach() {
+    update((s) => {
+      const o = s.opps[id] || {};
+      const cs = (o.contacts || contacts).map((c) =>
+        c.tier === "core"
+          ? { ...c, status: "dm" as ContactStatus, contactedAt: c.contactedAt || today(), lastTouchAt: new Date().toISOString() }
+          : c
+      );
+      return {
+        ...s,
+        opps: { ...s.opps, [id]: { ...o, contacts: cs, stage: "contacted", daysInStage: 0 } },
+        cadence: {
+          ...s.cadence,
+          [id]: { ...(s.cadence[id] || {}), silent_connect: today(), engagement: today(), dm_loom: today() },
+        },
+      };
+    });
+  }
+
+  function applyNow() {
+    if (opp.url) window.open(opp.url, "_blank", "noopener,noreferrer");
+    update((s) => {
+      const o = s.opps[id] || {};
+      return {
+        ...s,
+        opps: { ...s.opps, [id]: { ...o, stage: "applied", daysInStage: 0 } },
+        cadence: { ...s.cadence, [id]: { ...(s.cadence[id] || {}), application: today() } },
+      };
+    });
+  }
+
   // V2.3 · Launch Pack visible when the probe was Apply-approved with a role picked
   const applyUrl = opp.triage?.appliedToRoleUrl || opp.url;
   // Launch Pack renders when opp has applyUrl AND (triage-approved OR has verified contacts with DMs OR is in active applied/early/late stage)
@@ -384,6 +420,37 @@ Cheers,
           )}
         </div>
       </div>
+
+      {/* Ready to launch · appears once the first-touch trio is verified */}
+      {readyToLaunch && ["targeting", "contacted"].includes(opp.stage) && (
+        <div className="mb-6 rounded-2xl border border-good/50 bg-good/10 p-5 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="min-w-[220px]">
+              <div className="flex items-center gap-2 text-[15px] font-bold text-good">
+                <span>✦</span> Ready to launch
+              </div>
+              <p className="mt-1 text-[13px] text-text-dim">
+                Your first-touch trio is verified and your pack is ready. Fire the outreach, then apply.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={launchOutreach}
+                disabled={opp.stage !== "targeting"}
+                className="rounded-lg border border-good bg-good/15 px-4 py-2 text-[13px] font-semibold text-good transition hover:bg-good/25 disabled:opacity-60"
+              >
+                {opp.stage === "targeting" ? "Launch outreach → Contacted" : "Outreach launched ✓"}
+              </button>
+              <button
+                onClick={applyNow}
+                className="glow-accent rounded-lg bg-accent px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90 dark:text-bg"
+              >
+                Apply → Applied
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* GROUP (a) continued · single primary Apply lives in the Launch Pack */}
       {/* V2.3 · LAUNCH PACK · single primary Apply button + Loom + 3 DMs · only when role is picked */}
