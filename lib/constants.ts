@@ -24,6 +24,7 @@ export const PATTERN_ICONS: Record<string, string> = {
 // These pages still render if accessed directly · just removed from nav per V2 audit.
 export type NavSection =
   | "HOME"
+  | "PROBES"
   | "THE HUNT"
   | "PREP & REFLECT"
   | "LIBRARY";
@@ -49,7 +50,7 @@ export const NAV_ITEMS: NavItem[] = [
 
   // THE HUNT · get real roles in and move them forward
   { href: "/roles", label: "Live Roles", section: "THE HUNT", icon: "Antenna", badge: "NEW" },
-  { href: "/probes", label: "Probes Inbox", section: "THE HUNT", icon: "Probe" },
+  { href: "/probes", label: "Probes Inbox", section: "PROBES", icon: "Probe" },
   { href: "/pipeline", label: "Missions", section: "THE HUNT", icon: "Orbit" },
   { href: "/outreach-funnel", label: "Outreach", section: "THE HUNT", icon: "Beacon" },
   { href: "/interview-day", label: "Interview Day", section: "THE HUNT", icon: "Reticle" },
@@ -106,6 +107,7 @@ export function getVisibleNavItems(demoMode: boolean): NavItem[] {
 
 export const NAV_SECTIONS: NavSection[] = [
   "HOME",
+  "PROBES",
   "THE HUNT",
   "PREP & REFLECT",
   "LIBRARY",

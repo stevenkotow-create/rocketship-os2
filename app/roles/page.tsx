@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { useAppState } from "@/lib/storage";
 import { PageHero } from "@/components/PageHero";
 import { JobCardSkeleton } from "@/components/Skeleton";
@@ -43,7 +44,7 @@ export default function LiveRoles() {
   const [urlInput, setUrlInput] = useState("");
   const [addingUrl, setAddingUrl] = useState(false);
   const [added, setAdded] = useState<Record<string, boolean>>({});
-  const [toast, setToast] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ text: string; view?: boolean } | null>(null);
 
   const onBoard = useMemo(() => {
     const s = new Set<string>();
@@ -73,9 +74,9 @@ export default function LiveRoles() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function showToast(msg: string) {
-    setToast(msg);
-    setTimeout(() => setToast(null), 2600);
+  function showToast(text: string, view = false) {
+    setToast({ text, view });
+    setTimeout(() => setToast(null), view ? 4500 : 2600);
   }
 
   async function addCompanyByUrl() {
@@ -129,7 +130,7 @@ export default function LiveRoles() {
     update((s) => ({ ...s, customOpps: [...(s.customOpps || []), opp] }));
     setAdded((a) => ({ ...a, [id]: true }));
     setUrlInput("");
-    showToast(`✓ Added ${title} at ${company}`);
+    showToast(`${title} at ${company}`, true);
   }
 
   function addToBoard(j: NormalizedJob) {
@@ -149,7 +150,7 @@ export default function LiveRoles() {
       return { ...s, customOpps: [...(s.customOpps || []), opp] };
     });
     setAdded((a) => ({ ...a, [j.id]: true }));
-    showToast(`✓ Added ${j.title} to your board`);
+    showToast(`${j.title} at ${j.company}`, true);
   }
 
   function regionMatch(j: NormalizedJob): boolean {
@@ -362,8 +363,28 @@ export default function LiveRoles() {
       )}
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full border border-border bg-surface px-4 py-2 text-[13px] font-semibold text-text shadow-lg">
-          {toast}
+        <div
+          className={`fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-xl border px-5 py-3 shadow-xl backdrop-blur ${
+            toast.view ? "border-good/50 bg-good/15" : "border-border bg-surface"
+          }`}
+        >
+          {toast.view ? (
+            <>
+              <span className="text-[16px]">✅</span>
+              <div>
+                <div className="text-[14px] font-bold text-good">Added to Missions</div>
+                <div className="text-[12px] text-text-dim">{toast.text}</div>
+              </div>
+              <Link
+                href="/pipeline"
+                className="ml-2 shrink-0 rounded-lg bg-good/20 px-3 py-1.5 text-[12px] font-semibold text-good transition hover:bg-good/30"
+              >
+                View in Missions →
+              </Link>
+            </>
+          ) : (
+            <span className="text-[13px] font-semibold text-text">{toast.text}</span>
+          )}
         </div>
       )}
     </div>
