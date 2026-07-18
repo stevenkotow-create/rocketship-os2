@@ -318,7 +318,7 @@ Cheers,
           ============================================================ */}
 
       {/* HERO · Mission Header */}
-      <div className="bg-gradient-to-br from-navy via-navy/95 to-accent/25 text-white rounded-2xl p-8 mb-6 relative overflow-hidden shadow-lg">
+      <div className="bg-gradient-to-br from-[#101f38] via-[#0b1626] to-[#17304d] text-white rounded-2xl p-8 mb-6 relative overflow-hidden shadow-lg border border-white/10">
         <div className="absolute top-0 right-0 w-72 h-72 bg-accent/25 rounded-full blur-3xl -mr-24 -mt-24" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-gold/10 rounded-full blur-3xl -ml-16 -mb-16" />
         <div className="relative">
