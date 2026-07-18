@@ -15,13 +15,13 @@ export function AdminBanner() {
   if (!acting) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-3 bg-accent px-4 py-2 text-[13px] text-white shadow-sm">
+    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-3 border-b border-[#e0ac80]/40 bg-[#0e1b2e] px-4 py-2 text-[13px] text-white/80 shadow-sm">
       <span>
-        You&apos;re editing <span className="font-semibold">{acting.email}</span>&apos;s board. Changes save to their account.
+        You&apos;re editing <span className="font-semibold text-[#f0c079]">{acting.email}</span>&apos;s board. Changes save to their account.
       </span>
       <button
         onClick={clearActingAs}
-        className="rounded-md bg-white/20 px-3 py-1 font-semibold hover:bg-white/30"
+        className="rounded-md border border-white/20 bg-white/10 px-3 py-1 font-semibold text-white hover:bg-white/20"
       >
         Exit to my board
       </button>

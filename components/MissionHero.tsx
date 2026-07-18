@@ -93,6 +93,14 @@ export function MissionHero({ subtitle }: { subtitle?: string }) {
         }}
       />
 
+      {/* instrument-panel coordinate readouts · the scientific-instrument feel */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-10">
+        <span className="absolute left-5 top-4 font-mono text-[10px] tracking-[2px] text-cool/70">LAT -33.87</span>
+        <span className="absolute right-5 top-4 font-mono text-[10px] tracking-[2px] text-cool/70">LON 151.21</span>
+        <span className="absolute left-5 bottom-4 font-mono text-[10px] tracking-[2px] text-gold/80">SYS · NOMINAL</span>
+        <span className="absolute right-5 bottom-4 font-mono text-[10px] tracking-[2px] text-muted">THE HUNT · LIVE</span>
+      </div>
+
       {/* centre · emblem + wordmark */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
         <RingEmblem />
