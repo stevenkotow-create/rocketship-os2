@@ -332,6 +332,20 @@ html[data-theme="dark"] body {
   background-repeat: no-repeat;
 }
 
+/* Light mode · daytime blueprint atmosphere · the light-mode mirror of the dark
+   starfield: same scientific-instrument DNA, rendered as ink contours + soft
+   two-accent washes on the cream paper. Kept faint so text stays crisp. */
+html:not(.dark) body {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><g fill='none' stroke='%231a3a66' stroke-width='0.6' stroke-opacity='0.06'><path d='M0,100 Q300,50 600,150 T1200,100'/><path d='M0,200 Q300,150 600,250 T1200,200'/><path d='M0,300 Q300,250 600,350 T1200,300'/><path d='M0,400 Q300,350 600,450 T1200,400'/><path d='M0,500 Q300,450 600,550 T1200,500'/><path d='M0,600 Q300,550 600,650 T1200,600'/><path d='M0,700 Q300,650 600,750 T1200,700'/></g><g fill='none' stroke='%23b0603a' stroke-width='0.7' stroke-opacity='0.05'><circle cx='150' cy='180' r='35'/><circle cx='420' cy='320' r='55'/><circle cx='780' cy='220' r='42'/><circle cx='1020' cy='560' r='65'/></g></svg>"),
+    radial-gradient(1100px 700px at 82% -12%, rgba(30, 90, 150, 0.06), transparent 60%),
+    radial-gradient(950px 620px at 6% 112%, rgba(192, 98, 62, 0.06), transparent 58%);
+  background-size: 1920px 1280px, auto, auto;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 /* ───────── SCROLLBAR ───────── */
 /* V2.5 · scrollbar uses CSS variables so it shifts between modes automatically */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
