@@ -60,6 +60,15 @@ export function Starfield() {
       gold: "244,205,140", // warm gold accent
     };
 
+    // Starfield-inspired atmosphere: soft two-accent light columns + flowing
+    // scientific-instrument contour lines, drawn on the same canvas (dark only).
+    const COLS = [
+      { xf: 0.36, w: 180, rgb: "150,205,235", a: 0.1 }, // cool beam
+      { xf: 0.55, w: 120, rgb: "244,205,140", a: 0.085 }, // gold beam
+      { xf: 0.47, w: 320, rgb: "120,150,220", a: 0.045 }, // faint blue wash
+    ];
+    const CONTOURS = 6;
+
     function build() {
       w = window.innerWidth;
       h = window.innerHeight;
@@ -90,6 +99,35 @@ export function Starfield() {
 
     function draw(t: number) {
       g.clearRect(0, 0, w, h);
+
+      // Light columns · soft vertical beams (the two-accent glow)
+      for (let i = 0; i < COLS.length; i++) {
+        const c = COLS[i];
+        const cx = c.xf * w + (reduce ? 0 : Math.sin(t * 0.00012 + i * 1.7) * 22);
+        const grad = g.createLinearGradient(cx - c.w / 2, 0, cx + c.w / 2, 0);
+        grad.addColorStop(0, `rgba(${c.rgb},0)`);
+        grad.addColorStop(0.5, `rgba(${c.rgb},${c.a})`);
+        grad.addColorStop(1, `rgba(${c.rgb},0)`);
+        g.fillStyle = grad;
+        g.fillRect(cx - c.w / 2, 0, c.w, h);
+      }
+
+      // Flowing contour lines · the scientific-instrument motif
+      for (let i = 0; i < CONTOURS; i++) {
+        const baseY = h * (0.12 + i * 0.15);
+        const amp = 26 + i * 8;
+        const phase = reduce ? i : t * 0.00006 + i * 0.9;
+        g.beginPath();
+        for (let x = -20; x <= w + 20; x += 26) {
+          const y = baseY + Math.sin((x / w) * 6.283 + phase) * amp;
+          if (x === -20) g.moveTo(x, y);
+          else g.lineTo(x, y);
+        }
+        g.strokeStyle = i % 2 ? "rgba(244,205,140,0.05)" : "rgba(150,205,235,0.06)";
+        g.lineWidth = 1;
+        g.stroke();
+      }
+
       for (const s of stars) {
         const flicker = reduce ? s.base : s.base + Math.sin(t * s.tw + s.ph) * 0.35;
         const a = Math.max(0, Math.min(1, flicker));
