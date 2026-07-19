@@ -18,6 +18,7 @@ import { supabaseEnabled } from "@/lib/supabase";
 const KIND_COLOR: Record<NodeKind, string> = {
   company: "var(--c-accent)",
   person: "var(--c-gold)",
+  direct: "var(--c-crimson)",
   industry: "var(--c-cool)",
   role: "var(--c-good)",
   other: "var(--c-purple)",
@@ -281,7 +282,8 @@ export default function ConstellationPage() {
                 const c = KIND_COLOR[n.kind] || KIND_COLOR.other;
                 const selected = firstSel === n.id;
                 const mine = n.created_by && n.created_by === uid;
-                const r = n.kind === "company" ? 9 : 7;
+                const direct = n.kind === "direct";
+                const r = n.kind === "company" ? 9 : direct ? 11 : 7;
                 const right = p.x > W / 2;
                 return (
                   <g
@@ -290,6 +292,7 @@ export default function ConstellationPage() {
                     onClick={() => onNodeClick(n.id)}
                     style={{ cursor: connect ? "pointer" : "default" }}
                   >
+                    {direct && <circle className="cn-pulse" r={r} fill="none" stroke={`rgb(${c})`} strokeWidth={2} />}
                     {selected && <circle r={r + 6} fill="none" stroke={`rgb(${c})`} strokeOpacity={0.8} strokeWidth={1.5} />}
                     <circle
                       r={r}

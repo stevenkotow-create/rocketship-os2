@@ -4,7 +4,7 @@
 
 import { supabase } from "./supabase";
 
-export type NodeKind = "company" | "person" | "industry" | "role" | "other";
+export type NodeKind = "company" | "person" | "industry" | "role" | "direct" | "other";
 
 export interface CNode {
   id: string;
@@ -24,6 +24,7 @@ export interface CEdge {
 export const NODE_KINDS: { id: NodeKind; label: string }[] = [
   { id: "company", label: "Company" },
   { id: "person", label: "Person" },
+  { id: "direct", label: "Direct connection" },
   { id: "industry", label: "Industry" },
   { id: "role", label: "Role" },
   { id: "other", label: "Other" },
